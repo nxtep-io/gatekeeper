@@ -5,10 +5,10 @@ import {
   BaseRequest, BaseResponse,
 } from 'ts-framework';
 
-import Config from '../../../config';
-import { User } from './../../models';
-import { Params } from '../../filters';
-import { EmailService } from '../../services';
+import Config from '../../config';
+import { User } from '../models';
+import { Params } from '../filters';
+import { EmailService } from '../services';
 
 @Controller('/users', [])
 export default class PasswordController {
@@ -29,9 +29,9 @@ export default class PasswordController {
       subject: Config.user.resetPassword.subject,
       locals: {
         title: 'Recover your credentials',
-        preview: 'Here are the credentials you asked for in the BitCapital platform',
+        preview: 'Here are the credentials you asked for in the Gatekeeper platform',
         body: `
-        You requested a link to access the your account in the BitCapital plaftorm. <br/><br/>
+        You requested a link to access the your account in the Gatekeeper plaftorm. <br/><br/>
         Please update your account with a brand new password clicking in the button below.`,
         button: {
           label: 'Set a new password',
