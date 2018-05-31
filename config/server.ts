@@ -1,3 +1,4 @@
+import SmtpConfig from './smtp';
 import { OAuthClientJob, OAuthRootUserJob } from '../api/jobs';
 
 export default {
@@ -5,8 +6,8 @@ export default {
   userAgent: true,
   env: process.env.NODE_ENV || 'development',
   port: process.env.PORT as any || 3000,
-  smtpUrl: process.env.SMTP_URL,
   newrelic: process.env.NEW_RELIC_KEY,
+  smtp: SmtpConfig,
   sentry: process.env.SENTRY_DSN ? { dsn: process.env.SENTRY_DSN } : undefined,
   startup: {
     pipeline: [

@@ -2,6 +2,7 @@ import Server, { BaseJob, ServerOptions } from 'ts-framework';
 import { Logger } from 'ts-framework-mongo';
 import MainDatabase from './MainDatabase';
 import { EmailService } from './services';
+import { ImpersonateGrantType } from './helpers';
 
 // Prepare the database instance as soon as possible to prevent clashes in
 // model registration. We can connect to the real database later.
@@ -10,9 +11,10 @@ const database = MainDatabase.getInstance({ logger });
 
 export interface MainServerOptions extends ServerOptions {
   env?: string;
-  smtpUrl?: string;
-  cacheUrl?: string;
-  queueUrl?: string;
+  smtp: {
+    from: string;
+    connectionUrl?: string;
+  };
   newrelic?: string;
   socket: {
     redisUrl?: string,
@@ -27,8 +29,8 @@ export default class MainServer extends Server {
   database: MainDatabase;
   config: MainServerOptions;
 
-  constructor(options: MainServerOptions) {
-    const { ...otherOptions } = options;
+  constructor(config: MainServerOptions) {
+    const { ...otherOptions } = config;
 
     super({
       logger,
@@ -39,10 +41,15 @@ export default class MainServer extends Server {
         useErrorHandler: true,
         allowExtendedTokenAttributes: true,
         model: require('./models/oauth2/middleware').default,
-        token: { allowExtendedTokenAttributes: true },
+        token: {
+          allowExtendedTokenAttributes: true,
+          extendedGrantTypes: {
+            impersonate: ImpersonateGrantType,
+          },
+        },
       },
       ...otherOptions,
-    } as any);
+    } as MainServerOptions);
 
     this.database = database;
   }
@@ -62,8 +69,17 @@ export default class MainServer extends Server {
       return;
     }
 
-    // Initialize server singleton services
-    EmailService.getInstance({ connectionUrl: this.config.smtpUrl });
+    // Initialize the singleton services
+    if (this.config.smtp && this.config.smtp.connectionUrl) {
+      EmailService.getInstance({ ...this.config.smtp });
+    } else {
+      // TODO: Crash the API for safety or log email sendings in console
+      this.logger.warn(
+        'MainServer: Error in startup, the email connection url is not available' +
+        '. Set it using the SMTP_URL env variable.',
+      );
+      EmailService.getInstance({ from: 'example@company.com', ...this.config.smtp, });
+    }
 
     // Run startup jobs
     try {
