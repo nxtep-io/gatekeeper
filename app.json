@@ -9,7 +9,7 @@
     "api"
   ],
   "addons": [
-    "mongolab:sanbox"
+    "mongolab:sandbox"
   ],
   "env": {
     "NODE_ENV": "production",
