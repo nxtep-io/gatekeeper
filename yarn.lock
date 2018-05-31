@@ -5806,9 +5806,9 @@ trim-right@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/trim-right/-/trim-right-1.0.1.tgz#cb2e1203067e0c8de1f614094b9fe45704ea6003"
 
-"ts-framework-mongo@git+ssh://git@github.com:nxtep-io/ts-framework-mongo.git#master":
+"ts-framework-mongo@git+https://github.com/nxtep-io/ts-framework-mongo.git#master":
   version "1.0.0"
-  resolved "git+ssh://git@github.com:nxtep-io/ts-framework-mongo.git#1ee3836529fb89decdaf3e6ee3e289b2143ad907"
+  resolved "git+https://github.com/nxtep-io/ts-framework-mongo.git#1ee3836529fb89decdaf3e6ee3e289b2143ad907"
   dependencies:
     "@decorators/mongoose" "^3.0.1"
     "@types/mongoose" "^5.0.15"
@@ -5824,9 +5824,9 @@ trim-right@^1.0.1:
     winston "^2.4.2"
     winston-raven-sentry "^1.0.1"
 
-"ts-framework-notification@git+ssh://git@github.com:devnup/ts-framework-notification.git":
+"ts-framework-notification@git+https://github.com/devnup/ts-framework-notification.git":
   version "1.2.1"
-  resolved "git+ssh://git@github.com:devnup/ts-framework-notification.git#79b8dacae412f8064f27ff5217d165892eb7352a"
+  resolved "git+https://github.com/devnup/ts-framework-notification.git#79b8dacae412f8064f27ff5217d165892eb7352a"
   dependencies:
     "@types/email-templates" "^3.1.0"
     "@types/nodemailer" "^4.3.1"
@@ -5838,9 +5838,9 @@ trim-right@^1.0.1:
     rimraf "^2.6.2"
     ts-framework "git+http://github.com/devnup/ts-framework.git#1.0.0-rc.1"
 
-"ts-framework-validation@git+ssh://git@github.com:nxtep-io/ts-framework-validation.git#master":
+"ts-framework-validation@git+https://github.com/nxtep-io/ts-framework-validation.git#master":
   version "1.0.0"
-  resolved "git+ssh://git@github.com:nxtep-io/ts-framework-validation.git#bf32f19cfe42c0aa0192907130b69f96580f141c"
+  resolved "git+https://github.com/nxtep-io/ts-framework-validation.git#bf32f19cfe42c0aa0192907130b69f96580f141c"
   dependencies:
     "@types/semver" "^5.4.0"
     rimraf "^2.6.2"
