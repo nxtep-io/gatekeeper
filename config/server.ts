@@ -1,3 +1,4 @@
+import * as uuid from 'uuid';
 import SmtpConfig from './smtp';
 import { OAuthClientJob, OAuthRootUserJob } from '../api/jobs';
 
@@ -24,7 +25,7 @@ export default {
         root: {
           name: 'John Connor',
           email: 'gatekeeper@nxtep.io',
-          password: 'ec23729f-2bf3-4d3d-ade9-fd6e80baea79',
+          password: uuid.v4(),
         },
       }),
     ] as any[],

@@ -60,7 +60,7 @@ export class OAuthAccessTokenModel extends BaseModel {
    */
   static async saveAccessToken(token, client, user) {
     const userId = user.id || user._id;
-    const clientId = client.id || client._id;
+    const clientId = client.id || client._id || client;
 
     // Prepare the new access token instance
     const accessToken = await this.create({

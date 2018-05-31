@@ -29,11 +29,11 @@ export default class OAuth2Middleware {
       return {
         redirectUris: [],
         grants: Config.oauth.grantTypes,
-        ...client,
+        ...(client.toJSON ? client.toJSON() : client),
       };
     }
 
-    return null;
+    return client;
   }
 
   /**
@@ -73,7 +73,7 @@ export default class OAuth2Middleware {
     if (user && await user.validatePassword(password)) {
       return user;
     }
-    return null;
+    return user;
   }
 
   /**
