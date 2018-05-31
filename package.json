@@ -12,6 +12,7 @@
     "pjson": "^1.0.9",
     "ts-framework": "git+https://github.com/nxtep-io/ts-framework.git#v2",
     "ts-framework-mongo": "git+https://github.com/nxtep-io/ts-framework-mongo.git#master",
+    "ts-framework-notification": "git+ssh://git@github.com:devnup/ts-framework-notification.git",
     "ts-framework-validation": "git+ssh://git@github.com:nxtep-io/ts-framework-validation.git#master",
     "ts-node": "^3.3.0"
   },

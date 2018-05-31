@@ -1,6 +1,7 @@
 import Server, { BaseJob, ServerOptions } from 'ts-framework';
 import { Logger } from 'ts-framework-mongo';
 import MainDatabase from './MainDatabase';
+import { EmailService } from './services';
 
 // Prepare the database instance as soon as possible to prevent clashes in
 // model registration. We can connect to the real database later.
@@ -24,6 +25,7 @@ export interface MainServerOptions extends ServerOptions {
 
 export default class MainServer extends Server {
   database: MainDatabase;
+  config: MainServerOptions;
 
   constructor(options: MainServerOptions) {
     const { ...otherOptions } = options;
@@ -59,6 +61,9 @@ export default class MainServer extends Server {
       process.exit(-1);
       return;
     }
+
+    // Initialize server singleton services
+    EmailService.getInstance({ connectionUrl: this.config.smtpUrl });
 
     // Run startup jobs
     try {
