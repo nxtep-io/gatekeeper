@@ -1,0 +1,1666 @@
+{
+  "info": {
+    "_postman_id": "39173f9c-7790-45b0-898b-a4cefd63b8ae",
+    "name": "nxtep.io - gatekeeper",
+    "description": "A simple OAuth 2.0 authentication provider as a service.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "OAuth 2.0",
+      "description": "The OAuth 2.0 Public API for authenticating in the Gatekeeper REST API.",
+      "item": [
+        {
+          "name": "/oauth/token (password)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "",
+                  "pm.test(\"Valid OAuth 2.0 credentials\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.access_token).to.be.ok;",
+                  "    pm.environment.set(\"BCP_BEARER_TOKEN\", jsonData.access_token);",
+                  "});"
+                ],
+                "id": "984181be-dd02-4816-9aad-c51a21f5bfac",
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "password",
+                  "value": "root",
+                  "type": "string"
+                },
+                {
+                  "key": "username",
+                  "value": "root",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              }
+            ],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "description": "The OAuth 2.0 grant type for the authentication.",
+                  "key": "grant_type",
+                  "type": "text",
+                  "value": "password"
+                },
+                {
+                  "description": "The username for the authentication.",
+                  "key": "username",
+                  "type": "text",
+                  "value": "gatekeeper@nxtep.io"
+                },
+                {
+                  "description": "The password credential.",
+                  "key": "password",
+                  "type": "text",
+                  "value": "root"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{API_BASE_URL}}/oauth/token",
+              "host": [
+                "{{API_BASE_URL}}"
+              ],
+              "path": [
+                "oauth",
+                "token"
+              ]
+            },
+            "description": "Authenticates in the OAuth 2.0 API using a Password credential."
+          },
+          "response": [
+            {
+              "id": "f2878616-85b0-44c4-81dc-692c9b6687ef",
+              "name": "Invalid credentials (400)",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/x-www-form-urlencoded"
+                  }
+                ],
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "key": "grant_type",
+                      "value": "password",
+                      "description": "The OAuth 2.0 grant type for the authentication.",
+                      "type": "text"
+                    },
+                    {
+                      "key": "username",
+                      "value": "bitcapital@devnup.com",
+                      "description": "The username for the authentication.",
+                      "type": "text"
+                    },
+                    {
+                      "key": "password",
+                      "value": "<SOME INVALID PASSWORD>",
+                      "description": "The password credential.",
+                      "type": "text"
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "{{API_BASE_URL}}/oauth/token",
+                  "host": [
+                    "{{API_BASE_URL}}"
+                  ],
+                  "path": [
+                    "oauth",
+                    "token"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*",
+                  "name": "Access-Control-Allow-Origin",
+                  "description": ""
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive",
+                  "name": "Connection",
+                  "description": ""
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "1858",
+                  "name": "Content-Length",
+                  "description": ""
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8",
+                  "name": "Content-Type",
+                  "description": ""
+                },
+                {
+                  "key": "Date",
+                  "value": "Sun, 18 Feb 2018 04:28:06 GMT",
+                  "name": "Date",
+                  "description": ""
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"742-yPVRy/jRZ1vL8wMjNYnpFgf485g\"",
+                  "name": "ETag",
+                  "description": ""
+                },
+                {
+                  "key": "Vary",
+                  "value": "X-HTTP-Method-Override",
+                  "name": "Vary",
+                  "description": ""
+                },
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express",
+                  "name": "X-Powered-By",
+                  "description": ""
+                }
+              ],
+              "cookie": [],
+              "body": "{\"status\":400,\"message\":\"[400] Invalid grant: user credentials are invalid (stackId: 466f7acd-ea57-403b-aa02-84dc8b0288fa)\",\"stackId\":\"466f7acd-ea57-403b-aa02-84dc8b0288fa\",\"details\":{\"code\":400},\"stack\":\"invalid_grant: Invalid grant: user credentials are invalid\\n    at new InvalidGrantError (/Users/luiseduardobrito/Projects/nxtep/bitcapital-api/node_modules/oauth2-server/lib/errors/invalid-grant-error.js:27:14)\\n    at /Users/luiseduardobrito/Projects/nxtep/bitcapital-api/node_modules/oauth2-server/lib/grant-types/password-grant-type.js:94:15\\n    at tryCatcher (/Users/luiseduardobrito/Projects/nxtep/bitcapital-api/node_modules/oauth2-server/node_modules/bluebird/js/release/util.js:16:23)\\n    at Promise._settlePromiseFromHandler (/Users/luiseduardobrito/Projects/nxtep/bitcapital-api/node_modules/oauth2-server/node_modules/bluebird/js/release/promise.js:512:31)\\n    at Promise._settlePromise (/Users/luiseduardobrito/Projects/nxtep/bitcapital-api/node_modules/oauth2-server/node_modules/bluebird/js/release/promise.js:569:18)\\n    at Promise._settlePromise0 (/Users/luiseduardobrito/Projects/nxtep/bitcapital-api/node_modules/oauth2-server/node_modules/bluebird/js/release/promise.js:614:10)\\n    at Promise._settlePromises (/Users/luiseduardobrito/Projects/nxtep/bitcapital-api/node_modules/oauth2-server/node_modules/bluebird/js/release/promise.js:693:18)\\n    at Async._drainQueue (/Users/luiseduardobrito/Projects/nxtep/bitcapital-api/node_modules/oauth2-server/node_modules/bluebird/js/release/async.js:133:16)\\n    at Async._drainQueues (/Users/luiseduardobrito/Projects/nxtep/bitcapital-api/node_modules/oauth2-server/node_modules/bluebird/js/release/async.js:143:10)\\n    at Immediate.Async.drainQueues (/Users/luiseduardobrito/Projects/nxtep/bitcapital-api/node_modules/oauth2-server/node_modules/bluebird/js/release/async.js:17:14)\"}"
+            },
+            {
+              "id": "5ca50b3d-1f3a-4d4d-8d28-69fdf7c7df47",
+              "name": "Success (200)",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/x-www-form-urlencoded"
+                  }
+                ],
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "key": "grant_type",
+                      "value": "password",
+                      "description": "The OAuth 2.0 grant type for the authentication.",
+                      "type": "text"
+                    },
+                    {
+                      "key": "username",
+                      "value": "bitcapital@devnup.com",
+                      "description": "The username for the authentication.",
+                      "type": "text"
+                    },
+                    {
+                      "key": "password",
+                      "value": "<SOME VALID PASSWORD>",
+                      "description": "The password credential.",
+                      "type": "text"
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "{{API_BASE_URL}}/oauth/token",
+                  "host": [
+                    "{{API_BASE_URL}}"
+                  ],
+                  "path": [
+                    "oauth",
+                    "token"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*",
+                  "name": "Access-Control-Allow-Origin",
+                  "description": ""
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive",
+                  "name": "Connection",
+                  "description": ""
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "136",
+                  "name": "Content-Length",
+                  "description": ""
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8",
+                  "name": "Content-Type",
+                  "description": ""
+                },
+                {
+                  "key": "Date",
+                  "value": "Sun, 18 Feb 2018 04:27:32 GMT",
+                  "name": "Date",
+                  "description": ""
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"88-FthPvWR9bEdAJNWmjvIWAK3LthM\"",
+                  "name": "ETag",
+                  "description": ""
+                },
+                {
+                  "key": "Vary",
+                  "value": "X-HTTP-Method-Override",
+                  "name": "Vary",
+                  "description": ""
+                },
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express",
+                  "name": "X-Powered-By",
+                  "description": ""
+                },
+                {
+                  "key": "cache-control",
+                  "value": "no-store",
+                  "name": "cache-control",
+                  "description": ""
+                },
+                {
+                  "key": "pragma",
+                  "value": "no-cache",
+                  "name": "pragma",
+                  "description": ""
+                }
+              ],
+              "cookie": [],
+              "body": "{\"access_token\":\"1116281116dadf542ca5306401aa840951784697\",\"token_type\":\"Bearer\",\"expires_in\":3600,\"user_id\":\"5a89003936a54a31de9ff042\"}"
+            }
+          ]
+        },
+        {
+          "name": "/oauth/token (client)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "",
+                  "pm.test(\"Valid OAuth 2.0 credentials\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.access_token).to.be.ok;",
+                  "    pm.environment.set(\"BCP_BEARER_TOKEN\", jsonData.access_token);",
+                  "});"
+                ],
+                "id": "984181be-dd02-4816-9aad-c51a21f5bfac",
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "password",
+                  "value": "root",
+                  "type": "string"
+                },
+                {
+                  "key": "username",
+                  "value": "root",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              }
+            ],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "description": "The OAuth 2.0 grant type for the authentication.",
+                  "key": "grant_type",
+                  "type": "text",
+                  "value": "client_credentials"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{API_BASE_URL}}/oauth/token",
+              "host": [
+                "{{API_BASE_URL}}"
+              ],
+              "path": [
+                "oauth",
+                "token"
+              ]
+            },
+            "description": "Authenticates in the OAuth 2.0 API using a client credential."
+          },
+          "response": [
+            {
+              "id": "0f2a8d20-28da-4218-b881-f9bff648470e",
+              "name": "Success (200)",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/x-www-form-urlencoded"
+                  }
+                ],
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "key": "grant_type",
+                      "value": "password",
+                      "description": "The OAuth 2.0 grant type for the authentication.",
+                      "type": "text"
+                    },
+                    {
+                      "key": "username",
+                      "value": "bitcapital@devnup.com",
+                      "description": "The username for the authentication.",
+                      "type": "text"
+                    },
+                    {
+                      "key": "password",
+                      "value": "<SOME VALID PASSWORD>",
+                      "description": "The password credential.",
+                      "type": "text"
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "{{API_BASE_URL}}/oauth/token",
+                  "host": [
+                    "{{API_BASE_URL}}"
+                  ],
+                  "path": [
+                    "oauth",
+                    "token"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*",
+                  "name": "Access-Control-Allow-Origin",
+                  "description": ""
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive",
+                  "name": "Connection",
+                  "description": ""
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "136",
+                  "name": "Content-Length",
+                  "description": ""
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8",
+                  "name": "Content-Type",
+                  "description": ""
+                },
+                {
+                  "key": "Date",
+                  "value": "Sun, 18 Feb 2018 04:27:32 GMT",
+                  "name": "Date",
+                  "description": ""
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"88-FthPvWR9bEdAJNWmjvIWAK3LthM\"",
+                  "name": "ETag",
+                  "description": ""
+                },
+                {
+                  "key": "Vary",
+                  "value": "X-HTTP-Method-Override",
+                  "name": "Vary",
+                  "description": ""
+                },
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express",
+                  "name": "X-Powered-By",
+                  "description": ""
+                },
+                {
+                  "key": "cache-control",
+                  "value": "no-store",
+                  "name": "cache-control",
+                  "description": ""
+                },
+                {
+                  "key": "pragma",
+                  "value": "no-cache",
+                  "name": "pragma",
+                  "description": ""
+                }
+              ],
+              "cookie": [],
+              "body": "{\"access_token\":\"1116281116dadf542ca5306401aa840951784697\",\"token_type\":\"Bearer\",\"expires_in\":3600,\"user_id\":\"5a89003936a54a31de9ff042\"}"
+            },
+            {
+              "id": "f54b3e66-c288-43f1-b591-b9d6e91ede0f",
+              "name": "Invalid credentials (400)",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/x-www-form-urlencoded"
+                  }
+                ],
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "key": "grant_type",
+                      "value": "password",
+                      "description": "The OAuth 2.0 grant type for the authentication.",
+                      "type": "text"
+                    },
+                    {
+                      "key": "username",
+                      "value": "bitcapital@devnup.com",
+                      "description": "The username for the authentication.",
+                      "type": "text"
+                    },
+                    {
+                      "key": "password",
+                      "value": "<SOME INVALID PASSWORD>",
+                      "description": "The password credential.",
+                      "type": "text"
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "{{API_BASE_URL}}/oauth/token",
+                  "host": [
+                    "{{API_BASE_URL}}"
+                  ],
+                  "path": [
+                    "oauth",
+                    "token"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*",
+                  "name": "Access-Control-Allow-Origin",
+                  "description": ""
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive",
+                  "name": "Connection",
+                  "description": ""
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "1858",
+                  "name": "Content-Length",
+                  "description": ""
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8",
+                  "name": "Content-Type",
+                  "description": ""
+                },
+                {
+                  "key": "Date",
+                  "value": "Sun, 18 Feb 2018 04:28:06 GMT",
+                  "name": "Date",
+                  "description": ""
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"742-yPVRy/jRZ1vL8wMjNYnpFgf485g\"",
+                  "name": "ETag",
+                  "description": ""
+                },
+                {
+                  "key": "Vary",
+                  "value": "X-HTTP-Method-Override",
+                  "name": "Vary",
+                  "description": ""
+                },
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express",
+                  "name": "X-Powered-By",
+                  "description": ""
+                }
+              ],
+              "cookie": [],
+              "body": "{\"status\":400,\"message\":\"[400] Invalid grant: user credentials are invalid (stackId: 466f7acd-ea57-403b-aa02-84dc8b0288fa)\",\"stackId\":\"466f7acd-ea57-403b-aa02-84dc8b0288fa\",\"details\":{\"code\":400},\"stack\":\"invalid_grant: Invalid grant: user credentials are invalid\\n    at new InvalidGrantError (/Users/luiseduardobrito/Projects/nxtep/bitcapital-api/node_modules/oauth2-server/lib/errors/invalid-grant-error.js:27:14)\\n    at /Users/luiseduardobrito/Projects/nxtep/bitcapital-api/node_modules/oauth2-server/lib/grant-types/password-grant-type.js:94:15\\n    at tryCatcher (/Users/luiseduardobrito/Projects/nxtep/bitcapital-api/node_modules/oauth2-server/node_modules/bluebird/js/release/util.js:16:23)\\n    at Promise._settlePromiseFromHandler (/Users/luiseduardobrito/Projects/nxtep/bitcapital-api/node_modules/oauth2-server/node_modules/bluebird/js/release/promise.js:512:31)\\n    at Promise._settlePromise (/Users/luiseduardobrito/Projects/nxtep/bitcapital-api/node_modules/oauth2-server/node_modules/bluebird/js/release/promise.js:569:18)\\n    at Promise._settlePromise0 (/Users/luiseduardobrito/Projects/nxtep/bitcapital-api/node_modules/oauth2-server/node_modules/bluebird/js/release/promise.js:614:10)\\n    at Promise._settlePromises (/Users/luiseduardobrito/Projects/nxtep/bitcapital-api/node_modules/oauth2-server/node_modules/bluebird/js/release/promise.js:693:18)\\n    at Async._drainQueue (/Users/luiseduardobrito/Projects/nxtep/bitcapital-api/node_modules/oauth2-server/node_modules/bluebird/js/release/async.js:133:16)\\n    at Async._drainQueues (/Users/luiseduardobrito/Projects/nxtep/bitcapital-api/node_modules/oauth2-server/node_modules/bluebird/js/release/async.js:143:10)\\n    at Immediate.Async.drainQueues (/Users/luiseduardobrito/Projects/nxtep/bitcapital-api/node_modules/oauth2-server/node_modules/bluebird/js/release/async.js:17:14)\"}"
+            }
+          ]
+        },
+        {
+          "name": "/oauth/revoke",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{BCP_BEARER_TOKEN}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              }
+            ],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "accessToken",
+                  "value": "23ad8bfc77279c895ed8d65a77ac803bd16c53093b90513f9217535faaa43544",
+                  "description": "Optional: If supplied will only revoke the token specified, else will revoke all user's tokens.",
+                  "type": "text",
+                  "disabled": true
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{API_BASE_URL}}/oauth/revoke",
+              "host": [
+                "{{API_BASE_URL}}"
+              ],
+              "path": [
+                "oauth",
+                "revoke"
+              ]
+            },
+            "description": "Revokes a set of user's credentials."
+          },
+          "response": [
+            {
+              "id": "047dca84-ea30-4b91-ba96-cbdd4741c4f1",
+              "name": "Success (200)",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/x-www-form-urlencoded"
+                  }
+                ],
+                "body": {},
+                "url": {
+                  "raw": "{{API_BASE_URL}}/oauth/revoke",
+                  "host": [
+                    "{{API_BASE_URL}}"
+                  ],
+                  "path": [
+                    "oauth",
+                    "revoke"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*",
+                  "name": "Access-Control-Allow-Origin",
+                  "description": ""
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive",
+                  "name": "Connection",
+                  "description": ""
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "26",
+                  "name": "Content-Length",
+                  "description": ""
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8",
+                  "name": "Content-Type",
+                  "description": ""
+                },
+                {
+                  "key": "Date",
+                  "value": "Sun, 18 Feb 2018 05:18:50 GMT",
+                  "name": "Date",
+                  "description": ""
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"1a-WGjM10aHdDpHzMPYPhhm3VHjKwk\"",
+                  "name": "ETag",
+                  "description": ""
+                },
+                {
+                  "key": "Vary",
+                  "value": "X-HTTP-Method-Override",
+                  "name": "Vary",
+                  "description": ""
+                },
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express",
+                  "name": "X-Powered-By",
+                  "description": ""
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"revoked\": true,\n    \"count\": 3\n}"
+            }
+          ]
+        }
+      ],
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "id": "03cebeca-eb25-4162-9f15-de72b7e72662",
+            "type": "text/javascript",
+            "exec": [
+              ""
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "id": "5683bfb5-5b88-4954-a384-f69e488bd8c9",
+            "type": "text/javascript",
+            "exec": [
+              ""
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Users",
+      "description": "",
+      "item": [
+        {
+          "name": "/users/me",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{BCP_BEARER_TOKEN}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "body": {},
+            "url": {
+              "raw": "{{API_BASE_URL}}/users/me",
+              "host": [
+                "{{API_BASE_URL}}"
+              ],
+              "path": [
+                "users",
+                "me"
+              ]
+            },
+            "description": "Gets the current user information."
+          },
+          "response": [
+            {
+              "id": "5fa61078-c27f-4f30-9026-a389fc20fcf4",
+              "name": "Success (200)",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "body": {},
+                "url": {
+                  "raw": "{{API_BASE_URL}}/users/me",
+                  "host": [
+                    "{{API_BASE_URL}}"
+                  ],
+                  "path": [
+                    "users",
+                    "me"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*",
+                  "name": "Access-Control-Allow-Origin",
+                  "description": ""
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive",
+                  "name": "Connection",
+                  "description": ""
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "196",
+                  "name": "Content-Length",
+                  "description": ""
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8",
+                  "name": "Content-Type",
+                  "description": ""
+                },
+                {
+                  "key": "Date",
+                  "value": "Sun, 18 Feb 2018 04:35:37 GMT",
+                  "name": "Date",
+                  "description": ""
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"c4-+gFGHp08GUJfS4e7shGMMCx7Ny8\"",
+                  "name": "ETag",
+                  "description": ""
+                },
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express",
+                  "name": "X-Powered-By",
+                  "description": ""
+                }
+              ],
+              "cookie": [],
+              "body": "{\"updatedAt\":\"2018-02-18T04:25:30.942Z\",\"createdAt\":\"2018-02-18T04:25:29.472Z\",\"name\":\"John Connor\",\"email\":\"bitcapital@devnup.com\",\"status\":\"active\",\"role\":\"root\",\"id\":\"5a89003936a54a31de9ff042\"}"
+            },
+            {
+              "id": "5be2e78f-90d9-4615-a3aa-9a265365fe3c",
+              "name": "Invalid credentials (401)",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "body": {},
+                "url": {
+                  "raw": "{{API_BASE_URL}}/users/me",
+                  "host": [
+                    "{{API_BASE_URL}}"
+                  ],
+                  "path": [
+                    "users",
+                    "me"
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*",
+                  "name": "Access-Control-Allow-Origin",
+                  "description": ""
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive",
+                  "name": "Connection",
+                  "description": ""
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "2187",
+                  "name": "Content-Length",
+                  "description": ""
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8",
+                  "name": "Content-Type",
+                  "description": ""
+                },
+                {
+                  "key": "Date",
+                  "value": "Sun, 18 Feb 2018 04:36:37 GMT",
+                  "name": "Date",
+                  "description": ""
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"88b-2CNy8o1LFDR0/7s0qEATeQYSJ9w\"",
+                  "name": "ETag",
+                  "description": ""
+                },
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express",
+                  "name": "X-Powered-By",
+                  "description": ""
+                }
+              ],
+              "cookie": [],
+              "body": "{\"status\":401,\"message\":\"[401] Credentials missing or invalid (stackId: 7311acc8-692c-49ed-946e-d497c6b4e5d6)\",\"stackId\":\"7311acc8-692c-49ed-946e-d497c6b4e5d6\",\"details\":{\"code\":\"UNAUTHORIZED\"},\"stack\":\"HttpError: [401] Credentials missing or invalid (stackId: 7311acc8-692c-49ed-946e-d497c6b4e5d6)\\n    at /Users/luiseduardobrito/Projects/nxtep/bitcapital-api/api/filters/oauth/token.ts:31:24\\n    at Generator.next (<anonymous>)\\n    at /Users/luiseduardobrito/Projects/nxtep/bitcapital-api/api/filters/oauth/token.ts:7:71\\n    at new Promise (<anonymous>)\\n    at __awaiter (/Users/luiseduardobrito/Projects/nxtep/bitcapital-api/api/filters/oauth/token.ts:3:12)\\n    at req.app.oauth.authenticate (/Users/luiseduardobrito/Projects/nxtep/bitcapital-api/api/filters/oauth/token.ts:12:60)\\n    at ExpressOAuthServer.handleError (/Users/luiseduardobrito/Projects/nxtep/bitcapital-api/node_modules/express-oauth-server/index.js:153:5)\\n    at ExpressOAuthServer.<anonymous> (/Users/luiseduardobrito/Projects/nxtep/bitcapital-api/node_modules/express-oauth-server/index.js:57:28)\\n    at ExpressOAuthServer.tryCatcher (/Users/luiseduardobrito/Projects/nxtep/bitcapital-api/node_modules/bluebird/js/release/util.js:16:23)\\n    at Promise._settlePromiseFromHandler (/Users/luiseduardobrito/Projects/nxtep/bitcapital-api/node_modules/bluebird/js/release/promise.js:512:31)\\n    at Promise._settlePromise (/Users/luiseduardobrito/Projects/nxtep/bitcapital-api/node_modules/bluebird/js/release/promise.js:569:18)\\n    at Promise._settlePromise0 (/Users/luiseduardobrito/Projects/nxtep/bitcapital-api/node_modules/bluebird/js/release/promise.js:614:10)\\n    at Promise._settlePromises (/Users/luiseduardobrito/Projects/nxtep/bitcapital-api/node_modules/bluebird/js/release/promise.js:689:18)\\n    at Async._drainQueue (/Users/luiseduardobrito/Projects/nxtep/bitcapital-api/node_modules/bluebird/js/release/async.js:133:16)\\n    at Async._drainQueues (/Users/luiseduardobrito/Projects/nxtep/bitcapital-api/node_modules/bluebird/js/release/async.js:143:10)\\n    at Immediate.Async.drainQueues (/Users/luiseduardobrito/Projects/nxtep/bitcapital-api/node_modules/bluebird/js/release/async.js:17:14)\"}"
+            }
+          ]
+        },
+        {
+          "name": "/users",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{BCP_BEARER_TOKEN}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "body": {},
+            "url": {
+              "raw": "{{API_BASE_URL}}/users",
+              "host": [
+                "{{API_BASE_URL}}"
+              ],
+              "path": [
+                "users"
+              ]
+            },
+            "description": "Gets the list with all Users in the platform.\n\nThis is restricted to root users."
+          },
+          "response": [
+            {
+              "id": "a777f400-5870-4332-a665-77431b666ebc",
+              "name": "Success (200)",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "body": {},
+                "url": {
+                  "raw": "{{API_BASE_URL}}/users",
+                  "host": [
+                    "{{API_BASE_URL}}"
+                  ],
+                  "path": [
+                    "users"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*",
+                  "name": "Access-Control-Allow-Origin",
+                  "description": ""
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive",
+                  "name": "Connection",
+                  "description": ""
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "198",
+                  "name": "Content-Length",
+                  "description": ""
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8",
+                  "name": "Content-Type",
+                  "description": ""
+                },
+                {
+                  "key": "Date",
+                  "value": "Sun, 18 Feb 2018 04:42:15 GMT",
+                  "name": "Date",
+                  "description": ""
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"c6-Dt/39Rl3MzDrz7NTMnzScTqnTS4\"",
+                  "name": "ETag",
+                  "description": ""
+                },
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express",
+                  "name": "X-Powered-By",
+                  "description": ""
+                }
+              ],
+              "cookie": [],
+              "body": "[{\"updatedAt\":\"2018-02-18T04:25:30.942Z\",\"createdAt\":\"2018-02-18T04:25:29.472Z\",\"name\":\"John Connor\",\"email\":\"bitcapital@devnup.com\",\"status\":\"active\",\"role\":\"root\",\"id\":\"5a89003936a54a31de9ff042\"}]"
+            }
+          ]
+        },
+        {
+          "name": "/users/:id",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{BCP_BEARER_TOKEN}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "body": {},
+            "url": {
+              "raw": "{{API_BASE_URL}}/users/:id",
+              "host": [
+                "{{API_BASE_URL}}"
+              ],
+              "path": [
+                "users",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "5a89003936a54a31de9ff042",
+                  "description": "The user ID to query for."
+                }
+              ]
+            },
+            "description": "Gets a single User based on its ID..\n\nThis is restricted to root users."
+          },
+          "response": [
+            {
+              "id": "8e4ce5cf-b8bd-4d40-9acb-88d5fed13f8e",
+              "name": "Success (200)",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "body": {},
+                "url": {
+                  "raw": "{{API_BASE_URL}}/users/:id",
+                  "host": [
+                    "{{API_BASE_URL}}"
+                  ],
+                  "path": [
+                    "users",
+                    ":id"
+                  ],
+                  "variable": [
+                    {
+                      "key": "id",
+                      "value": "5a89003936a54a31de9ff042",
+                      "description": "The user ID to query for."
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*",
+                  "name": "Access-Control-Allow-Origin",
+                  "description": ""
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive",
+                  "name": "Connection",
+                  "description": ""
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "196",
+                  "name": "Content-Length",
+                  "description": ""
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8",
+                  "name": "Content-Type",
+                  "description": ""
+                },
+                {
+                  "key": "Date",
+                  "value": "Sun, 18 Feb 2018 04:43:13 GMT",
+                  "name": "Date",
+                  "description": ""
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"c4-+gFGHp08GUJfS4e7shGMMCx7Ny8\"",
+                  "name": "ETag",
+                  "description": ""
+                },
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express",
+                  "name": "X-Powered-By",
+                  "description": ""
+                }
+              ],
+              "cookie": [],
+              "body": "{\"updatedAt\":\"2018-02-18T04:25:30.942Z\",\"createdAt\":\"2018-02-18T04:25:29.472Z\",\"name\":\"John Connor\",\"email\":\"bitcapital@devnup.com\",\"status\":\"active\",\"role\":\"root\",\"id\":\"5a89003936a54a31de9ff042\"}"
+            }
+          ]
+        },
+        {
+          "name": "/users",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{BCP_BEARER_TOKEN}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"John Doe\",\n  \"email\": \"john@nxtep.io\",\n  \"role\": \"user\",\n  \"password\": \"AmazinglySecurePersonalPassword\"\n}"
+            },
+            "url": {
+              "raw": "{{API_BASE_URL}}/users",
+              "host": [
+                "{{API_BASE_URL}}"
+              ],
+              "path": [
+                "users"
+              ]
+            },
+            "description": "Creates a new User in the platform.\n\nThis action is restricted to root users."
+          },
+          "response": [
+            {
+              "id": "46bbf50b-7eb1-4253-830f-20edf5dfe024",
+              "name": "Invalid password (400)",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "name": "Content-Type",
+                    "value": "application/json",
+                    "disabled": false
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n\t\"name\": \"John Doe\",\n\t\"email\": \"john@nxtep.io\",\n\t\"role\": \"user\"\n}"
+                },
+                "url": {
+                  "raw": "{{API_BASE_URL}}/users",
+                  "host": [
+                    "{{API_BASE_URL}}"
+                  ],
+                  "path": [
+                    "users"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*",
+                  "name": "Access-Control-Allow-Origin",
+                  "description": ""
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive",
+                  "name": "Connection",
+                  "description": ""
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "647",
+                  "name": "Content-Length",
+                  "description": ""
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8",
+                  "name": "Content-Type",
+                  "description": ""
+                },
+                {
+                  "key": "Date",
+                  "value": "Sun, 18 Feb 2018 04:51:52 GMT",
+                  "name": "Date",
+                  "description": ""
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"287-QPrbLaPcqad66hYWkjiaavzBAl0\"",
+                  "name": "ETag",
+                  "description": ""
+                },
+                {
+                  "key": "Vary",
+                  "value": "X-HTTP-Method-Override",
+                  "name": "Vary",
+                  "description": ""
+                },
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express",
+                  "name": "X-Powered-By",
+                  "description": ""
+                }
+              ],
+              "cookie": [],
+              "body": "{\"status\":400,\"message\":\"[400] Invalid field: password (stackId: 3330be9e-f909-4e78-b533-109e50de0aa2)\",\"stackId\":\"3330be9e-f909-4e78-b533-109e50de0aa2\",\"details\":{},\"stack\":\"HttpError: [400] Invalid field: password (stackId: 3330be9e-f909-4e78-b533-109e50de0aa2)\\n    at ParamValidatorMiddleware.<anonymous> (/Users/luiseduardobrito/Projects/nxtep/bitcapital-api/node_modules/ts-framework-validation/lib/ParamValidatorMiddleware.ts:31:19)\\n    at Generator.next (<anonymous>)\\n    at fulfilled (/Users/luiseduardobrito/Projects/nxtep/bitcapital-api/node_modules/ts-framework-validation/dist/ParamValidatorMiddleware.js:4:58)\\n    at <anonymous>\"}"
+            },
+            {
+              "id": "6c18f5b9-8ec1-416d-8361-ba4ff74333ef",
+              "name": "Success (200)",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "name": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n\t\"name\": \"John Doe\",\n\t\"email\": \"john@nxtep.io\",\n\t\"password\": \"AmazinglySecurePersonalPassword\"\n}"
+                },
+                "url": {
+                  "raw": "{{API_BASE_URL}}/users",
+                  "host": [
+                    "{{API_BASE_URL}}"
+                  ],
+                  "path": [
+                    "users"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*",
+                  "name": "Access-Control-Allow-Origin",
+                  "description": ""
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive",
+                  "name": "Connection",
+                  "description": ""
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "185",
+                  "name": "Content-Length",
+                  "description": ""
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8",
+                  "name": "Content-Type",
+                  "description": ""
+                },
+                {
+                  "key": "Date",
+                  "value": "Sun, 18 Feb 2018 04:48:48 GMT",
+                  "name": "Date",
+                  "description": ""
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"b9-LsB2D9badgzYZBznFv/4gd+2apI\"",
+                  "name": "ETag",
+                  "description": ""
+                },
+                {
+                  "key": "Vary",
+                  "value": "X-HTTP-Method-Override",
+                  "name": "Vary",
+                  "description": ""
+                },
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express",
+                  "name": "X-Powered-By",
+                  "description": ""
+                }
+              ],
+              "cookie": [],
+              "body": "{\"updatedAt\":\"2018-02-18T04:48:48.003Z\",\"createdAt\":\"2018-02-18T04:48:46.772Z\",\"name\":\"John Doe\",\"email\":\"john@nxtep.io\",\"status\":\"active\",\"role\":\"user\",\"id\":\"5a8905aec2b8ad341cd4e6ad\"}"
+            },
+            {
+              "id": "dbbdc13f-d5f4-4b2e-8e2a-6372708cf7b6",
+              "name": "Invalid email (400)",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "name": "Content-Type",
+                    "value": "application/json",
+                    "disabled": false
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n\t\"name\": \"John Doe\"\n}"
+                },
+                "url": {
+                  "raw": "{{API_BASE_URL}}/users",
+                  "host": [
+                    "{{API_BASE_URL}}"
+                  ],
+                  "path": [
+                    "users"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*",
+                  "name": "Access-Control-Allow-Origin",
+                  "description": ""
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive",
+                  "name": "Connection",
+                  "description": ""
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "641",
+                  "name": "Content-Length",
+                  "description": ""
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8",
+                  "name": "Content-Type",
+                  "description": ""
+                },
+                {
+                  "key": "Date",
+                  "value": "Sun, 18 Feb 2018 04:50:43 GMT",
+                  "name": "Date",
+                  "description": ""
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"281-Vb2d5VS++/6tIxoOZ/0eZwun4PE\"",
+                  "name": "ETag",
+                  "description": ""
+                },
+                {
+                  "key": "Vary",
+                  "value": "X-HTTP-Method-Override",
+                  "name": "Vary",
+                  "description": ""
+                },
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express",
+                  "name": "X-Powered-By",
+                  "description": ""
+                }
+              ],
+              "cookie": [],
+              "body": "{\"status\":400,\"message\":\"[400] Invalid field: email (stackId: 852eb60b-ce3c-4582-b689-56963d0a0de2)\",\"stackId\":\"852eb60b-ce3c-4582-b689-56963d0a0de2\",\"details\":{},\"stack\":\"HttpError: [400] Invalid field: email (stackId: 852eb60b-ce3c-4582-b689-56963d0a0de2)\\n    at ParamValidatorMiddleware.<anonymous> (/Users/luiseduardobrito/Projects/nxtep/bitcapital-api/node_modules/ts-framework-validation/lib/ParamValidatorMiddleware.ts:31:19)\\n    at Generator.next (<anonymous>)\\n    at fulfilled (/Users/luiseduardobrito/Projects/nxtep/bitcapital-api/node_modules/ts-framework-validation/dist/ParamValidatorMiddleware.js:4:58)\\n    at <anonymous>\"}"
+            }
+          ]
+        },
+        {
+          "name": "/users/reset",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "password",
+                  "value": "root",
+                  "type": "string"
+                },
+                {
+                  "key": "username",
+                  "value": "root",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              }
+            ],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "email",
+                  "value": "bitcapital@nxtep.io",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{API_BASE_URL}}/users/reset",
+              "host": [
+                "{{API_BASE_URL}}"
+              ],
+              "path": [
+                "users",
+                "reset"
+              ]
+            },
+            "description": "Requests a password reset token that will be sent thorugh the registered email, supplied in the body of the request."
+          },
+          "response": []
+        },
+        {
+          "name": "/users/password",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "password",
+                  "value": "root",
+                  "type": "string"
+                },
+                {
+                  "key": "username",
+                  "value": "root",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              }
+            ],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "token",
+                  "value": "338ec327-ebef-436a-a740-ad89ba528047",
+                  "description": "The secret token sent through the email message.",
+                  "type": "text"
+                },
+                {
+                  "key": "password",
+                  "value": "c37f0295-3e33-49ba-9c1c-be0f9327037f",
+                  "description": "The new password to be set.",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{API_BASE_URL}}/users/password",
+              "host": [
+                "{{API_BASE_URL}}"
+              ],
+              "path": [
+                "users",
+                "password"
+              ]
+            },
+            "description": "Sets the user password using a secret one-time token."
+          },
+          "response": []
+        },
+        {
+          "name": "/users/:id",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{BCP_BEARER_TOKEN}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "body": {},
+            "url": {
+              "raw": "{{API_BASE_URL}}/users/:id?force=false",
+              "host": [
+                "{{API_BASE_URL}}"
+              ],
+              "path": [
+                "users",
+                ":id"
+              ],
+              "query": [
+                {
+                  "key": "force",
+                  "value": "false",
+                  "description": "Optional flag for soft or hard delete."
+                }
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "5a89003936a54a31de9ff042",
+                  "description": "The user ID to query for."
+                }
+              ]
+            },
+            "description": "Gets a single User based on its ID..\n\nThis is restricted to root users."
+          },
+          "response": [
+            {
+              "id": "a8ab5b69-1742-4cb6-bb07-440a5094dbce",
+              "name": "Success (200)",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [],
+                "body": {},
+                "url": {
+                  "raw": "{{API_BASE_URL}}/users/:id",
+                  "host": [
+                    "{{API_BASE_URL}}"
+                  ],
+                  "path": [
+                    "users",
+                    ":id"
+                  ],
+                  "variable": [
+                    {
+                      "key": "id",
+                      "value": "5a89003936a54a31de9ff042",
+                      "description": "The user ID to query for."
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*",
+                  "name": "Access-Control-Allow-Origin",
+                  "description": ""
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive",
+                  "name": "Connection",
+                  "description": ""
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "28",
+                  "name": "Content-Length",
+                  "description": ""
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8",
+                  "name": "Content-Type",
+                  "description": ""
+                },
+                {
+                  "key": "Date",
+                  "value": "Sun, 18 Feb 2018 04:44:54 GMT",
+                  "name": "Date",
+                  "description": ""
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"1c-9CSp0YZbwVi1S/g+0CyT4pOh1+k\"",
+                  "name": "ETag",
+                  "description": ""
+                },
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express",
+                  "name": "X-Powered-By",
+                  "description": ""
+                }
+              ],
+              "cookie": [],
+              "body": "{\"n\":1,\"nModified\":1,\"ok\":1}"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{NG_BEARER_TOKEN}}",
+        "type": "string"
+      }
+    ]
+  },
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "id": "3906b8de-0855-4e1c-8991-3da71dfe0743",
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "id": "410888d4-404b-4adf-968f-8908d326fb1d",
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ]
+}
