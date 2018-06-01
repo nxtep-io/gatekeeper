@@ -11,7 +11,6 @@ export const usersFetchList = () => (
   (dispatch: Function) => {
     dispatch(usersFetchListRequest());
 
-    // Performs the authentication call with account kit
     return UserWebService.getInstance({ session: Session.getInstance({}) })
       .find()
       .then((users: User[]) => dispatch(usersFetchListResponse(users)))
