@@ -22,9 +22,12 @@ const sessionLoginReducer = (state: any = initialState, action: any) => {
   switch (action.type) {
     // Handles a simple session changed for JWT
     case SESSION_CHANGED:
+      const credentials = action.payload ? action.payload.credentials : null;
+
       return {
         ...state,
-        ...action.payload,
+        user: credentials ? action.payload : false,
+        credentials: credentials || false,
       };
     // Handles the requesting state
     case SESSION_LOGIN_REQUEST:

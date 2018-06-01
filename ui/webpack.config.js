@@ -44,7 +44,7 @@ module.exports = {
    */
   output: {
     path: __dirname + '/dist',
-    publicPath: '/',
+    publicPath: '/ui/',
     filename: 'bundle.js'
   },
 

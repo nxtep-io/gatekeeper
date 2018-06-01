@@ -41,7 +41,7 @@ export default class LoginView extends React.Component<any, any> {
 
            {this.props.user ? (
             <Alert color="success">
-              Welcome {this.props.user.name}!
+              Welcome back, {this.props.user.name}!
             </Alert>
           ) : null}
 

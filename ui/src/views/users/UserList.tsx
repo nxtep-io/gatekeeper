@@ -1,12 +1,38 @@
 import * as React from 'react';
-import { Layout } from '../../components';
+import * as moment from 'moment';
+import { Table } from 'reactstrap';
+import { User, Observer, Session } from 'gatekeeper-sdk';
+import { Layout, Spinner } from '../../components';
 
 import './UserList.scss';
 
-export default class UserListView extends React.Component<any, any> {
+export interface UserListViewProps {
+  isLoading?: boolean;
+  userList?: false | User[];
+  usersFetchList(): Promise<void>;
+}
+
+export interface UserListViewState {
+}
+
+export default class UserListView extends React.Component<UserListViewProps, UserListViewState> implements Observer {
+  constructor(props: UserListViewProps) {
+    super(props);
+    Session.getInstance({}).subscribe(this);
+  }
+
+  public update(eventName: string, data: any) {
+    if (eventName === Session.EVENT_SESSION_CHANGED && data) {
+      this.props.usersFetchList();
+    }
+  }
+
   render() {
+    const users = this.props.userList || [];
+
     return (
       <Layout>
+         <Spinner visible={this.props.isLoading} />
         <section className="jumbotron text-center">
           <div className="container pt-4">
             <h1 className="jumbotron-heading pt-4">Users</h1>
@@ -21,36 +47,29 @@ export default class UserListView extends React.Component<any, any> {
             <div className="col">
               <div className="card">
                 <div className="card-body">
-                  <table className="table">
+                <Table hover>
                     <thead>
                       <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">First</th>
-                        <th scope="col">Last</th>
-                        <th scope="col">Handle</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Status</th>
+                        <th>Last Access</th>
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <th scope="row">1</th>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
-                      </tr>
-                      <tr>
-                        <th scope="row">2</th>
-                        <td>Jacob</td>
-                        <td>Thornton</td>
-                        <td>@fat</td>
-                      </tr>
-                      <tr>
-                        <th scope="row">3</th>
-                        <td>Larry</td>
-                        <td>the Bird</td>
-                        <td>@twitter</td>
-                      </tr>
+                      {users.map((user: User, index: number) => (
+                        <tr key={user.id}>
+                          <td>{user.name}</td>
+                          <td>{user.email}</td>
+                          <td>{user.role}</td>
+                          <td>{user.status}</td>
+                          <td>Unknown</td>
+                          {/* TODO: <td>{moment(user.lastAccess).fromNow()}</td> */}
+                        </tr>
+                      ))}
                     </tbody>
-                  </table>
+                  </Table>
                 </div>
               </div>
             </div>

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import { Store } from 'redux';
-import { Session } from 'gatekeeper-sdk';
+import { Session, Observer } from 'gatekeeper-sdk';
 import { Provider } from 'react-redux';
 import { BrowserRouter, Route, RouteProps, Switch, Redirect, Router } from 'react-router-dom';
 import Configurations, { AppConfig } from '../config';
@@ -12,6 +12,7 @@ import * as jQuery from 'jquery';
 (global as any).jQuery = jQuery;
 
 import './App.scss';
+import { sessionChanged } from './actions';
 
 export interface AppProps {
   config?: AppConfig;
@@ -28,7 +29,7 @@ interface PrivateRouteProps extends RouteProps {
 /**
  * The Main Application definitions.
  */
-export default class App extends React.Component<AppProps, AppState> {
+export default class App extends React.Component<AppProps, AppState> implements Observer {
   session: Session;
   config: AppConfig;
   history: History;
@@ -46,12 +47,21 @@ export default class App extends React.Component<AppProps, AppState> {
       oauth: this.config.oauth,
       http: this.config.ws,
     });
+
+    this.session.subscribe(this);
+  }
+
+  public update(eventName: string, data: any) {
+    if (eventName === Session.EVENT_SESSION_CHANGED) {
+      this.state.store.dispatch(sessionChanged(data));
+    }
   }
 
   render(): JSX.Element {
     return (
       <Provider store={this.state.store}>
         <BrowserRouter
+          basename="/ui"
           forceRefresh={false}
           ref={(router: any) => this.history = (router || {}).history} >
           <Switch>

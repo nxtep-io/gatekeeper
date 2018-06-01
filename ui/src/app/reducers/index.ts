@@ -1,11 +1,13 @@
 import { combineReducers } from 'redux';
-import loginAccount, { getSessionSelector } from './session';
+import sessionReducer, { getSessionSelector } from './session';
+import usersReducer, { getUsersSelector } from './users';
 
-export { getSessionSelector };
+export { getSessionSelector, getUsersSelector };
 
 // Root Reducer
 const rootReducer = combineReducers({
-  session: loginAccount,
+  session: sessionReducer,
+  users: usersReducer,
 });
 
 export default rootReducer;
