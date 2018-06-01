@@ -13,14 +13,11 @@ const database = MainDatabase.getInstance({ logger });
 
 export interface MainServerOptions extends ServerOptions {
   env?: string;
-  smtp: {
+  smtp?: {
     from: string;
     connectionUrl?: string;
   };
   newrelic?: string;
-  socket: {
-    redisUrl?: string,
-  };
   startup?: {
     pipeline: BaseJob[];
     [key: string]: any;
