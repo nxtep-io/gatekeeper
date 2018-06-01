@@ -1,3 +1,5 @@
+import * as path from 'path';
+import * as express from 'express';
 import Server, { BaseJob, ServerOptions } from 'ts-framework';
 import { Logger } from 'ts-framework-mongo';
 import MainDatabase from './MainDatabase';
@@ -31,6 +33,8 @@ export default class MainServer extends Server {
 
   constructor(config: MainServerOptions) {
     const { ...otherOptions } = config;
+    const app = express();
+    app.use('/', express.static(path.join(__dirname, '../ui/dist')));
 
     super({
       logger,
@@ -49,7 +53,7 @@ export default class MainServer extends Server {
         },
       },
       ...otherOptions,
-    } as MainServerOptions);
+    } as MainServerOptions, app);
 
     this.database = database;
   }
