@@ -1,6 +1,5 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
     "target": "es6",
     "module": "commonjs",
     "moduleResolution": "node",
@@ -8,20 +7,26 @@
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": false,
     "noImplicitAny": false,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
     "inlineSourceMap": true,
     "inlineSources": true,
-    "outDir": "./build",
-    "declaration": false,
+    "outDir": "./dist",
+    "declaration": true,
+    "removeComments": false,
+    "declarationDir": "dist/types",
     "lib": [
       "es2017",
       "dom"
     ]
   },
   "include": [
-    "./api"
+    "./@types",
+    "./lib/**/*"
   ],
   "exclude": [
-    "./build",
-    "./node_modules"
+    "dist",
+    "build",
+    "node_modules"
   ]
 }

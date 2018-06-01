@@ -73,7 +73,7 @@ export default class OAuth2Middleware {
     if (user && await user.validatePassword(password)) {
       return user;
     }
-    return user;
+    return null;
   }
 
   /**

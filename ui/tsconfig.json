@@ -11,6 +11,7 @@
     "inlineSources": true,
     "outDir": "./build",
     "jsx": "react",
+    "skipLibCheck": true,
     "declaration": false,
     "lib": [
       "es2017",
