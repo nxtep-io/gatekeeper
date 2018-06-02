@@ -38,7 +38,9 @@
     "redux": "^4.0.0",
     "redux-devtools": "^3.4.1",
     "redux-devtools-extension": "^2.13.2",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "sweetalert2": "^7.21.1",
+    "sweetalert2-react-content": "^1.0.0"
   },
   "devDependencies": {
     "@types/jest": "^22.2.3",

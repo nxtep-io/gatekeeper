@@ -1,4 +1,4 @@
-import { USERS_FETCH_LIST_REQUEST, USERS_CREATE_REQUEST } from '../types';
+import { USERS_FETCH_LIST_REQUEST, USERS_CREATE_REQUEST, USERS_UPDATE_REQUEST } from '../types';
 
 /**
  * Notifies the users fetch request.
@@ -13,5 +13,13 @@ export const usersFetchListRequest = () => ({
  */
 export const usersCreateRequest = () => ({
   type: USERS_CREATE_REQUEST,
+  payload: { isLoading: true },
+});
+
+/**
+ * Notifies the users update request.
+ */
+export const usersUpdateRequest = () => ({
+  type: USERS_UPDATE_REQUEST,
   payload: { isLoading: true },
 });

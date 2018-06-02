@@ -86,35 +86,38 @@ export default class UserController {
     }
   }
 
-  @Put('/:id', [OAuth.token, Permissions.isRoot])
+  @Put('/:id', [OAuth.token])
   public static async updateUser(req: BaseRequest, res: BaseResponse) {
     const changes = {} as any;
     const user = await User.findOne({ _id: req.param('id') });
 
     if (!user) {
       throw new HttpError('User not found', HttpCode.Client.NOT_FOUND);
+    } else if (user.id !== req.user.id && req.user.role !== UserRole.ROOT) {
+      throw new HttpError('Forbidden', HttpCode.Client.FORBIDDEN);
     }
 
     if (req.body.password) {
       await user.savePassword(req.body.password);
     }
-
     if (req.body.name) {
       changes.name = req.body.name;
     }
-    if (req.body.email) {
-      changes.email = req.body.email;
-    }
-    if (req.body.role) {
-      changes.role = req.body.role;
-    }
-    if (req.body.status) {
-      changes.status = req.body.status;
+
+    // Only root users should change this stuff below
+    if (req.user.role === UserRole.ROOT) {
+      if (req.body.email) {
+        changes.email = req.body.email;
+      }
+      if (req.body.role) {
+        changes.role = req.body.role;
+      }
+      if (req.body.status) {
+        changes.status = req.body.status;
+      }
     }
 
-    res.success(
-      await user.update({ $set: changes }, { runValidators: true, new: true }),
-    );
+    res.success(await User.findOneAndUpdate({ _id: user._id }, { $set: changes }, { runValidators: true, new: true }));
   }
 
   @Delete('/:id', [OAuth.token, Permissions.isRoot, Params.isValidId])

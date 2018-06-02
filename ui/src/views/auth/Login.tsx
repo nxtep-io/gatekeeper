@@ -1,13 +1,15 @@
 import * as React from 'react';
 import { Alert } from 'reactstrap';
-import { User } from 'gatekeeper-sdk';
+import { User, Session } from 'gatekeeper-sdk';
 import { Link, Redirect } from 'react-router-dom';
 
 import './Login.scss';
+import { Logo, Spinner } from '../../components';
 
 export interface LoginViewProps {
   user?: User;
   error?: Error;
+  isLoading?: boolean;
   loginAccountEmail(email: string, password: string): Promise<void>;
 }
 
@@ -15,6 +17,13 @@ export interface LoginViewState {
 }
 
 export default class LoginView extends React.Component<LoginViewProps, LoginViewState> {
+  session: Session;
+
+  constructor(props: LoginViewProps) {
+    super(props);
+    this.session = Session.getInstance({});
+  }
+
   onSubmit(event: any) {
     event.preventDefault();
     const email = event.target.email.value;
@@ -23,20 +32,18 @@ export default class LoginView extends React.Component<LoginViewProps, LoginView
   }
 
   render() {
-    if (this.props.user) {
+    const { isLoading } = this.props;
+
+    if (this.session.current) {
       return <Redirect to="/account" />;
     }
 
     return (
       <div className="form-signin-container text-center">
+        <Spinner visible={isLoading} />
         <form className="form-signin" onSubmit={(event: any) => this.onSubmit(event)}>
 
-          <img
-            alt=""
-            width="72"
-            height="72"
-            className="mb-4"
-            src={require('../../assets/logo.svg')} />
+          <Logo size={72} />
 
           <h1 className="h3 mb-3 font-weight-normal">Sign in</h1>
 

@@ -88,7 +88,7 @@ export default class Session {
    * @param user The user instance
    * @param {{notify: boolean}} options The operation options
    */
-  protected async register(user: User, options = { notify: true }) {
+  public async register(user: User, options = { notify: true }) {
     this.current = user;
 
     // Save in local storage
