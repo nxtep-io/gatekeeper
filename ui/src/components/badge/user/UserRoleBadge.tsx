@@ -9,7 +9,7 @@ export interface UserRoleBadgeProps extends BadgeProps {
 
 export const UserRoleBadge: React.StatelessComponent<UserRoleBadgeProps> = (props: UserRoleBadgeProps) => {
   const { role, ...otherProps } = props;
-  const color = (role === UserRole.ROOT ? 'dark' : 'default');
+  const color = (role === UserRole.ROOT ? 'warning' : 'secondary');
   return (
     <Badge color={color} {...otherProps}>{props.role}</Badge>
   );
