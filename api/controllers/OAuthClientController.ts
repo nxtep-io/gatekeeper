@@ -20,8 +20,8 @@ export default class OAuthClientController {
 
     // Perform parallel queries
     const [results, count] = await Promise.all([
-      OAuthClient.find({}, null, { limit: DEFAULT_LIMIT, ...req.query.pagination }),
-      OAuthClient.count(),
+      OAuthClient.find(q, null, { limit: DEFAULT_LIMIT, ...req.query.pagination }),
+      OAuthClient.count(q),
     ]);
 
     // Set pagination headers and return results

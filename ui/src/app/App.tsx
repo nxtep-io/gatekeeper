@@ -68,6 +68,7 @@ export default class App extends React.Component<AppProps, AppState> implements 
             <Route exact path="/account" component={Containers.Account} />
             <Route exact path="/users" component={Containers.UserList} />
             <Route exact path="/clients" component={Containers.ClientList} />
+            <Route exact path="/tokens" component={Containers.TokenList} />
             <Route exact path="/dashboard" component={Containers.Dashboard} />
             <Route component={NotFound} />
           </Switch>

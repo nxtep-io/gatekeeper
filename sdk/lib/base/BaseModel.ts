@@ -1,8 +1,8 @@
 export interface BaseModelSchema {
   id?: string;
   _id?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
+  createdAt?: string | Date;
+  updatedAt?: string | Date;
 }
 
 export default class BaseModel {

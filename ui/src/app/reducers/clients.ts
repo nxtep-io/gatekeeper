@@ -25,7 +25,6 @@ const clientsReducer = (state: any = initialState, action: any) => {
       return {
         ...state,
         clientList: false,
-        credentials: action.payload.credentials,
       };
     // Handles the requesting state
     case CLIENTS_FETCH_LIST_REQUEST:

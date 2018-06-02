@@ -86,6 +86,22 @@ export class OAuthAccessTokenModel extends BaseModel {
 
     return result;
   }
+
+  /**
+   * Converts the token instance to a plain object.
+   * 
+   * @returns {Object}
+   */
+  public toJSON(): Object {
+    const obj = super.toJSON();
+    if (obj.user && obj.user.toJSON) {
+      obj.user = obj.user.toJSON();
+    }
+    if (obj.client && obj.client.toJSON) {
+      obj.client = obj.client.toJSON();
+    }
+    return obj;
+  }
 }
 
 export default MainDatabase.model(OAuthAccessTokenModel);

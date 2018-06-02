@@ -20,8 +20,6 @@ export interface UserSchema extends BaseModelSchema {
   status?: UserStatus;
   virtual?: boolean;
   credentials?: OAuthCredentials;
-  createdAt?: Date;
-  updatedAt?: Date;
 }
 
 export default class User extends BaseModel implements UserSchema {
@@ -33,8 +31,6 @@ export default class User extends BaseModel implements UserSchema {
   status?: UserStatus;
   virtual?: boolean = false;
   credentials?: OAuthCredentials;
-  createdAt?: Date;
-  updatedAt?: Date;
 
   constructor(data: UserSchema) {
     super(data);

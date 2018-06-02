@@ -30,7 +30,7 @@ export default class UserController {
     // Perform parallel queries
     const [results, count] = await Promise.all([
       User.find(q, null, { limit: DEFAULT_LIMIT, ...req.query.pagination }),
-      User.count(),
+      User.count(q),
     ]);
 
     // Set pagination headers and return results

@@ -12,7 +12,7 @@ export interface OAuthClientSchema extends BaseModelSchema {
   status: OAuthClientStatus;
 }
 
-export default class OAuthClient extends BaseModel {
+export default class OAuthClient extends BaseModel implements OAuthClientSchema {
   clientId: string;
   clientSecret?: string;
   platform: string;
