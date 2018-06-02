@@ -1,6 +1,7 @@
 import { Session } from '../session';
 import { Http, HttpOptions } from '../base';
 import { User, UserSchema, OAuthCredentials } from '../models';
+import { PaginationUtil, PaginatedArray } from '../utils';
 
 export interface UserWebServiceOptions extends HttpOptions {
   session?: Session;
@@ -28,14 +29,16 @@ export default class UserWebService extends Http {
    * Finds users with a given query
    * @param query The query of the search
    */
-  public async find(query: any = {}): Promise<User[]> {
+  public async find(query: any = {}): Promise<PaginatedArray<User>> {
     const response = await this.get('/users', query);
 
     if (!response || response.status !== 200) {
       throw response;
     }
 
-    return response.data.map((user: any) => new User(user));
+    // Return a paginated array with count information from headers
+    const result = response.data.map((item: UserSchema) => new User(item));
+    return PaginationUtil.parse(result, response.headers);
   }
 
   /**

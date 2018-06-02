@@ -82,7 +82,9 @@ describe('lib.session.Session', () => {
     });
 
     afterEach(async () => {
-      session.destroy();
+      if (session) {
+        session.destroy();
+      }
       session = undefined;
     });
 

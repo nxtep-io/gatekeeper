@@ -11,6 +11,11 @@ export enum OAuthClientPlatform {
   WEB = 'web',
 }
 
+export enum OAuthClientStatus {
+  ACTIVE = 'active',
+  INACTIVE = 'inactive',
+}
+
 /**
  * The OAuth Client schema definition.
  */
@@ -35,5 +40,13 @@ export const OAuthClientSchema = new BaseSchema({
     type: String,
     index: true,
     default: uuid.v4(),
+  },
+  status: {
+    type: String,
+    default: OAuthClientStatus.ACTIVE,
+    enum: [
+      OAuthClientStatus.ACTIVE,
+      OAuthClientStatus.INACTIVE,
+    ],
   },
 }, { timestamps: true });

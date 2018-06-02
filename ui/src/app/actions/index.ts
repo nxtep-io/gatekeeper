@@ -1,4 +1,4 @@
 export { sessionChanged } from './session/sessionChanged';
 export { sessionLoginEmail } from './session/sessionLogin';
-export { usersFetchList } from './users/usersFetchList';
+export { usersFetchList, usersCreate } from './users/userActions';
 export { clientsFetchList } from './clients/clientsFetchList';

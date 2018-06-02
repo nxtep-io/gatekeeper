@@ -1,11 +1,15 @@
 import StatusController from './StatusController';
+
 import UserController from './UserController';
-import OAuthController from './OAuthController';
 import PasswordController from './PasswordController';
+
+import OAuthController from './OAuthController';
+import OAuthClientController from './OAuthClientController';
 
 export default {
   StatusController,
   UserController,
-  OAuthController,
   PasswordController,
+  OAuthController,
+  OAuthClientController,
 };

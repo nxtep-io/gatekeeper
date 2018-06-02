@@ -1,13 +1,23 @@
 import { BaseModel, BaseModelSchema } from '../base';
 import OAuthCredentials from './OAuthCredentials';
 
+export enum UserStatus {
+  ACTIVE = 'active',
+  INACTIVE = 'inactive',
+}
+
+export enum UserRole {
+  ROOT = 'root',
+  USER = 'user',
+}
+
 export interface UserSchema extends BaseModelSchema {
   id?: string;
   name?: string;
   email?: string;
   password?: string;
-  role?: string;
-  status?: string;
+  role?: UserRole;
+  status?: UserStatus;
   virtual?: boolean;
   credentials?: OAuthCredentials;
   createdAt?: Date;
@@ -19,8 +29,8 @@ export default class User extends BaseModel implements UserSchema {
   name?: string;
   email?: string;
   password?: string;
-  role?: string;
-  status?: string;
+  role?: UserRole;
+  status?: UserStatus;
   virtual?: boolean = false;
   credentials?: OAuthCredentials;
   createdAt?: Date;

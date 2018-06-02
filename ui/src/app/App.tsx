@@ -7,12 +7,10 @@ import { BrowserRouter, Route, RouteProps, Switch, Redirect, Router } from 'reac
 import Configurations, { AppConfig } from '../config';
 import ReduxStore from './store';
 import Containers from '../containers';
-
-import * as jQuery from 'jquery';
-(global as any).jQuery = jQuery;
+import { sessionChanged } from './actions';
+import { NotFound } from '../views';
 
 import './App.scss';
-import { sessionChanged } from './actions';
 
 export interface AppProps {
   config?: AppConfig;
@@ -66,9 +64,12 @@ export default class App extends React.Component<AppProps, AppState> implements 
           ref={(router: any) => this.history = (router || {}).history} >
           <Switch>
             <Route exact path="/" component={Containers.Login} />
+            <Route exact path="/signup" component={Containers.SignUp} />
+            <Route exact path="/account" component={Containers.Account} />
             <Route exact path="/users" component={Containers.UserList} />
             <Route exact path="/clients" component={Containers.ClientList} />
             <Route exact path="/dashboard" component={Containers.Dashboard} />
+            <Route component={NotFound} />
           </Switch>
         </BrowserRouter>
       </Provider>
