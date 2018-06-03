@@ -30,7 +30,7 @@ export const PaginationNav: React.StatelessComponent<PaginationProps> = (props: 
   rightRange = rightRange.splice(1, rightRange.length).map((i: number) => i + currentPage);
 
   return (
-    <BasePagination size="sm">
+    <BasePagination size="sm" style={{ justifyContent: 'center' }}>
       {skip ? <PaginationItem>
         <PaginationLink previous tag={Link}
           to={`${url}?skip=${Math.max(0, ((skip || 0) - limit))}`} />

@@ -35,22 +35,28 @@ export default class UserAgent extends React.Component<UserAgentProps, UserAgent
     let icon;
     const { id = hat(), expired, userAgent } = this.props;
 
-    if (userAgent.browser && userAgent.browser.match(/chrome/ig)) {
+    if (userAgent.browser && userAgent.source.match(/iphone/ig)) {
+      icon = 'fab fa-apple';
+    } else if (userAgent.browser && userAgent.source.match(/android/ig)) {
+      icon = 'fab fa-android';
+    } else if (userAgent.browser && userAgent.browser.match(/chrome/ig)) {
       icon = 'fab fa-chrome';
     } else if (userAgent.browser && userAgent.browser.match(/safari/ig)) {
       icon = 'fab fa-safari';
+    } else if (userAgent.browser && userAgent.browser.match(/firefox/ig)) {
+      icon = 'fab fa-firefox';
     } else if (userAgent.browser && userAgent.browser.match(/postman/ig)) {
-      icon = 'fa fa-terminal';
+      icon = 'fa fa-user-astronaut';
     } else if (userAgent.browser === undefined) {
       icon = 'fa fa-lock';
     } else {
-      icon = 'fa fa-question-circle';
+      icon = 'fa fa-question';
     }
 
     let colorClass;
 
     if (expired) {
-      colorClass = 'text-danger';
+      colorClass = 'text-secondary';
     } else if (userAgent.source) {
       colorClass = 'text-primary';
     } else {
@@ -75,9 +81,9 @@ export default class UserAgent extends React.Component<UserAgentProps, UserAgent
             <PopoverHeader>
               {userAgent.browser ? `${userAgent.browser} ${userAgent.version}` : 'Unknown'}
               {expired ? (
-                <Badge color="danger" className="float-right">Expired</Badge>
+                <Badge color="secondary" className="float-right">Expired</Badge>
               ) : (userAgent.source ? (
-                <Badge color="primary" className="float-right">OK</Badge>
+                <Badge color="primary" className="float-right">Active</Badge>
               ) : (
                   <Badge color="warning" className="float-right">Unavailable</Badge>
                 ))}

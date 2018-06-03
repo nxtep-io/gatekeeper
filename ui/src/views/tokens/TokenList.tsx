@@ -88,7 +88,7 @@ export default class TokenListView
               There are
               <b> <span className="text-success">{tokens.dataLength} tokens</span> </b>
               in the database with
-              <b> <span className="text-success">34% active</span></b> in the last 30 days.
+              <b> <span className="text-success">3 active</span></b> in the last hour.
             </p>
           </div>
         </section>
