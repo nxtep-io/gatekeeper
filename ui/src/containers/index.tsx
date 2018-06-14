@@ -6,11 +6,13 @@ import ClientList from './ClientListContainer';
 import TokenList from './TokenListContainer';
 import Dashboard from './DashboardContainer';
 import Account from './AccountContainer';
+import Recover from './RecoverContainer';
 
 export default {
   Login,
   SignUp,
   Account,
+  Recover,
   Dashboard,
   UserList,
   ClientList,

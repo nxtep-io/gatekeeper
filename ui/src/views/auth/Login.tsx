@@ -47,6 +47,8 @@ export default class LoginView extends React.Component<LoginViewProps, LoginView
 
           <h1 className="h3 mb-3 font-weight-normal">Sign in</h1>
 
+          <br />
+
           {this.props.error ? (
             <Alert color="danger">
               Invalid credentials
@@ -63,9 +65,16 @@ export default class LoginView extends React.Component<LoginViewProps, LoginView
             </label>
           </div>
           <button className="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+          <div className="divider">
+            <div className="divider-dash" />
+            <span>or</span>
+            <div className="divider-dash" />
+          </div>
+          <Link className="btn btn-lg btn-success btn-block" to="/signup">Create a new account</Link>
           <br />
-          <Link to="/signup">Don't have an account?</Link>
-          <p className="mt-5 mb-3 text-muted">&copy; 2017-2018</p>
+          <br />
+          <Link to="/recover">Recover credentials</Link>
+          <p className="mt-5 mb-3 text-muted">powered by Gatekeeper</p>
         </form>
       </div>
     );

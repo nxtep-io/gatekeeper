@@ -1,8 +1,12 @@
 import { User, UserWebService, Session, UserSchema, Pagination } from 'gatekeeper-sdk';
 import Config from '../../../config';
-import { usersFetchListError, usersCreateError, usersUpdateError } from './userActionsErrors';
-import { usersFetchListRequest, usersCreateRequest, usersUpdateRequest } from './userActionsRequest';
-import { usersFetchListResponse, usersCreateResponse, usersUpdateResponse } from './userActionsResponse';
+import { usersFetchListError, usersCreateError, usersUpdateError, usersResetPasswordError } from './userActionsErrors';
+import {
+  usersFetchListRequest, usersCreateRequest, usersUpdateRequest, usersResetPasswordRequest,
+} from './userActionsRequest';
+import {
+  usersFetchListResponse, usersCreateResponse, usersUpdateResponse, usersResetPasswordResponse,
+} from './userActionsResponse';
 
 /**
  * Fetches the paginated users list.
@@ -48,6 +52,22 @@ export const usersUpdate = (id: string, user: UserSchema) => (
     return UserWebService.getInstance({ session: Session.getInstance({}) })
       .update(id, user)
       .then((user: User) => dispatch(usersUpdateResponse(user)))
-      .catch((exception: Error) => dispatch(usersUpdateResponse(exception)));
+      .catch((exception: Error) => dispatch(usersUpdateError(exception)));
+  }
+);
+
+/**
+ * Requests a credential recover using the user email/].
+ *
+ * @param email The user email, to receive further instructions
+ */
+export const usersResetPassword = (email: string) => (
+  (dispatch: Function) => {
+    dispatch(usersResetPasswordRequest());
+
+    return UserWebService.getInstance({ session: Session.getInstance({}) })
+      .reset(email)
+      .then(() => dispatch(usersResetPasswordResponse()))
+      .catch((exception: Error) => dispatch(usersResetPasswordError(exception)));
   }
 );

@@ -1,6 +1,6 @@
 import * as hat from 'hat';
 import * as MockAdapter from 'axios-mock-adapter';
-import { User, OAuthCredentials, Session } from '../../lib';
+import { User, OAuthCredentials, Session, StorageUtil, MemoryStorage } from '../../lib';
 import OAuthWebService from '../../lib/services/OAuthWebService';
 import UserWebService from '../../lib/services/UserWebService';
 
@@ -29,6 +29,7 @@ describe('lib.session.Session', () => {
 
   it('should instantiate a simple Session directly', async () => {
     const session = new Session({
+      storage: new StorageUtil('session', new MemoryStorage()),
       oauth: {
         clientId: hat(),
         clientSecret: hat(),
@@ -43,6 +44,7 @@ describe('lib.session.Session', () => {
 
   it('should instantiate a simple singleton Session', async () => {
     const session = Session.getInstance({
+      storage: new StorageUtil('session', new MemoryStorage()),
       oauth: {
         clientId: hat(),
         clientSecret: hat(),
@@ -63,6 +65,7 @@ describe('lib.session.Session', () => {
     beforeEach(async () => {
       // This sets the mock adapter on the default instance
       session = new Session({
+        storage: new StorageUtil('session', new MemoryStorage()),
         oauthWebService: new OAuthWebService({
           clientId: hat(),
           clientSecret: hat(),
@@ -73,8 +76,8 @@ describe('lib.session.Session', () => {
         }),
       });
 
-      const oauthMock = new MockAdapter((session as any).oauthWebService.client);
-      const userMock = new MockAdapter((session as any).userWebService.client);
+      const oauthMock = new (MockAdapter as any)((session as any).oauthWebService.client);
+      const userMock = new (MockAdapter as any)((session as any).userWebService.client);
 
       // Mock all requests to a simple success
       oauthMock.onPost('/oauth/token').reply(200, TEST_CREDENTIALS);

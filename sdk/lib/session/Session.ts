@@ -8,6 +8,7 @@ import { LocalStorage } from '../utils/Storage';
 export interface SessionOptions {
   http?: HttpOptions;
   autoFetch?: boolean;
+  storage?: StorageUtil;
   oauth?: OAuthWebServiceOptions;
   userWebService?: UserWebService;
   oauthWebService?: OAuthWebService;
@@ -27,7 +28,7 @@ export default class Session {
 
   constructor(public options: SessionOptions) {
     this.observable = new Observable();
-    this.storage = new StorageUtil('session', new LocalStorage(window));
+    this.storage = options.storage || new StorageUtil('session', new LocalStorage(window));
 
     // Prepare session interceptors
     this._interceptors = [

@@ -1,5 +1,7 @@
 import { User } from 'gatekeeper-sdk';
-import { USERS_FETCH_LIST_RESPONSE, USERS_CREATE_RESPONSE, USERS_UPDATE_RESPONSE } from '../types';
+import {
+  USERS_FETCH_LIST_RESPONSE, USERS_CREATE_RESPONSE, USERS_UPDATE_RESPONSE, USERS_RESET_PASSWORD_RESPONSE,
+} from '../types';
 
 /**
  * Handles the users list response from action call.
@@ -29,4 +31,12 @@ export const usersCreateResponse = (user: User) => ({
 export const usersUpdateResponse = (user: User) => ({
   type: USERS_UPDATE_RESPONSE,
   payload: user,
+});
+
+/**
+ * Handles the user password reset response from action call.
+ */
+export const usersResetPasswordResponse = () => ({
+  type: USERS_RESET_PASSWORD_RESPONSE,
+  payload: {},
 });
