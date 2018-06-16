@@ -1,5 +1,6 @@
 import {
-  USERS_FETCH_LIST_REQUEST, USERS_CREATE_REQUEST, USERS_UPDATE_REQUEST, USERS_RESET_PASSWORD_REQUEST,
+  USERS_FETCH_LIST_REQUEST, USERS_CREATE_REQUEST, USERS_UPDATE_REQUEST,
+  USERS_RECOVER_PASSWORD_REQUEST, USERS_SET_PASSWORD_REQUEST,
 } from '../types';
 
 /**
@@ -29,7 +30,15 @@ export const usersUpdateRequest = () => ({
 /**
  * Notifies the users password reset request.
  */
-export const usersResetPasswordRequest = () => ({
-  type: USERS_RESET_PASSWORD_REQUEST,
+export const usersRecoverPasswordRequest = () => ({
+  type: USERS_RECOVER_PASSWORD_REQUEST,
+  payload: { isLoading: true },
+});
+
+/**
+ * Notifies the users password reset request.
+ */
+export const usersSetPasswordRequest = () => ({
+  type: USERS_SET_PASSWORD_REQUEST,
   payload: { isLoading: true },
 });

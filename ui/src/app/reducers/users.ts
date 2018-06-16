@@ -37,6 +37,8 @@ const usersReducer = (state: any = initialState, action: any) => {
     case Actions.USERS_FETCH_LIST_REQUEST:
     case Actions.USERS_CREATE_REQUEST:
     case Actions.USERS_UPDATE_REQUEST:
+    case Actions.USERS_RECOVER_PASSWORD_REQUEST:
+    case Actions.USERS_SET_PASSWORD_REQUEST:
       return {
         ...state,
         error: false,
@@ -64,10 +66,19 @@ const usersReducer = (state: any = initialState, action: any) => {
         error: false,
         isLoading: false,
       };
+    case Actions.USERS_RECOVER_PASSWORD_RESPONSE:
+    case Actions.USERS_SET_PASSWORD_RESPONSE:
+      return {
+        ...state,
+        error: false,
+        isLoading: false,
+      };
     // Handles the session login error
     case Actions.USERS_FETCH_LIST_ERROR:
     case Actions.USERS_CREATE_ERROR:
     case Actions.USERS_UPDATE_ERROR:
+    case Actions.USERS_RECOVER_PASSWORD_ERROR:
+    case Actions.USERS_SET_PASSWORD_ERROR:
       return {
         ...state,
         isLoading: false,

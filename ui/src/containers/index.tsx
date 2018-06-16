@@ -7,12 +7,14 @@ import TokenList from './TokenListContainer';
 import Dashboard from './DashboardContainer';
 import Account from './AccountContainer';
 import Recover from './RecoverContainer';
+import Password from './PasswordContainer';
 
 export default {
   Login,
   SignUp,
   Account,
   Recover,
+  Password,
   Dashboard,
   UserList,
   ClientList,

@@ -1,11 +1,16 @@
 import { User, UserWebService, Session, UserSchema, Pagination } from 'gatekeeper-sdk';
 import Config from '../../../config';
-import { usersFetchListError, usersCreateError, usersUpdateError, usersResetPasswordError } from './userActionsErrors';
 import {
-  usersFetchListRequest, usersCreateRequest, usersUpdateRequest, usersResetPasswordRequest,
+  usersFetchListError, usersCreateError,
+  usersUpdateError, usersRecoverPasswordError, usersSetPasswordError,
+} from './userActionsErrors';
+import {
+  usersFetchListRequest, usersCreateRequest,
+  usersUpdateRequest, usersRecoverPasswordRequest, usersSetPasswordRequest,
 } from './userActionsRequest';
 import {
-  usersFetchListResponse, usersCreateResponse, usersUpdateResponse, usersResetPasswordResponse,
+  usersFetchListResponse, usersCreateResponse,
+  usersUpdateResponse, usersRecoverPasswordResponse, usersSetPasswordResponse,
 } from './userActionsResponse';
 
 /**
@@ -57,17 +62,34 @@ export const usersUpdate = (id: string, user: UserSchema) => (
 );
 
 /**
- * Requests a credential recover using the user email/].
+ * Requests a credential recover using the user email.
  *
  * @param email The user email, to receive further instructions
  */
-export const usersResetPassword = (email: string) => (
+export const usersRecoverPassword = (email: string) => (
   (dispatch: Function) => {
-    dispatch(usersResetPasswordRequest());
+    dispatch(usersRecoverPasswordRequest());
 
     return UserWebService.getInstance({ session: Session.getInstance({}) })
       .reset(email)
-      .then(() => dispatch(usersResetPasswordResponse()))
-      .catch((exception: Error) => dispatch(usersResetPasswordError(exception)));
+      .then(() => dispatch(usersRecoverPasswordResponse()))
+      .catch((exception: Error) => dispatch(usersRecoverPasswordError(exception)));
+  }
+);
+
+/**
+ * Sets the user password using a secret token.
+ *
+ * @param token The secret token sent by email
+ * @param passwprd The new password to be set
+ */
+export const usersSetPassword = (token: string, password: string) => (
+  (dispatch: Function) => {
+    dispatch(usersSetPasswordRequest());
+
+    return UserWebService.getInstance({ session: Session.getInstance({}) })
+      .setPassword(token, password)
+      .then(() => dispatch(usersSetPasswordResponse()))
+      .catch((exception: Error) => dispatch(usersSetPasswordError(exception)));
   }
 );

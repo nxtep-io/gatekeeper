@@ -51,8 +51,7 @@ export default class UserListView extends React.Component<UserListViewProps, Use
           <div className="container pt-4">
             <h1 className="jumbotron-heading pt-4">Users</h1>
             <p className="lead text-muted">
-              There are <b><span className="text-success">{users.dataLength} users</span></b> in the database with
-              <b> <span className="text-success">10</span></b> in the last hour.
+              There are <b><span className="text-success">{users.dataLength} users</span></b> in the database.
             </p>
           </div>
         </section>

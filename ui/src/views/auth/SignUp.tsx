@@ -4,18 +4,19 @@ import { User } from 'gatekeeper-sdk';
 import { Link } from 'react-router-dom';
 
 import './SignUp.scss';
+import { Spinner } from '../../components';
 
-export interface LoginViewProps {
+export interface SignUpViewProps {
   error?: Error;
   isLoading: boolean;
   userCreated?: User;
   usersCreate(data: { name: string, email: string, password: string }): Promise<void>;
 }
 
-export interface LoginViewState {
+export interface SignUpViewState {
 }
 
-export default class LoginView extends React.Component<LoginViewProps, LoginViewState> {
+export default class SignUpView extends React.Component<SignUpViewProps, SignUpViewState> {
   onSubmit(event: any) {
     event.preventDefault();
     const name = event.target.name.value;
@@ -27,6 +28,8 @@ export default class LoginView extends React.Component<LoginViewProps, LoginView
   render() {
     return (
       <div className="form-signup-container text-center">
+        <Spinner visible={this.props.isLoading} />
+
         <form className="form-signup" onSubmit={(event: any) => this.onSubmit(event)}>
 
           <img

@@ -1,4 +1,7 @@
-import { USERS_FETCH_LIST_ERROR, USERS_CREATE_ERROR, USERS_UPDATE_ERROR, USERS_RESET_PASSWORD_ERROR } from '../types';
+import {
+  USERS_FETCH_LIST_ERROR, USERS_CREATE_ERROR,
+  USERS_UPDATE_ERROR, USERS_RECOVER_PASSWORD_ERROR, USERS_SET_PASSWORD_ERROR,
+} from '../types';
 
 /**
  * Handles a Users List fetch error.
@@ -35,7 +38,17 @@ export const usersUpdateError = (exception: Error) => ({
  *
  * @param exception The exception received from server
  */
-export const usersResetPasswordError = (exception: Error) => ({
-  type: USERS_RESET_PASSWORD_ERROR,
+export const usersRecoverPasswordError = (exception: Error) => ({
+  type: USERS_RECOVER_PASSWORD_ERROR,
+  payload: { error: exception },
+});
+
+/**
+ * Handles a Users set password error.
+ *
+ * @param exception The exception received from server
+ */
+export const usersSetPasswordError = (exception: Error) => ({
+  type: USERS_SET_PASSWORD_ERROR,
   payload: { error: exception },
 });

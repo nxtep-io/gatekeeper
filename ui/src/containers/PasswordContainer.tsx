@@ -1,8 +1,8 @@
 import { connect } from 'react-redux';
 import { UserSchema } from 'gatekeeper-sdk';
 import { getSessionSelector, getUsersSelector } from '../app/reducers';
-import { usersRecoverPassword } from '../app/actions';
-import { Recover } from '../views';
+import { usersSetPassword } from '../app/actions';
+import { Password } from '../views';
 
 const mapStateToProps = (state: Object) => ({
   ...getSessionSelector(state),
@@ -10,7 +10,8 @@ const mapStateToProps = (state: Object) => ({
 });
 
 const mapDispatchToProps = (dispatch: Function) => ({
-  usersRecoverPassword: (email: string) => dispatch(usersRecoverPassword(email)),
+  usersSetPassword: (data: { token: string, password: string }) =>
+    dispatch(usersSetPassword(data.token, data.password)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Recover as any);
+export default connect(mapStateToProps, mapDispatchToProps)(Password as any);
