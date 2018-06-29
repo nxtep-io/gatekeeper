@@ -5,13 +5,16 @@ import {
   HttpError, HttpCode,
 } from 'ts-framework';
 
-import { User, UserStatus } from './../models';
+import { User, UserStatus, UserRole } from './../models';
 import { OAuth, Permissions, Query, Params } from '../filters';
 
-@Controller('/users', [OAuth.token])
+export const DEFAULT_LIMIT = 25;
+
+@Controller('/users', [])
 export default class UserController {
 
   @Get('/', [
+    OAuth.token,
     Permissions.isRoot,
     Query.pagination,
     Params.isValidUserRole(true),
@@ -24,15 +27,27 @@ export default class UserController {
       q.role = role;
     }
 
-    res.success(await User.find(q, null, req.query.pagination));
+    // Perform parallel queries
+    const [results, count] = await Promise.all([
+      User.find(q, null, { limit: DEFAULT_LIMIT, ...req.query.pagination }),
+      User.count(q),
+    ]);
+
+    // Set pagination headers and return results
+    res.set('X-Data-Length', count);
+    res.set('X-Data-Skip', req.query.skip || 0);
+    res.set('X-Data-Limit', req.query.limit || DEFAULT_LIMIT);
+
+    // Return the results
+    res.success(results);
   }
 
-  @Get('/me', [])
+  @Get('/me', [OAuth.token])
   public static async current(req: BaseRequest, res: BaseResponse) {
     res.success(req.user);
   }
 
-  @Get('/:id', [Permissions.isRoot, Params.isValidId])
+  @Get('/:id', [OAuth.token, Permissions.isRoot, Params.isValidId])
   public static async findById(req: BaseRequest, res: BaseResponse) {
     const found = await User.findOne({ _id: req.param('id') });
     if (found) {
@@ -44,20 +59,24 @@ export default class UserController {
 
   // TODO: Add validations to parameters
   @Post('/', [
-    Permissions.isRoot,
     Params.isValidEmail,
     Params.isValidName,
     Params.isValidPassword,
-    Params.isValidUserRole(),
-    Params.isValidUserStatus(),
+    Params.isValidUserRole(true),
+    Params.isValidUserStatus(true),
   ])
   public static async create(req: BaseRequest, res: BaseResponse) {
+    // TODO: Disable public user creation based on setting
+
     const user = await User.create({
+      // Basic user info
       name: req.body.name,
       email: req.body.email,
       password: req.body.password,
-      role: req.body.role,
-      status: req.body.status,
+
+      // The fields below should not be input by a simple user
+      status: req.user && req.user.role === UserRole.ROOT ? req.body.status : UserStatus.ACTIVE,
+      role: req.user && req.user.role === UserRole.ROOT ? req.body.role : UserRole.USER,
     });
 
     if (user) {
@@ -67,38 +86,41 @@ export default class UserController {
     }
   }
 
-  @Put('/:id', [Permissions.isRoot])
+  @Put('/:id', [OAuth.token])
   public static async updateUser(req: BaseRequest, res: BaseResponse) {
     const changes = {} as any;
     const user = await User.findOne({ _id: req.param('id') });
 
     if (!user) {
       throw new HttpError('User not found', HttpCode.Client.NOT_FOUND);
+    } else if (user.id !== req.user.id && req.user.role !== UserRole.ROOT) {
+      throw new HttpError('Forbidden', HttpCode.Client.FORBIDDEN);
     }
 
     if (req.body.password) {
       await user.savePassword(req.body.password);
     }
-
     if (req.body.name) {
       changes.name = req.body.name;
     }
-    if (req.body.email) {
-      changes.email = req.body.email;
-    }
-    if (req.body.role) {
-      changes.role = req.body.role;
-    }
-    if (req.body.status) {
-      changes.status = req.body.status;
+
+    // Only root users should change this stuff below
+    if (req.user.role === UserRole.ROOT) {
+      if (req.body.email) {
+        changes.email = req.body.email;
+      }
+      if (req.body.role) {
+        changes.role = req.body.role;
+      }
+      if (req.body.status) {
+        changes.status = req.body.status;
+      }
     }
 
-    res.success(
-      await user.update({ $set: changes }, { runValidators: true, new: true }),
-    );
+    res.success(await User.findOneAndUpdate({ _id: user._id }, { $set: changes }, { runValidators: true, new: true }));
   }
 
-  @Delete('/:id', [Permissions.isRoot, Params.isValidId])
+  @Delete('/:id', [OAuth.token, Permissions.isRoot, Params.isValidId])
   public static async deleteUser(req: BaseRequest, res: BaseResponse) {
     let result;
 

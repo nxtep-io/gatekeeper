@@ -23,7 +23,7 @@ describe('api.MainServer', () => {
   });
 
   it('should respond to a simple status request', async () => {
-    const server = new MainServer();
+    const server = new MainServer({ port: 3030 });
     await server.listen();
 
     // Perform a simple request to get a 200 response

@@ -1,3 +1,5 @@
+import * as path from 'path';
+import * as express from 'express';
 import Server, { BaseJob, ServerOptions } from 'ts-framework';
 import { Logger } from 'ts-framework-mongo';
 import MainDatabase from './MainDatabase';
@@ -11,14 +13,11 @@ const database = MainDatabase.getInstance({ logger });
 
 export interface MainServerOptions extends ServerOptions {
   env?: string;
-  smtp: {
+  smtp?: {
     from: string;
     connectionUrl?: string;
   };
   newrelic?: string;
-  socket: {
-    redisUrl?: string,
-  };
   startup?: {
     pipeline: BaseJob[];
     [key: string]: any;
@@ -31,9 +30,22 @@ export default class MainServer extends Server {
 
   constructor(config: MainServerOptions) {
     const { ...otherOptions } = config;
+    const app = express();
+
+    // Setup priority routes, before controller router
+    app.get('/', (req, res) => res.redirect('/status'));
+    app.use('/ui', express.static(path.join(__dirname, '../ui/dist')));
+
+    // handle every other route with index.html, which will contain
+    // a script tag to your application's JavaScript file(s).
+    app.get('/ui/*', function (request, response) {
+      response.sendFile(path.resolve(__dirname, '../ui/dist/index.html'));
+    });
+
 
     super({
       logger,
+      // TODO: Move this to the config files
       secret: 'PLEASE_CHANGE_ME',
       port: process.env.PORT as any || 3000,
       controllers: require('./controllers').default,
@@ -49,7 +61,7 @@ export default class MainServer extends Server {
         },
       },
       ...otherOptions,
-    } as MainServerOptions);
+    } as MainServerOptions, app);
 
     this.database = database;
   }

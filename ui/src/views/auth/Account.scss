@@ -1,0 +1,28 @@
+.form-account-container {
+  height: 100%;
+  min-height: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding-bottom: 64px;
+  background-color: #f5f5f5;
+  justify-content: center;
+  transition: all .5s linear;
+  .card {
+    max-width: 480px;
+    width: 60%;
+    @media only screen and (max-width: 1000px) {
+      width: inherit;
+      min-width: 50%;
+    }
+  }
+  .form-account-title {
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    h3 {
+      line-height: inherit;
+      flex: 1;
+    }
+  }
+}

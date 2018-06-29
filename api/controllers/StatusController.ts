@@ -1,7 +1,7 @@
 import * as Package from 'pjson';
 import { Controller, Get } from 'ts-framework';
 
-@Controller()
+@Controller('/status')
 export default class StatusController {
   static STARTED_AT = Date.now();
 

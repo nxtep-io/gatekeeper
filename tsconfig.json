@@ -17,6 +17,9 @@
       "dom"
     ]
   },
+  "include": [
+    "./api"
+  ],
   "exclude": [
     "./build",
     "./node_modules"
