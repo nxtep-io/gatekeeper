@@ -1,5 +1,6 @@
 import { BaseSchema } from 'ts-framework-mongo';
 import { UserModel } from '../user';
+import { SettingsKeys } from './enum';
 
 /**
  * The Settings schema definition.
@@ -11,6 +12,11 @@ export const SettingsSchema = new BaseSchema({
     required: true,
     trim: true,
     lowercase: true,
+    enum: [
+      SettingsKeys.SERVER_LOGO,
+      SettingsKeys.SERVER_NAME,
+      SettingsKeys.USERS_SIGNUP_ENABLED,
+    ]
   },
   value: {
     type: String,

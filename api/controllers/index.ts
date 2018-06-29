@@ -2,6 +2,7 @@ import StatusController from './StatusController';
 
 import UserController from './UserController';
 import PasswordController from './PasswordController';
+import SettingsController from './SettingsController';
 
 import OAuthController from './OAuthController';
 import OAuthAccessTokenController from './OAuthAccessTokenController';
@@ -16,4 +17,5 @@ export default {
   OAuthController,
   OAuthClientController,
   OAuthAccessTokenController,
+  SettingsController,
 };
