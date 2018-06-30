@@ -1,8 +1,8 @@
-import { BaseModel, Model } from 'ts-framework-mongo';
-import { SettingsSchema } from './schema';
-import MainDatabase from './../../MainDatabase';
+import { BaseModel, Model } from "ts-framework-mongo";
+import MainDatabase from "./../../MainDatabase";
+import { SettingsSchema } from "./schema";
 
-@Model('settings')
+@Model("settings")
 export class SettingsModel extends BaseModel {
   /**
    * The Settings schema definition.

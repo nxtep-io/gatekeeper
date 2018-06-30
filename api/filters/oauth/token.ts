@@ -1,7 +1,5 @@
-import * as uuid from 'uuid';
-import * as moment from 'moment';
-import { HttpError, HttpCode } from 'ts-framework';
-import { User, OAuthAccessToken, UserRole } from '../../models';
+import { HttpCode, HttpError } from "ts-framework";
+import { OAuthAccessToken, User, UserRole } from "../../models";
 
 /**
  * The OAuth 2.0 authentication middleware.
@@ -13,7 +11,6 @@ import { User, OAuthAccessToken, UserRole } from '../../models';
 export default async function token(req, res, next) {
   return req.app.oauth.authenticate()(req, res, async () => {
     if (res.locals.oauth && res.locals.oauth.token) {
-
       // Go on with the request as soon as the user is available
       const user = res.locals.oauth.token.user;
       req.user = await User.findOne({ _id: user.id || user._id });
@@ -24,7 +21,9 @@ export default async function token(req, res, next) {
         try {
           // Update user agent in the database
           const ua = await OAuthAccessToken.updateUserAgent(
-            res.locals.oauth.token.accessToken, req.clientIp, req.useragent,
+            res.locals.oauth.token.accessToken,
+            req.clientIp,
+            req.useragent
           );
         } catch (error) {
           req.logger.error(error);
@@ -32,7 +31,7 @@ export default async function token(req, res, next) {
       }
     } else {
       return res.error(
-        new HttpError('Credentials missing or invalid', HttpCode.Client.UNAUTHORIZED, { code: 'UNAUTHORIZED' }),
+        new HttpError("Credentials missing or invalid", HttpCode.Client.UNAUTHORIZED, { code: "UNAUTHORIZED" })
       );
     }
   });

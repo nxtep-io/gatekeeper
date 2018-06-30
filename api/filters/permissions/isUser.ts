@@ -1,5 +1,5 @@
-import { UserRole } from '../../models/user';
-import { HttpError, HttpCode } from 'ts-framework';
+import { HttpCode, HttpError } from "ts-framework";
+import { UserRole } from "../../models/user";
 
 /**
  * Ensures the user has a Root role.

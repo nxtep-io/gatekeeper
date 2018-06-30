@@ -1,6 +1,6 @@
-import SmtpConfig from './smtp';
-import OAuthConfig from './oauth';
 import { OAuthClientJob, OAuthRootUserJob } from '../api/jobs';
+import OAuthConfig from './oauth';
+import SmtpConfig from './smtp';
 
 export default {
   cors: true,

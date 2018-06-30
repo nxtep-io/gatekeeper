@@ -1,10 +1,10 @@
-import { BaseModel, BaseSchema, Model } from 'ts-framework-mongo';
-import { OAuthClientSchema, OAuthClientStatus } from './schema';
-import MainDatabase from '../../../MainDatabase';
+import { BaseModel, BaseSchema, Model } from "ts-framework-mongo";
+import MainDatabase from "../../../MainDatabase";
+import { OAuthClientSchema, OAuthClientStatus } from "./schema";
 
 export { OAuthClientStatus };
 
-@Model('oauthClient')
+@Model("oauthClient")
 export class OAuthClientModel extends BaseModel {
   /**
    * The OAuth Client schema definition.

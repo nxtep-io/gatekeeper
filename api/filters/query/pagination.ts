@@ -1,5 +1,4 @@
-import * as util from 'util';
-import { HttpError, HttpCode, BaseRequest, BaseResponse } from 'ts-framework';
+import { BaseRequest, BaseResponse, HttpCode, HttpError } from "ts-framework";
 
 /**
  * Creates a pagination object in the request query attribute.
@@ -13,7 +12,7 @@ import { HttpError, HttpCode, BaseRequest, BaseResponse } from 'ts-framework';
  * @param next The express next middleware in chain
  */
 export default async function pagination(req: BaseRequest, res: BaseResponse, next: () => void) {
-  const [skip, limit] = [req.param('skip'), req.param('limit')];
+  const [skip, limit] = [req.param("skip"), req.param("limit")];
 
   if (skip && isNaN(skip)) {
     throw new HttpError('The param "skip" should be a valid integer', HttpCode.Client.BAD_REQUEST);
@@ -26,7 +25,7 @@ export default async function pagination(req: BaseRequest, res: BaseResponse, ne
   req.query.pagination = {
     // TODO: Move defaults to config file
     skip: Number(req.query.skip) || 0,
-    limit: Number(req.query.limit) || 25,
+    limit: Number(req.query.limit) || 25
   };
 
   next();
