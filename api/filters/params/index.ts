@@ -18,6 +18,8 @@ export default {
 
   isValidPassword: Validate.middleware('password', Params.isValidPassword),
 
+  isValidPhoneNumber: Validate.middleware('phone', Params.isValidPhoneNumber),
+
 
   /****************************************************************************************/
   /*     Custom validators                                                                */
@@ -28,7 +30,7 @@ export default {
    * 
    * TODO: Better logic, maybe uuid.v4() ?.
    */
-  isValidToken: Validate.middleware('password', async token => token && token.length >= 8),
+  isValidToken: Validate.middleware('token', async token => token && token.length >= 8),
 
   // tslint:disable-next-line:object-shorthand-properties-first
   isValidUserRole,

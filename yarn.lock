@@ -223,10 +223,6 @@
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@protobufjs/utf8/-/utf8-1.1.0.tgz#a777360b5b39a1a2e5106f8e858f2fd2d060c570"
 
-"@types/async@^2.0.44":
-  version "2.0.49"
-  resolved "https://registry.yarnpkg.com/@types/async/-/async-2.0.49.tgz#92e33d13f74c895cb9a7f38ba97db8431ed14bc0"
-
 "@types/babel-types@*", "@types/babel-types@^7.0.0":
   version "7.0.2"
   resolved "https://registry.yarnpkg.com/@types/babel-types/-/babel-types-7.0.2.tgz#63dc3e5e7f6367e1819d2bba5213783cd926c5d5"
@@ -241,7 +237,7 @@
   version "3.5.20"
   resolved "https://registry.yarnpkg.com/@types/bluebird/-/bluebird-3.5.20.tgz#f6363172add6f4eabb8cada53ca9af2781e8d6a1"
 
-"@types/body-parser@*", "@types/body-parser@^1.16.5":
+"@types/body-parser@*":
   version "1.17.0"
   resolved "https://registry.yarnpkg.com/@types/body-parser/-/body-parser-1.17.0.tgz#9f5c9d9bd04bb54be32d5eb9fc0d8c974e6cf58c"
   dependencies:
@@ -264,13 +260,7 @@
   dependencies:
     "@types/node" "*"
 
-"@types/cookie-parser@^1.4.1":
-  version "1.4.1"
-  resolved "https://registry.yarnpkg.com/@types/cookie-parser/-/cookie-parser-1.4.1.tgz#e88a39c41960f31549b4c52dd8620aa4a2feb4bb"
-  dependencies:
-    "@types/express" "*"
-
-"@types/cors@^2.8.1", "@types/cors@^2.8.4":
+"@types/cors@^2.8.4":
   version "2.8.4"
   resolved "https://registry.yarnpkg.com/@types/cors/-/cors-2.8.4.tgz#50991a759a29c0b89492751008c6af7a7c8267b0"
   dependencies:
@@ -297,7 +287,7 @@
     "@types/events" "*"
     "@types/node" "*"
 
-"@types/express@*", "@types/express@^4.0.37", "@types/express@^4.11.1":
+"@types/express@*", "@types/express@^4.11.1":
   version "4.11.1"
   resolved "https://registry.yarnpkg.com/@types/express/-/express-4.11.1.tgz#f99663b3ab32d04cb11db612ef5dd7933f75465b"
   dependencies:
@@ -328,12 +318,6 @@
 "@types/long@^3.0.32":
   version "3.0.32"
   resolved "https://registry.yarnpkg.com/@types/long/-/long-3.0.32.tgz#f4e5af31e9e9b196d8e5fca8a5e2e20aa3d60b69"
-
-"@types/method-override@^0.0.30":
-  version "0.0.30"
-  resolved "https://registry.yarnpkg.com/@types/method-override/-/method-override-0.0.30.tgz#b44b679a557fc3463ace872f37470f4502f367ce"
-  dependencies:
-    "@types/express" "*"
 
 "@types/mime@*":
   version "2.0.0"
@@ -374,13 +358,6 @@
 "@types/nodemailer@^4.3.1":
   version "4.6.0"
   resolved "https://registry.yarnpkg.com/@types/nodemailer/-/nodemailer-4.6.0.tgz#542ecb5fff91cd3d841fc67cace0527649030462"
-  dependencies:
-    "@types/events" "*"
-    "@types/node" "*"
-
-"@types/raven@^2.1.2":
-  version "2.5.1"
-  resolved "https://registry.yarnpkg.com/@types/raven/-/raven-2.5.1.tgz#62ef0a59e29691945e1f295b62ed199619cbd9b6"
   dependencies:
     "@types/events" "*"
     "@types/node" "*"
@@ -427,7 +404,7 @@
   dependencies:
     "@types/jquery" "*"
 
-"@types/winston@^2.3.6", "@types/winston@^2.3.9":
+"@types/winston@^2.3.9":
   version "2.3.9"
   resolved "https://registry.yarnpkg.com/@types/winston/-/winston-2.3.9.tgz#1ff9f1bb57952fe3d88c1b21c4899ede316a35bc"
   dependencies:
@@ -1179,6 +1156,10 @@ chalk@^2.0.0, chalk@^2.0.1, chalk@^2.3.0:
     ansi-styles "^3.2.1"
     escape-string-regexp "^1.0.5"
     supports-color "^5.3.0"
+
+chance@^1.0.16:
+  version "1.0.16"
+  resolved "https://registry.yarnpkg.com/chance/-/chance-1.0.16.tgz#bd61912716b0010c3dca8e3948a960efcaa7bb1b"
 
 character-parser@^2.1.1:
   version "2.2.0"
@@ -4028,13 +4009,7 @@ modelo@^4.2.0:
   version "4.2.3"
   resolved "https://registry.yarnpkg.com/modelo/-/modelo-4.2.3.tgz#b278588a4db87fc1e5107ae3a277c0876f38d894"
 
-moment-timezone@^0.5.13:
-  version "0.5.17"
-  resolved "https://registry.yarnpkg.com/moment-timezone/-/moment-timezone-0.5.17.tgz#3c8fef32051d84c3af174d91dc52977dcb0ad7e5"
-  dependencies:
-    moment ">= 2.9.0"
-
-"moment@>= 2.9.0", moment@^2.18.1, moment@^2.19.1, moment@^2.22.1:
+moment@^2.18.1, moment@^2.22.1:
   version "2.22.1"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.22.1.tgz#529a2e9bf973f259c9643d237fda84de3a26e8ad"
 
@@ -4558,6 +4533,10 @@ pend@~1.2.0:
 performance-now@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/performance-now/-/performance-now-2.1.0.tgz#6309f4e0e5fa913ec1c69307ae364b4b377c9e7b"
+
+phone@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/phone/-/phone-2.0.0.tgz#5f354125708342855f2e9cd85c75911bdefbe028"
 
 pify@^2.0.0, pify@^2.3.0:
   version "2.3.0"
@@ -5842,13 +5821,14 @@ trim-right@^1.0.1:
     rimraf "^2.6.2"
     ts-framework "git+http://github.com/devnup/ts-framework.git#1.0.0-rc.1"
 
-"ts-framework-validation@git+https://github.com/nxtep-io/ts-framework-validation.git#master":
-  version "1.0.0"
-  resolved "git+https://github.com/nxtep-io/ts-framework-validation.git#bf32f19cfe42c0aa0192907130b69f96580f141c"
+ts-framework-validation@nxtep-io/ts-framework-validation#v2:
+  version "2.0.0"
+  resolved "https://codeload.github.com/nxtep-io/ts-framework-validation/tar.gz/23a9bb615cf5a63a59503295e0a308a5007ea616"
   dependencies:
     "@types/semver" "^5.4.0"
+    phone "^2.0.0"
     rimraf "^2.6.2"
-    ts-framework "git+https://gitlab.devnup.com/npm/ts-framework.git#dev"
+    ts-framework nxtep-io/ts-framework#v2
     typescript "^2.5.3"
 
 "ts-framework@git+http://github.com/devnup/ts-framework.git#1.0.0-rc.1":
@@ -5883,9 +5863,9 @@ trim-right@^1.0.1:
     winston "^2.4.0"
     winston-raven-sentry "^1.0.1"
 
-"ts-framework@git+https://github.com/nxtep-io/ts-framework.git#v2":
+ts-framework@nxtep-io/ts-framework#v2:
   version "2.0.0-alpha.1"
-  resolved "git+https://github.com/nxtep-io/ts-framework.git#bc281cecbd8fe9bf6f178fb4c1df91599e963d5b"
+  resolved "https://codeload.github.com/nxtep-io/ts-framework/tar.gz/048b417039add6b09bd9861ee1add9beb62ce1fa"
   dependencies:
     "@types/cors" "^2.8.4"
     "@types/express" "^4.11.1"
@@ -5903,48 +5883,8 @@ trim-right@^1.0.1:
     hat "^0.0.3"
     lodash "^4.17.4"
     method-override "^2.3.10"
-    mongoose "^4.12.1"
     multer "^1.3.0"
     pjson "^1.0.9"
-    raven "^2.2.1"
-    request-ip "^2.0.2"
-    rimraf "^2.6.2"
-    source-map-support "^0.5.0"
-    typescript "^2.5.3"
-    urijs "^1.19.0"
-    winston "^2.4.0"
-    winston-raven-sentry "^1.0.1"
-
-"ts-framework@git+https://gitlab.devnup.com/npm/ts-framework.git#dev":
-  version "1.0.0-rc.1"
-  resolved "git+https://gitlab.devnup.com/npm/ts-framework.git#bd764fc532fb75fcd404407d0213e52900c86b0d"
-  dependencies:
-    "@types/async" "^2.0.44"
-    "@types/body-parser" "^1.16.5"
-    "@types/cookie-parser" "^1.4.1"
-    "@types/cors" "^2.8.1"
-    "@types/express" "^4.0.37"
-    "@types/method-override" "^0.0.30"
-    "@types/mongoose" "^4.7.23"
-    "@types/raven" "^2.1.2"
-    "@types/winston" "^2.3.6"
-    async "^2.5.0"
-    base64url "^2.0.0"
-    body-parser "^1.18.2"
-    clean-stack "^1.3.0"
-    cookie-parser "^1.4.3"
-    cors "^2.8.4"
-    express "^4.16.2"
-    express-oauth-server "^2.0.0"
-    express-useragent "^1.0.8"
-    git-rev-sync "^1.9.1"
-    hat "^0.0.3"
-    lodash "^4.17.4"
-    method-override "^2.3.10"
-    moment "^2.19.1"
-    moment-timezone "^0.5.13"
-    mongoose "^4.12.1"
-    multer "^1.3.0"
     raven "^2.2.1"
     request-ip "^2.0.2"
     rimraf "^2.6.2"

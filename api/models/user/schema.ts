@@ -31,6 +31,12 @@ export const UserSchema = new BaseSchema({
       validator: (email: string) => EMAIL_REGEX.test(email),
     },
   },
+  phone: {
+    type: String,
+    // TODO: Should be unique if not null
+    unique: false,
+    required: false,
+  },
   role: {
     required: true,
     type: String,
