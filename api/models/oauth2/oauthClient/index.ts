@@ -13,7 +13,7 @@ export class OAuthClientModel extends BaseModel {
 
   /**
    * Converts the client instance to a plain object.
-   * 
+   *
    * @returns {Object}
    */
   public toJSON(): Object {

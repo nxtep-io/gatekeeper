@@ -5,4 +5,4 @@ export enum SettingsKeys {
 
   /* User settings */
   USERS_SIGNUP_ENABLED = 'users_signup_enabled',
-};
+}

@@ -5,7 +5,7 @@ import * as InvalidArgumentError from 'oauth2-server/lib/errors/invalid-argument
 import * as InvalidRequestError from 'oauth2-server/lib/errors/invalid-request-error';
 
 import Database from '../MainDatabase';
-import { User, UserRole, OAuthAccessToken} from '../models';
+import { User, UserRole, OAuthAccessToken } from '../models';
 
 export default class ImpersonateGrantType extends AbstractGrantType {
 
@@ -30,7 +30,7 @@ export default class ImpersonateGrantType extends AbstractGrantType {
 
   /**
    * Gets the user instance to be impersonated, validating the impersonator permissions.
-   * 
+   *
    * @param accessToken The access token of the impersonator
    * @param userId The user id to be impersonated
    */

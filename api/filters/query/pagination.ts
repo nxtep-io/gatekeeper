@@ -7,7 +7,7 @@ import { HttpError, HttpCode, BaseRequest, BaseResponse } from 'ts-framework';
  * Defaults to:
  *   skip: 0
  *   limit: 25
- * 
+ *
  * @param req The express request
  * @param res The express response
  * @param next The express next middleware in chain
@@ -28,6 +28,6 @@ export default async function pagination(req: BaseRequest, res: BaseResponse, ne
     skip: Number(req.query.skip) || 0,
     limit: Number(req.query.limit) || 25,
   };
-  
+
   next();
 }

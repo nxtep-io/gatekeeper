@@ -3,7 +3,7 @@ import { Types } from 'mongoose';
 
 /**
  * Checks if param is has a valid but optional access token.
- * 
+ *
  * @param {String} accessToken The param to be validated
  */
 export default async function hasValidRevoke(req, res, next) {

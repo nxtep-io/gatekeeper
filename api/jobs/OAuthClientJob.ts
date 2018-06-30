@@ -9,7 +9,7 @@ export default class OAuthClientJob extends BaseJob {
 
   /**
    * Create the initial OAuth 2.0 client instances.
-   * 
+   *
    * @param server The main server instance.
    */
   public async run(server: MainServer): Promise<void> {

@@ -6,20 +6,20 @@
   "scripts": {
     "start": "node --require ts-node/register start.ts",
     "test": "jest --config jest.json",
-    "lint": "tslint --config tslint.json"
+    "lint": "tslint --fix --config tslint.json --project ."
   },
   "dependencies": {
-    "@types/bluebird": "^3.5.20",
     "bluebird": "^3.5.1",
     "moment": "^2.22.1",
     "pjson": "^1.0.9",
-    "ts-framework": "git+https://github.com/nxtep-io/ts-framework.git#v2",
-    "ts-framework-mongo": "git+https://github.com/nxtep-io/ts-framework-mongo.git#master",
-    "ts-framework-notification": "git+https://github.com/devnup/ts-framework-notification.git",
-    "ts-framework-validation": "git+https://github.com/nxtep-io/ts-framework-validation.git#master",
+    "ts-framework": "nxtep-io/ts-framework",
+    "ts-framework-mongo": "nxtep-io/ts-framework-mongo",
+    "ts-framework-notification": "devnup/ts-framework-notification",
+    "ts-framework-validation": "nxtep-io/ts-framework-validation",
     "ts-node": "^3.3.0"
   },
   "devDependencies": {
+    "@types/bluebird": "^3.5.20",
     "@types/jest": "^22.2.3",
     "@types/supertest": "^2.0.4",
     "hat": "^0.0.3",
@@ -27,6 +27,7 @@
     "mongodb-memory-server": "^1.7.3",
     "supertest": "^3.0.0",
     "ts-jest": "^22.4.4",
-    "tslint": "^5.10.0"
+    "tslint": "^5.10.0",
+    "tslint-config-airbnb": "^5.9.2"
   }
 }

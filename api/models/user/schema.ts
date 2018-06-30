@@ -56,4 +56,4 @@ export const UserSchema = new BaseSchema({
       expiresAt: Date,
     },
   },
-}, { timestamps: true });
+},                                       { timestamps: true });

@@ -2,7 +2,6 @@ import { BaseModel, Model } from 'ts-framework-mongo';
 import { SettingsSchema } from './schema';
 import MainDatabase from './../../MainDatabase';
 
-
 @Model('settings')
 export class SettingsModel extends BaseModel {
   /**
@@ -12,7 +11,7 @@ export class SettingsModel extends BaseModel {
 
   /**
    * Converts the settings instance to a plain object.
-   * 
+   *
    * @returns {Object}
    */
   public toJSON(): Object {

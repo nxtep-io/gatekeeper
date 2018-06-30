@@ -40,7 +40,7 @@ export default class PasswordController {
         section: {
           title: '',
           body: `
-          If you did not ask for this credentials, ignore this e-mail or 
+          If you did not ask for this credentials, ignore this e-mail or
           <a href="https://nxtep.io" style="color: dodgerblue">contact the support</a>.`,
         },
       },

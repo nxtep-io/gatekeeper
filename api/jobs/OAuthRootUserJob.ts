@@ -9,7 +9,7 @@ export default class OAuthRootUserJob extends BaseJob {
 
   /**
   * Create the initial OAuth 2.0 root user instance.
-  * 
+  *
   * @param server The main server instance.
   */
   public async run(server: MainServer): Promise<void> {

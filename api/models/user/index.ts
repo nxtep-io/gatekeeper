@@ -36,7 +36,7 @@ export class UserModel extends BaseModel {
 
   /**
    * Create a new user instance.
-   * 
+   *
    * @param {Object} data The user information
    * @param {String} data.name The user name
    * @param {String} data.email The user email
@@ -63,7 +63,7 @@ export class UserModel extends BaseModel {
 
   /**
    * Gets an User by a valid secret token.
-   * 
+   *
    * @param secretToken The password secret token
    */
   public static async getBySecretToken(secretToken: string) {
@@ -120,7 +120,7 @@ export class UserModel extends BaseModel {
 
   /**
    * Converts the user instance to a plain object.
-   * 
+   *
    * @returns {Object}
    */
   public toJSON(): Object {

@@ -16,7 +16,7 @@ export const SettingsSchema = new BaseSchema({
       SettingsKeys.SERVER_LOGO,
       SettingsKeys.SERVER_NAME,
       SettingsKeys.USERS_SIGNUP_ENABLED,
-    ]
+    ],
   },
   value: {
     type: String,
@@ -27,5 +27,5 @@ export const SettingsSchema = new BaseSchema({
     required: true,
     ref: UserModel.modelName,
     type: BaseSchema.Types.ObjectId,
-  }
-}, { timestamps: true });
+  },
+},                                           { timestamps: true });

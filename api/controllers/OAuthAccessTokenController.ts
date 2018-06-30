@@ -26,13 +26,13 @@ export default class OAuthAccessTokenController {
     const [count, results] = await Promise.all([
       OAuthAccessToken.count(q),
       OAuthAccessToken
-        .find(q, null, { 
-          limit: DEFAULT_LIMIT, 
+        .find(q, null, {
+          limit: DEFAULT_LIMIT,
           sort: { createdAt: -1 },
-          ...req.query.pagination
+          ...req.query.pagination,
         })
         .populate('user')
-        .populate('client')
+        .populate('client'),
     ]);
 
     // Set pagination headers and return results

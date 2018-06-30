@@ -42,7 +42,6 @@ export default class MainServer extends Server {
       response.sendFile(path.resolve(__dirname, '../ui/dist/index.html'));
     });
 
-
     super({
       logger,
       // TODO: Move this to the config files
@@ -90,7 +89,7 @@ export default class MainServer extends Server {
         'MainServer: Error in startup, the email connection url is not available' +
         '. Set it using the SMTP_URL env variable.',
       );
-      EmailService.getInstance({ from: 'example@company.com', ...this.config.smtp, });
+      EmailService.getInstance({ from: 'example@company.com', ...this.config.smtp });
     }
 
     // Run startup jobs
@@ -105,7 +104,7 @@ export default class MainServer extends Server {
     this.logger.info(`Server listening in port: ${this.config.port}`);
   }
 
-  /** 
+  /**
    * Execute all statup jobs in parallel.
    */
   protected async runStartupJobs() {

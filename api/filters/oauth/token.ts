@@ -5,7 +5,7 @@ import { User, OAuthAccessToken, UserRole } from '../../models';
 
 /**
  * The OAuth 2.0 authentication middleware.
- * 
+ *
  * @param req The express request
  * @param res The express response
  * @param next The express next middleware in chain

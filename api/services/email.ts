@@ -22,14 +22,14 @@ export class EmailService extends Email {
 
   /**
    * Gets the singleton email service.
-   * 
+   *
    * @param connectionUrl The email connection url
    */
   public static getInstance(options?: EmailServiceOptions): EmailService {
     if (!EmailService.instance) {
-      EmailService.instance = new EmailService({ 
-        debug: options && options.connectionUrl ? false : true, 
-        ...options, 
+      EmailService.instance = new EmailService({
+        debug: options && options.connectionUrl ? false : true,
+        ...options,
       });
     }
     return EmailService.instance;

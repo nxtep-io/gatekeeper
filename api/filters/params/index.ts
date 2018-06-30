@@ -18,14 +18,13 @@ export default {
 
   isValidPassword: Validate.middleware('password', Params.isValidPassword),
 
-
   /****************************************************************************************/
   /*     Custom validators                                                                */
   /****************************************************************************************/
 
   /**
    * Checks a user token.
-   * 
+   *
    * TODO: Better logic, maybe uuid.v4() ?.
    */
   isValidToken: Validate.middleware('password', async token => token && token.length >= 8),

@@ -11,7 +11,7 @@ export default class OAuth2Middleware {
 
   /**
    * Gets an OAuth 2.0 Client instance from database.
-   * 
+   *
    * @param clientId The client id
    * @param clientSecret The client secret
    */
@@ -38,7 +38,7 @@ export default class OAuth2Middleware {
 
   /**
    * Gets an OAuth 2.0 Client instance from database.
-   * 
+   *
    * @param clientId The client id
    * @param clientSecret The client secret
    */
@@ -64,7 +64,7 @@ export default class OAuth2Middleware {
 
   /**
    * Gets an user based on email and password credentials.
-   * 
+   *
    * @param email The user username or email
    * @param password The user password
    */
@@ -78,7 +78,7 @@ export default class OAuth2Middleware {
 
   /**
    * Gets an User instance from database.
-   * 
+   *
    * @param id The user id
    */
   static async getUserById({ id }) {
@@ -94,7 +94,7 @@ export default class OAuth2Middleware {
 
   /**
    * Gets a virtual user for a client credentials authentication.
-   * 
+   *
    * @param client The oauth client
    */
   static async getUserFromClient(client: string): Promise<any> {
@@ -110,7 +110,7 @@ export default class OAuth2Middleware {
 
   /**
    * Saves a new access token on the database.
-   * 
+   *
    * @param token The token instance
    * @param client The client instance
    * @param user The user instance
@@ -121,7 +121,7 @@ export default class OAuth2Middleware {
 
   /**
    * Gets an OAuth 2.0 Access Token from the database.
-   * 
+   *
    * @param accessToken The access token
    */
   static async getAccessToken(accessToken): Promise<OAuthAccessTokenModel> {

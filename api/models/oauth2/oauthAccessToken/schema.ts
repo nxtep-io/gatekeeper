@@ -52,7 +52,7 @@ export const OAuthAccessTokenSchema = new BaseSchema({
   // - location/timezone?
   // ...
 
-}, {
+},                                                   {
   timestamps: true,
   toObject: { virtuals: true },
   toJSON: { virtuals: true },

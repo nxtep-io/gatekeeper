@@ -24,7 +24,7 @@ export const OAuthClientSchema = new BaseSchema({
     required: true,
     type: String,
     enum: [
-      OAuthClientPlatform.API, 
+      OAuthClientPlatform.API,
       OAuthClientPlatform.BOT,
       OAuthClientPlatform.WEB,
     ],
@@ -49,4 +49,4 @@ export const OAuthClientSchema = new BaseSchema({
       OAuthClientStatus.INACTIVE,
     ],
   },
-}, { timestamps: true });
+},                                              { timestamps: true });

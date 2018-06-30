@@ -3,7 +3,7 @@ import { UserRole } from '../../models';
 
 /**
  * Checks a User role param.
- * 
+ *
  * @param [optional] Defines if the role param is optional. Deafults to true.
  */
 export default function isValidUserRole(optional: boolean = true) {

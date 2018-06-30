@@ -13,7 +13,7 @@ export class OAuthAccessTokenModel extends BaseModel {
 
   /**
    * Updates an access token setting its user agent stuff.
-   * 
+   *
    * @param accessToken The acess token to be updated
    * @param ip The client ip
    * @param userAgent The user agent information
@@ -39,21 +39,21 @@ export class OAuthAccessTokenModel extends BaseModel {
 
   /**
    * Revokes access tokens based on specified conditions.
-   * 
-   * @param conditions 
-   * @param options 
+   *
+   * @param conditions
+   * @param options
    */
   public static revoke(conditions: Object, options: ModelUpdateOptions): Query<any> {
     const now = new Date();
     return this.update({ ...conditions, expires: { $gt: now } }, {
       $set: { expires: now },
-    }, options);
+    },                 options);
 
   }
 
   /**
    * Saves a new access token in the database according to the oauth 2.0 middleware.
-   * 
+   *
    * @param token The token instance
    * @param client The client instance
    * @param user The user instance
@@ -89,7 +89,7 @@ export class OAuthAccessTokenModel extends BaseModel {
 
   /**
    * Converts the token instance to a plain object.
-   * 
+   *
    * @returns {Object}
    */
   public toJSON(): Object {

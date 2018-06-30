@@ -3,7 +3,7 @@ import { HttpError, HttpCode } from 'ts-framework';
 
 /**
  * Ensures the user has a Root role.
- * 
+ *
  * @param req The express request
  * @param res The express response
  * @param next The express next middleware in chain

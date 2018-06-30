@@ -2,7 +2,6 @@ import * as Package from 'pjson';
 import { Controller, Get } from 'ts-framework';
 import { OAuthClient, OAuthAccessToken } from '../models';
 
-
 @Controller('/analytics')
 export default class AnalyticsController {
   @Get('/active')
@@ -12,7 +11,7 @@ export default class AnalyticsController {
     // Get oauth clients currently active
     const clientIdsNow = await OAuthAccessToken.aggregate([
       { $match: condition },
-      { $group: { _id: '$client', count: { $sum: 1 } } }
+      { $group: { _id: '$client', count: { $sum: 1 } } },
     ]);
 
     // Get full info for current clients
@@ -23,11 +22,11 @@ export default class AnalyticsController {
 
     res.success({
       users: distinctNow.length,
-      clients: clientsNow.map((client, i) => ({ 
+      clients: clientsNow.map((client, i) => ({
         id: client._id.toString(),
         clientId: client.clientId,
         platform: client.platform,
-        tokens: clientIdsNow[i].count 
+        tokens: clientIdsNow[i].count,
       })),
     });
   }
@@ -35,8 +34,8 @@ export default class AnalyticsController {
   static async getDevicesStats(req, res) {
     const match = { $match: { 'userAgent.source': { $exists: '' } } };
 
-    const browser = await OAuthAccessToken.aggregate([match, { "$group": { _id: "$userAgent.browser", count: { $sum: 1 } } }]);
-    const os = await OAuthAccessToken.aggregate([match, { "$group": { _id: "$userAgent.os", count: { $sum: 1 } } }]);
+    const browser = await OAuthAccessToken.aggregate([match, { $group: { _id: '$userAgent.browser', count: { $sum: 1 } } }]);
+    const os = await OAuthAccessToken.aggregate([match, { $group: { _id: '$userAgent.os', count: { $sum: 1 } } }]);
 
     res.success({
       // Return browser as a hash map
