@@ -1,3 +1,4 @@
+import * as Chance from 'chance';
 import * as moment from 'moment';
 import { ModelUpdateOptions, Query } from 'mongoose';
 import { BaseModel, BaseSchema, Model } from 'ts-framework-mongo';
@@ -7,12 +8,12 @@ import { OAuthAuthorizationCodeSchema } from './schema';
 @Model('oauthAuthorizationCode')
 export class OAuthAuthorizationCodeModel extends BaseModel {
   /**
-   * The OAuth Access Token schema definition.
+   * The OAuth Authorization Code schema definition.
    */
   static Schema: BaseSchema = OAuthAuthorizationCodeSchema;
 
   /**
-   * Revokes authorization codes based on specified conditions.
+   * Revokes Authorization Codes based on specified conditions.
    * 
    * @param conditions 
    * @param options 
@@ -22,36 +23,26 @@ export class OAuthAuthorizationCodeModel extends BaseModel {
     return this.update({ ...conditions, expires: { $gt: now } }, {
       $set: { expires: now },
     }, options);
-
   }
 
   /**
-   * Saves a new AuthorizationCode in the database according to the oauth 2.0 middleware.
-   * 
-   * @param code The code instance
-   * @param client The client instance
-   * @param user The user instance
+   * Generates a new Authorization Code and stores it in the database.
    */
-  static async saveAuthorizationCode(code, client, user) {
-    const userId = user.id || user._id;
+  public static async generateCode(user, client) {
+    const chance = new Chance();
+    const userId = user.id || user._id || user;
     const clientId = client.id || client._id || client;
 
-    // Prepare the new authorizationCode instance
-    const authorizationCode = await this.create({
-      expires: code.expiresAt,
-      code: code.authorizationCode || code.code,
-      client: clientId,
+    // Generate new code and store it in database. 
+    const code = await this.create({
       user: userId,
+      client: clientId,
+      code: chance.hash({ casing: 'upper', length: 8 }),
+      // TODO: Move this to config
+      expires: moment().add(30, 'minutes').toDate(),
     });
 
-    // Return the middleware expected output.
-    return {
-      user: userId,
-      client: clientId,
-      code: authorizationCode.code,
-      expiresAt: authorizationCode.expiresAt,
-      authorizationId: authorizationCode._id,
-    };
+    return code;
   }
 
   /**

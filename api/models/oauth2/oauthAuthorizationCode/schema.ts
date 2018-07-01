@@ -8,7 +8,7 @@ import { OAuthClientModel } from '../oauthClient';
  */
 export const OAuthAuthorizationCodeSchema = new BaseSchema({
   code: {
-    unique: false,
+    unique: true,
     type: String,
     required: true,
   },
@@ -30,6 +30,7 @@ export const OAuthAuthorizationCodeSchema = new BaseSchema({
     index: true,
     type: Date,
   },
+
 }, {
   timestamps: true,
   toObject: { virtuals: true },

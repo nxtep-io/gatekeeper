@@ -1,5 +1,11 @@
+import * as moment from 'moment';
+import * as Chance from 'chance';
 import { BaseSchema } from 'ts-framework-mongo';
 
+/**
+ * TODO: Move to config
+ */
+export const PHONE_CODE_EXPIRATION_MIN = 15;
 export const EMAIL_REGEX = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
 export enum UserStatus {
@@ -31,12 +37,33 @@ export const UserSchema = new BaseSchema({
       validator: (email: string) => EMAIL_REGEX.test(email),
     },
   },
-  phone: {
-    type: String,
-    // TODO: Should be unique if not null
-    unique: false,
-    required: false,
-  },
+  phone: [{
+    countryCode: {
+      type: String,
+      required: true,
+    },
+    number: {
+      type: String,
+      // TODO: Should be unique if not null
+      unique: false,
+      required: true,
+    },
+    token: {
+      type: String,
+      default: () => {
+        const chance = new Chance();
+        const code = chance.hash({ casing: 'upper', length: 8 });
+      }
+    },
+    tokenExpires: {
+      type: Date,
+      default: () => moment().add(PHONE_CODE_EXPIRATION_MIN, 'minutes').toDate()
+    },
+    verified: {
+      type: Boolean,
+      default: false,
+    },
+  }],
   role: {
     required: true,
     type: String,
