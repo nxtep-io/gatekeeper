@@ -1,12 +1,17 @@
 import * as moment from 'moment';
 import { BaseSchema } from 'ts-framework-mongo';
-import { UserModel } from '../../user';
-import { OAuthClientModel } from '../oauthClient';
+import { UserModel } from '../user';
+import { OAuthClientModel } from '../oauth2/oauthClient';
 
 /**
- * The OAuthAuthorizationCode schema definition.
+ * The PhoneAuthorizationCode schema definition.
  */
-export const OAuthAuthorizationCodeSchema = new BaseSchema({
+export const PhoneAuthorizationCodeSchema = new BaseSchema({
+  phone: {
+    required: true,
+    type: String,
+  },
+
   code: {
     unique: true,
     type: String,
@@ -28,6 +33,10 @@ export const OAuthAuthorizationCodeSchema = new BaseSchema({
   expires: {
     required: true,
     index: true,
+    type: Date,
+  },
+
+  verifiedAt: {
     type: Date,
   },
 

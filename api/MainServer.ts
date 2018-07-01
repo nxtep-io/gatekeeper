@@ -3,8 +3,9 @@ import * as express from 'express';
 import Server, { BaseJob, ServerOptions } from 'ts-framework';
 import { Logger } from 'ts-framework-mongo';
 import MainDatabase from './MainDatabase';
-import { EmailService } from './services';
+import { EmailService, TextService } from './services';
 import { ImpersonateGrantType } from './helpers';
+import { TextGateway } from 'ts-framework-notification';
 
 // Prepare the database instance as soon as possible to prevent clashes in
 // model registration. We can connect to the real database later.
@@ -17,6 +18,10 @@ export interface MainServerOptions extends ServerOptions {
     from: string;
     connectionUrl?: string;
   };
+  sms?: {
+    from: string;
+    gateway: TextGateway;
+  },
   newrelic?: string;
   startup?: {
     pipeline: BaseJob[];
@@ -81,7 +86,7 @@ export default class MainServer extends Server {
       return;
     }
 
-    // Initialize the singleton services
+    // Initialize the email service
     if (this.config.smtp && this.config.smtp.connectionUrl) {
       EmailService.getInstance({ ...this.config.smtp });
     } else {
@@ -91,6 +96,15 @@ export default class MainServer extends Server {
         '. Set it using the SMTP_URL env variable.',
       );
       EmailService.getInstance({ from: 'example@company.com', ...this.config.smtp, });
+    }
+
+    // Initialize the sms service
+    if (this.config.sms) {
+      TextService.getInstance({ ...this.config.sms });
+    } else {
+      // TODO: Crash the API for safety or log email sendings in console
+      this.logger.warn('MainServer: Error in startup, the SMS gateway is not available');
+      TextService.getInstance({ from: '', gateway: TextGateway.DEBUG });
     }
 
     // Run startup jobs

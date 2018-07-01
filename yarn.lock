@@ -362,6 +362,10 @@
     "@types/events" "*"
     "@types/node" "*"
 
+"@types/q@^0":
+  version "0.0.37"
+  resolved "https://registry.yarnpkg.com/@types/q/-/q-0.0.37.tgz#7d6a934b35ee2f0ed0646d286eba559599021c9e"
+
 "@types/request@^2.47.0":
   version "2.47.0"
   resolved "https://registry.yarnpkg.com/@types/request/-/request-2.47.0.tgz#76a666cee4cb85dcffea6cd4645227926d9e114e"
@@ -397,6 +401,14 @@
 "@types/tough-cookie@*":
   version "2.3.3"
   resolved "https://registry.yarnpkg.com/@types/tough-cookie/-/tough-cookie-2.3.3.tgz#7f226d67d654ec9070e755f46daebf014628e9d9"
+
+"@types/twilio@^0.0.9":
+  version "0.0.9"
+  resolved "https://registry.yarnpkg.com/@types/twilio/-/twilio-0.0.9.tgz#dac8236bf714a85955cb6bc63273b2c56c9c484b"
+  dependencies:
+    "@types/express" "*"
+    "@types/node" "*"
+    "@types/q" "^0"
 
 "@types/urijs@^1.15.38":
   version "1.15.38"
@@ -608,7 +620,7 @@ arrify@^1.0.0, arrify@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/arrify/-/arrify-1.0.1.tgz#898508da2226f380df904728456849c1501a4b0d"
 
-asap@~2.0.3:
+asap@^2.0.0, asap@~2.0.3:
   version "2.0.6"
   resolved "https://registry.yarnpkg.com/asap/-/asap-2.0.6.tgz#e50347611d7e690943208bbdafebcbc2fb866d46"
 
@@ -1660,6 +1672,10 @@ depd@1.1.1:
 depd@~1.1.1, depd@~1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/depd/-/depd-1.1.2.tgz#9bcd52e14c097763e749b274c4346ed2e560b5a9"
+
+deprecate@1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/deprecate/-/deprecate-1.0.0.tgz#661490ed2428916a6c8883d8834e5646f4e4a4a8"
 
 destroy@~1.0.4:
   version "1.0.4"
@@ -3532,6 +3548,20 @@ jsonwebtoken@8.1.0:
     ms "^2.0.0"
     xtend "^4.0.1"
 
+jsonwebtoken@^8.1.0:
+  version "8.3.0"
+  resolved "https://registry.yarnpkg.com/jsonwebtoken/-/jsonwebtoken-8.3.0.tgz#056c90eee9a65ed6e6c72ddb0a1d325109aaf643"
+  dependencies:
+    jws "^3.1.5"
+    lodash.includes "^4.3.0"
+    lodash.isboolean "^3.0.3"
+    lodash.isinteger "^4.0.4"
+    lodash.isnumber "^3.0.3"
+    lodash.isplainobject "^4.0.6"
+    lodash.isstring "^4.0.1"
+    lodash.once "^4.0.0"
+    ms "^2.1.1"
+
 jsprim@^1.2.2:
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/jsprim/-/jsprim-1.4.1.tgz#313e66bc1e5cc06e438bc1b7499c2e5c56acb6a2"
@@ -3572,7 +3602,7 @@ jwa@^1.1.5:
     ecdsa-sig-formatter "1.0.10"
     safe-buffer "^5.0.1"
 
-jws@^3.1.4:
+jws@^3.1.4, jws@^3.1.5:
   version "3.1.5"
   resolved "https://registry.yarnpkg.com/jws/-/jws-3.1.5.tgz#80d12d05b293d1e841e7cb8b4e69e561adcf834f"
   dependencies:
@@ -4009,6 +4039,10 @@ modelo@^4.2.0:
   version "4.2.3"
   resolved "https://registry.yarnpkg.com/modelo/-/modelo-4.2.3.tgz#b278588a4db87fc1e5107ae3a277c0876f38d894"
 
+moment@2.19.3:
+  version "2.19.3"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.19.3.tgz#bdb99d270d6d7fda78cc0fbace855e27fe7da69f"
+
 moment@^2.18.1, moment@^2.22.1:
   version "2.22.1"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.22.1.tgz#529a2e9bf973f259c9643d237fda84de3a26e8ad"
@@ -4131,7 +4165,7 @@ ms@2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.0.0.tgz#5608aeadfc00be6c2901df5f9861788de0d597c8"
 
-ms@^2.0.0:
+ms@^2.0.0, ms@^2.1.1:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.1.1.tgz#30a5864eb3ebb0a66f2ebe6d727af06a09d86e0a"
 
@@ -4570,6 +4604,10 @@ pn@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/pn/-/pn-1.1.0.tgz#e2f4cef0e219f463c179ab37463e4e1ecdccbafb"
 
+pop-iterate@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/pop-iterate/-/pop-iterate-1.0.1.tgz#ceacfdab4abf353d7a0f2aaa2c1fc7b3f9413ba3"
+
 posix-character-classes@^0.1.0:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/posix-character-classes/-/posix-character-classes-0.1.1.tgz#01eac0fe3b5af71a2a6c02feabb8c1fef7e00eab"
@@ -4868,6 +4906,14 @@ punycode@^2.1.0:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/punycode/-/punycode-2.1.1.tgz#b58b010ac40c22c5657616c8d2c2c02c7bf479ec"
 
+q@2.0.x:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/q/-/q-2.0.3.tgz#75b8db0255a1a5af82f58c3f3aaa1efec7d0d134"
+  dependencies:
+    asap "^2.0.0"
+    pop-iterate "^1.0.1"
+    weak-map "^1.0.5"
+
 qs@6.5.1:
   version "6.5.1"
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.5.1.tgz#349cdf6eef89ec45c12d7d5eb3fc0c870343a6d8"
@@ -5075,7 +5121,7 @@ request-promise@^4.2.2:
     stealthy-require "^1.1.0"
     tough-cookie ">=2.3.3"
 
-request@^2.78.0, request@^2.79.0, request@^2.81.0, request@^2.83.0, request@^2.85.0:
+request@^2.78.0, request@^2.79.0, request@^2.81.0, request@^2.83.0, request@^2.85.0, request@^2.87.0:
   version "2.87.0"
   resolved "https://registry.yarnpkg.com/request/-/request-2.87.0.tgz#32f00235cd08d482b4d0d68db93a829c0ed5756e"
   dependencies:
@@ -5170,6 +5216,10 @@ rimraf@^2.5.4, rimraf@^2.6.1, rimraf@^2.6.2:
   dependencies:
     glob "^7.0.5"
 
+rootpath@0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/rootpath/-/rootpath-0.1.2.tgz#5b379a87dca906e9b91d690a599439bef267ea6b"
+
 rsvp@^3.3.3:
   version "3.6.2"
   resolved "https://registry.yarnpkg.com/rsvp/-/rsvp-3.6.2.tgz#2e96491599a96cde1b515d5674a8f7a91452926a"
@@ -5224,6 +5274,10 @@ scandirectory@^2.5.0:
     ignorefs "^1.0.0"
     safefs "^3.1.2"
     taskgroup "^4.0.5"
+
+scmp@0.0.3:
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/scmp/-/scmp-0.0.3.tgz#3648df2d7294641e7f78673ffc29681d9bad9073"
 
 seek-bzip@^1.0.5:
   version "1.0.5"
@@ -5807,12 +5861,13 @@ trim-right@^1.0.1:
     winston "^2.4.2"
     winston-raven-sentry "^1.0.1"
 
-"ts-framework-notification@git+https://github.com/devnup/ts-framework-notification.git":
+ts-framework-notification@devnup/ts-framework-notification#feat/sms:
   version "1.2.1"
-  resolved "git+https://github.com/devnup/ts-framework-notification.git#79b8dacae412f8064f27ff5217d165892eb7352a"
+  resolved "https://codeload.github.com/devnup/ts-framework-notification/tar.gz/3a44d18f45d025286ad9512d10b1efc14c9c04e1"
   dependencies:
     "@types/email-templates" "^3.1.0"
     "@types/nodemailer" "^4.3.1"
+    "@types/twilio" "^0.0.9"
     cpx "^1.5.0"
     ejs "^2.5.7"
     email-templates "^3.1.7"
@@ -5820,6 +5875,8 @@ trim-right@^1.0.1:
     nodemailer "^4.4.0"
     rimraf "^2.6.2"
     ts-framework "git+http://github.com/devnup/ts-framework.git#1.0.0-rc.1"
+  optionalDependencies:
+    twilio "^3.17.3"
 
 ts-framework-validation@nxtep-io/ts-framework-validation#v2:
   version "2.0.0"
@@ -5972,6 +6029,20 @@ tunnel-agent@^0.6.0:
 tweetnacl@^0.14.3, tweetnacl@~0.14.0:
   version "0.14.5"
   resolved "https://registry.yarnpkg.com/tweetnacl/-/tweetnacl-0.14.5.tgz#5ae68177f192d4456269d108afa93ff8743f4f64"
+
+twilio@^3.17.3:
+  version "3.17.4"
+  resolved "https://registry.yarnpkg.com/twilio/-/twilio-3.17.4.tgz#9166cb0213b235356edfce232b5e6bd8e41276c4"
+  dependencies:
+    deprecate "1.0.0"
+    jsonwebtoken "^8.1.0"
+    lodash "^4.17.10"
+    moment "2.19.3"
+    q "2.0.x"
+    request "^2.87.0"
+    rootpath "0.1.2"
+    scmp "0.0.3"
+    xmlbuilder "9.0.1"
 
 type-check@~0.3.2:
   version "0.3.2"
@@ -6194,6 +6265,10 @@ watchr@~2.4.13:
     taskgroup "^4.2.0"
     typechecker "^2.0.8"
 
+weak-map@^1.0.5:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/weak-map/-/weak-map-1.0.5.tgz#79691584d98607f5070bd3b70a40e6bb22e401eb"
+
 web-resource-inliner@^4.2.0:
   version "4.2.1"
   resolved "https://registry.yarnpkg.com/web-resource-inliner/-/web-resource-inliner-4.2.1.tgz#a3ec33d85794675cb526cfb93d2115741869f8be"
@@ -6334,6 +6409,10 @@ xdg-basedir@^3.0.0:
 xml-name-validator@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/xml-name-validator/-/xml-name-validator-3.0.0.tgz#6ae73e06de4d8c6e47f9fb181f78d648ad457c6a"
+
+xmlbuilder@9.0.1:
+  version "9.0.1"
+  resolved "https://registry.yarnpkg.com/xmlbuilder/-/xmlbuilder-9.0.1.tgz#91cd70897755363eba57c12ddeeab4a341a61f65"
 
 xregexp@^2.0.0:
   version "2.0.0"

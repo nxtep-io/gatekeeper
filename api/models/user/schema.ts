@@ -38,30 +38,15 @@ export const UserSchema = new BaseSchema({
     },
   },
   phone: [{
-    countryCode: {
-      type: String,
-      required: true,
-    },
     number: {
       type: String,
-      // TODO: Should be unique if not null
-      unique: false,
+      unique: true,
       required: true,
     },
-    token: {
-      type: String,
-      default: () => {
-        const chance = new Chance();
-        const code = chance.hash({ casing: 'upper', length: 8 });
-      }
-    },
-    tokenExpires: {
-      type: Date,
-      default: () => moment().add(PHONE_CODE_EXPIRATION_MIN, 'minutes').toDate()
-    },
-    verified: {
-      type: Boolean,
-      default: false,
+    authorizationCode: {
+      required: true,
+      type: BaseSchema.Types.ObjectId,
+      ref: 'phoneAuthorizationCode',
     },
   }],
   role: {
