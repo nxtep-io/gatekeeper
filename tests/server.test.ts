@@ -19,6 +19,7 @@ describe("api.MainServer", () => {
       await mongoose.disconnect();
     }
     await mongoServer.stop();
+    process.exit(0);
   });
 
   it("should respond to a simple status request", async () => {
