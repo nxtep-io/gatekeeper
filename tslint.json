@@ -10,7 +10,7 @@
     "max-line-length": [true, 120],
     "no-var-self": false,
     "ordered-imports": true,
-    "strict-boolean-expressions": [true, "allow-null-union", "allow-undefined-union", "allow-string", "allow-number"],
+    "strict-boolean-expressions": false,
     "variable-name": false
   },
   "rulesDirectory": []

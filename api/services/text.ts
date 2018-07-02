@@ -1,7 +1,6 @@
-import { Text, TextMessage, TextServiceOptions, TextMessageSchema } from 'ts-framework-notification';
+import { Text, TextMessage, TextMessageSchema, TextServiceOptions } from "ts-framework-notification";
 
 export class TextService extends Text {
-
   /**
    * The singleton service instance.
    */
@@ -9,7 +8,7 @@ export class TextService extends Text {
 
   /**
    * Gets the singleton Text service.
-   * 
+   *
    * @param connectionUrl The Text connection url
    */
   public static getInstance(options?: TextServiceOptions): TextService {

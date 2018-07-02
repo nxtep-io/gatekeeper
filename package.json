@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node --require ts-node/register start.ts",
     "test": "jest --config jest.json",
-    "lint": "tslint --fix --config tslint.json --project ."
+    "lint": "tslint --config tslint.json --project ."
   },
   "husky": {
     "hooks": {
