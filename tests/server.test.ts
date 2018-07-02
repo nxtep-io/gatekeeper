@@ -27,7 +27,7 @@ describe("api.MainServer", () => {
 
     // Perform a simple request to get a 200 response
     await request(server.app)
-      .get("/")
+      .get("/status")
       .expect("Content-Type", /json/)
       .expect(200)
       .then(async response => {

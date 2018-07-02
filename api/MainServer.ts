@@ -39,7 +39,6 @@ export default class MainServer extends Server {
 
     // Setup priority routes, before controller router
     app.get("/", (req, res) => res.redirect("/status"));
-    app.use("/ui", express.static(path.join(__dirname, "../ui/dist")));
 
     // handle every other route with index.html, which will contain
     // a script tag to your application's JavaScript file(s).
