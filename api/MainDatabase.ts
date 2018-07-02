@@ -1,5 +1,5 @@
-import * as Package from 'pjson';
-import { MongoDatabase, MongoDatabaseOptions, BaseModel } from 'ts-framework-mongo';
+import * as Package from "pjson";
+import { BaseModel, MongoDatabase, MongoDatabaseOptions } from "ts-framework-mongo";
 
 export default class MainDatabase extends MongoDatabase {
   static instance: MainDatabase;
@@ -13,7 +13,7 @@ export default class MainDatabase extends MongoDatabase {
     if (!MainDatabase.instance) {
       MainDatabase.instance = new MainDatabase({
         ...options,
-        url: process.env.MONGO_URL || process.env.MONGODB_URI || `mongodb://localhost:27017/${Package.name}`,
+        url: process.env.MONGO_URL || process.env.MONGODB_URI || `mongodb://localhost:27017/${Package.name}`
       });
     }
     return MainDatabase.instance;

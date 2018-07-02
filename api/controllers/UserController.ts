@@ -1,24 +1,13 @@
-import {
-  Controller,
-  Get, Post, Delete, Put,
-  BaseRequest, BaseResponse,
-  HttpError, HttpCode,
-} from 'ts-framework';
+import { BaseRequest, BaseResponse, Controller, Delete, Get, HttpCode, HttpError, Post, Put } from "ts-framework";
 
-import { User, UserStatus, UserRole } from './../models';
-import { OAuth, Permissions, Query, Params } from '../filters';
+import { OAuth, Params, Permissions, Query } from "../filters";
+import { User, UserRole, UserStatus } from "./../models";
 
-export const DEFAULT_LIMIT = 25;
+export const DEFAULT_LIMIT = "25";
 
-@Controller('/users', [])
+@Controller("/users", [])
 export default class UserController {
-
-  @Get('/', [
-    OAuth.token,
-    Permissions.isRoot,
-    Query.pagination,
-    Params.isValidUserRole(true),
-  ])
+  @Get("/", [OAuth.token, Permissions.isRoot, Query.pagination, Params.isValidUserRole(true)])
   public static async findAll(req: BaseRequest, res: BaseResponse) {
     const { role, status = UserStatus.ACTIVE } = req.query;
     const q = { status } as any;
@@ -30,40 +19,40 @@ export default class UserController {
     // Perform parallel queries
     const [results, count] = await Promise.all([
       User.find(q, null, { limit: DEFAULT_LIMIT, ...req.query.pagination }),
-      User.count(q),
+      User.count(q)
     ]);
 
     // Set pagination headers and return results
-    res.set('X-Data-Length', count);
-    res.set('X-Data-Skip', req.query.skip || 0);
-    res.set('X-Data-Limit', req.query.limit || DEFAULT_LIMIT);
+    res.set("X-Data-Length", count);
+    res.set("X-Data-Skip", req.query.skip || "0");
+    res.set("X-Data-Limit", req.query.limit || DEFAULT_LIMIT);
 
     // Return the results
     res.success(results);
   }
 
-  @Get('/me', [OAuth.token])
+  @Get("/me", [OAuth.token])
   public static async current(req: BaseRequest, res: BaseResponse) {
     res.success(req.user);
   }
 
-  @Get('/:id', [OAuth.token, Permissions.isRoot, Params.isValidId])
+  @Get("/:id", [OAuth.token, Permissions.isRoot, Params.isValidId])
   public static async findById(req: BaseRequest, res: BaseResponse) {
-    const found = await User.findOne({ _id: req.param('id') });
+    const found = await User.findOne({ _id: req.param("id") });
     if (found) {
       res.success(found);
     } else {
-      throw new HttpError('User not found', HttpCode.Client.NOT_FOUND);
+      throw new HttpError("User not found", HttpCode.Client.NOT_FOUND);
     }
   }
 
   // TODO: Add validations to parameters
-  @Post('/', [
+  @Post("/", [
     Params.isValidEmail,
     Params.isValidName,
     Params.isValidPassword,
     Params.isValidUserRole(true),
-    Params.isValidUserStatus(true),
+    Params.isValidUserStatus(true)
   ])
   public static async create(req: BaseRequest, res: BaseResponse) {
     // TODO: Disable public user creation based on setting
@@ -76,25 +65,25 @@ export default class UserController {
 
       // The fields below should not be input by a simple user
       status: req.user && req.user.role === UserRole.ROOT ? req.body.status : UserStatus.ACTIVE,
-      role: req.user && req.user.role === UserRole.ROOT ? req.body.role : UserRole.USER,
+      role: req.user && req.user.role === UserRole.ROOT ? req.body.role : UserRole.USER
     });
 
     if (user) {
       res.success(user);
     } else {
-      throw new HttpError('Could not create user, unknown error', HttpCode.Server.INTERNAL_SERVER_ERROR, { user });
+      throw new HttpError("Could not create user, unknown error", HttpCode.Server.INTERNAL_SERVER_ERROR, { user });
     }
   }
 
-  @Put('/:id', [OAuth.token])
+  @Put("/:id", [OAuth.token])
   public static async updateUser(req: BaseRequest, res: BaseResponse) {
     const changes = {} as any;
-    const user = await User.findOne({ _id: req.param('id') });
+    const user = await User.findOne({ _id: req.param("id") });
 
     if (!user) {
-      throw new HttpError('User not found', HttpCode.Client.NOT_FOUND);
+      throw new HttpError("User not found", HttpCode.Client.NOT_FOUND);
     } else if (user.id !== req.user.id && req.user.role !== UserRole.ROOT) {
-      throw new HttpError('Forbidden', HttpCode.Client.FORBIDDEN);
+      throw new HttpError("Forbidden", HttpCode.Client.FORBIDDEN);
     }
 
     if (req.body.password) {
@@ -120,19 +109,19 @@ export default class UserController {
     res.success(await User.findOneAndUpdate({ _id: user._id }, { $set: changes }, { runValidators: true, new: true }));
   }
 
-  @Delete('/:id', [OAuth.token, Permissions.isRoot, Params.isValidId])
+  @Delete("/:id", [OAuth.token, Permissions.isRoot, Params.isValidId])
   public static async deleteUser(req: BaseRequest, res: BaseResponse) {
     let result;
 
-    if (req.param('force')) {
+    if (req.param("force")) {
       // Hard removal of the user, may lead to database corruption
-      result = await User.remove({ _id: req.param('id') });
+      result = await User.remove({ _id: req.param("id") });
     } else {
       // Soft removal of the user, safer method for disabling it
       result = await User.findOneAndUpdate(
-        { _id: req.param('id') },
+        { _id: req.param("id") },
         { $set: { status: UserStatus.INACTIVE } },
-        { new: true },
+        { new: true }
       );
     }
 

@@ -1,9 +1,9 @@
-import { UserRole } from '../../models/user';
-import { HttpError, HttpCode } from 'ts-framework';
+import { HttpCode, HttpError } from "ts-framework";
+import { UserRole } from "../../models/user";
 
 /**
  * Ensures the user has a Root role.
- * 
+ *
  * @param req The express request
  * @param res The express response
  * @param next The express next middleware in chain

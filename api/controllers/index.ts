@@ -1,14 +1,14 @@
-import StatusController from './StatusController';
+import StatusController from "./StatusController";
 
-import UserController from './UserController';
-import PasswordController from './PasswordController';
-import SettingsController from './SettingsController';
-import PhoneController from './PhoneController';
+import PasswordController from "./PasswordController";
+import PhoneController from "./PhoneController";
+import SettingsController from "./SettingsController";
+import UserController from "./UserController";
 
-import OAuthController from './OAuthController';
-import OAuthAccessTokenController from './OAuthAccessTokenController';
-import OAuthClientController from './OAuthClientController';
-import AnalyticsController from './AnalyticsController';
+import AnalyticsController from "./AnalyticsController";
+import OAuthAccessTokenController from "./OAuthAccessTokenController";
+import OAuthClientController from "./OAuthClientController";
+import OAuthController from "./OAuthController";
 
 export default {
   AnalyticsController,
@@ -19,5 +19,5 @@ export default {
   OAuthClientController,
   OAuthAccessTokenController,
   SettingsController,
-  PhoneController,
+  PhoneController
 };
