@@ -3,7 +3,7 @@ import { BaseRequest, BaseResponse, Controller, Delete, Get, HttpCode, HttpError
 import { OAuth, Params, Permissions, Query } from "../filters";
 import { OAuthAccessToken } from "./../models";
 
-export const DEFAULT_LIMIT = 25;
+export const DEFAULT_LIMIT = "25";
 
 @Controller("/tokens", [OAuth.token])
 export default class OAuthAccessTokenController {
@@ -30,8 +30,8 @@ export default class OAuthAccessTokenController {
 
     // Set pagination headers and return results
     res.set("X-Data-Length", count);
-    res.set("X-Data-Skip", req.query.skip as number || 0);
-    res.set("X-Data-Limit", req.query.limit as number || DEFAULT_LIMIT);
+    res.set("X-Data-Skip", req.query.skip || "0");
+    res.set("X-Data-Limit", req.query.limit || DEFAULT_LIMIT);
 
     // Return the results
     res.success(
