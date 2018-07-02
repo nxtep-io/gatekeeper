@@ -1,12 +1,10 @@
-import * as Package from 'pjson';
-import { Controller, Post, HttpError, HttpCode } from 'ts-framework';
-import { OAuth } from '../filters';
-import { OAuthAccessToken } from '../models';
+import { Controller, HttpCode, HttpError, Post } from "ts-framework";
+import { OAuth } from "../filters";
+import { OAuthAccessToken } from "../models";
 
-@Controller('/oauth', [])
+@Controller("/oauth", [])
 export default class OAuthController {
-
-  @Post('/revoke', [OAuth.token, OAuth.hasValidRevoke])
+  @Post("/revoke", [OAuth.token, OAuth.hasValidRevoke])
   public static async revoke(req, res) {
     let response = { ok: false } as any;
 
@@ -15,9 +13,8 @@ export default class OAuthController {
       // Always ensure the token being revoked belongs to current user
       response = await OAuthAccessToken.revoke({
         user: req.user._id,
-        accessToken: req.query.accessToken,
+        accessToken: req.query.accessToken
       });
-
     } else {
       // Revoke all user's tokens in a single operation
       // Always ensure the token being revoked belongs to current user
@@ -28,9 +25,9 @@ export default class OAuthController {
 
     // TODO: Remove all push notification tokens from user account
     if (!response.nModified) {
-      throw new HttpError('No access tokens were found to revoke', HttpCode.Client.NOT_FOUND, {
+      throw new HttpError("No access tokens were found to revoke", HttpCode.Client.NOT_FOUND, {
         revoked: false,
-        count: 0,
+        count: 0
       });
     } else {
       res.success({ revoked: true, count: response.nModified });

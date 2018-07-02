@@ -1,17 +1,14 @@
-import * as uuid from 'uuid';
-import * as moment from 'moment';
-import * as mongoose from 'mongoose';
-import User, { UserModel, UserStatus } from '../user';
-import Config from '../../../config';
-import { default as OAuthClient } from './oauthClient/index';
-import OAuthAccessToken, { OAuthAccessTokenModel } from './oauthAccessToken';
-import { ObjectId } from 'bson';
+import { ObjectId } from "bson";
+import * as mongoose from "mongoose";
+import Config from "../../../config";
+import User, { UserModel, UserStatus } from "../user";
+import OAuthAccessToken, { OAuthAccessTokenModel } from "./oauthAccessToken";
+import { default as OAuthClient } from "./oauthClient/index";
 
 export default class OAuth2Middleware {
-
   /**
    * Gets an OAuth 2.0 Client instance from database.
-   * 
+   *
    * @param clientId The client id
    * @param clientSecret The client secret
    */
@@ -29,7 +26,7 @@ export default class OAuth2Middleware {
       return {
         redirectUris: [],
         grants: Config.oauth.grantTypes,
-        ...(client.toJSON ? client.toJSON() : client),
+        ...(client.toJSON ? client.toJSON() : client)
       };
     }
 
@@ -38,7 +35,7 @@ export default class OAuth2Middleware {
 
   /**
    * Gets an OAuth 2.0 Client instance from database.
-   * 
+   *
    * @param clientId The client id
    * @param clientSecret The client secret
    */
@@ -55,7 +52,7 @@ export default class OAuth2Middleware {
       // Ensure is a plain object with the secret
       client = {
         clientSecret: client.clientSecret,
-        ...(client.toJSON ? client.toJSON() : client),
+        ...(client.toJSON ? client.toJSON() : client)
       };
     }
 
@@ -64,13 +61,13 @@ export default class OAuth2Middleware {
 
   /**
    * Gets an user based on email and password credentials.
-   * 
+   *
    * @param email The user username or email
    * @param password The user password
    */
   static async getUser(email: string, password: string): Promise<UserModel> {
-    const user = await User.findOne({ email, status: UserStatus.ACTIVE }) as UserModel;
-    if (user && await user.validatePassword(password)) {
+    const user = (await User.findOne({ email, status: UserStatus.ACTIVE })) as UserModel;
+    if (user && (await user.validatePassword(password))) {
       return user;
     }
     return null;
@@ -78,7 +75,7 @@ export default class OAuth2Middleware {
 
   /**
    * Gets an User instance from database.
-   * 
+   *
    * @param id The user id
    */
   static async getUserById({ id }) {
@@ -94,7 +91,7 @@ export default class OAuth2Middleware {
 
   /**
    * Gets a virtual user for a client credentials authentication.
-   * 
+   *
    * @param client The oauth client
    */
   static async getUserFromClient(client: string): Promise<any> {
@@ -104,13 +101,13 @@ export default class OAuth2Middleware {
       _id,
       id: _id,
       virtual: true,
-      clientId: client,
+      clientId: client
     };
   }
 
   /**
    * Saves a new access token on the database.
-   * 
+   *
    * @param token The token instance
    * @param client The client instance
    * @param user The user instance
@@ -121,7 +118,7 @@ export default class OAuth2Middleware {
 
   /**
    * Gets an OAuth 2.0 Access Token from the database.
-   * 
+   *
    * @param accessToken The access token
    */
   static async getAccessToken(accessToken): Promise<OAuthAccessTokenModel> {
@@ -139,7 +136,7 @@ export default class OAuth2Middleware {
       // Handle client id types
       if (token.client instanceof ObjectId) {
         clientId = token.client.toString();
-      } else if (typeof token.client.id === typeof 'a') {
+      } else if (typeof token.client.id === typeof "a") {
         clientId = token.client.id;
       } else {
         clientId = token.client;
@@ -155,16 +152,16 @@ export default class OAuth2Middleware {
         // Handle user id types
         if (token.user instanceof ObjectId) {
           userId = token.user.toString();
-        } else if (typeof token.user.id === typeof 'a') {
+        } else if (typeof token.user.id === typeof "a") {
           userId = token.user.id;
         } else {
           userId = token.user;
         }
 
-        token.user = await this.getUserById({ id: userId }) || {
+        token.user = (await this.getUserById({ id: userId })) || {
           id: token.user,
           virtual: true,
-          client: token.client,
+          client: token.client
         };
       }
 

@@ -1,3 +1,3 @@
-import pagination from './pagination';
+import pagination from "./pagination";
 
 export default { pagination };

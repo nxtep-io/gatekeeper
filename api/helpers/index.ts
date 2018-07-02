@@ -1,1 +1,1 @@
-export { default as ImpersonateGrantType } from './ImpersonateGrantType';
+export { default as ImpersonateGrantType } from "./ImpersonateGrantType";

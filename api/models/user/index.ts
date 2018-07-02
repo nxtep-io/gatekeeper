@@ -1,9 +1,9 @@
-import * as uuid from 'uuid';
-import * as moment from 'moment';
-import * as crypto from 'crypto';
-import { BaseModel, Model } from 'ts-framework-mongo';
-import { UserSchema, UserRole, UserStatus } from './schema';
-import MainDatabase from './../../MainDatabase';
+import * as crypto from "crypto";
+import * as moment from "moment";
+import { BaseModel, Model } from "ts-framework-mongo";
+import * as uuid from "uuid";
+import MainDatabase from "./../../MainDatabase";
+import { UserRole, UserSchema, UserStatus } from "./schema";
 
 export { UserRole, UserStatus };
 
@@ -12,22 +12,22 @@ const PASSWORD_SECRET_EXPIRES_IN_DAYS = 7;
 
 export function genHash(password, salt) {
   return new Promise((resolve, reject) => {
-    crypto.pbkdf2(password, new Buffer(salt, 'hex'), 100000, 512, 'sha512', (err, key) => {
+    crypto.pbkdf2(password, new Buffer(salt, "hex"), 100000, 512, "sha512", (err, key) => {
       if (err) {
         reject(err);
         return;
       }
-      resolve(key.toString('hex'));
+      resolve(key.toString("hex"));
     });
   });
 }
 
 export function genPassword(password) {
-  const salt = crypto.randomBytes(128).toString('hex');
+  const salt = crypto.randomBytes(128).toString("hex");
   return genHash(password, salt).then(hash => ({ salt, hash }));
 }
 
-@Model('user')
+@Model("user")
 export class UserModel extends BaseModel {
   /**
    * The User schema definition.
@@ -36,7 +36,7 @@ export class UserModel extends BaseModel {
 
   /**
    * Create a new user instance.
-   * 
+   *
    * @param {Object} data The user information
    * @param {String} data.name The user name
    * @param {String} data.email The user email
@@ -63,23 +63,23 @@ export class UserModel extends BaseModel {
 
   /**
    * Gets an User by a valid secret token.
-   * 
+   *
    * @param secretToken The password secret token
    */
   public static async getBySecretToken(secretToken: string) {
     return await this.findOne({
-      'password.secret.token': secretToken,
-      'password.secret.expiresAt': { $gt: new Date() },
+      "password.secret.token": secretToken,
+      "password.secret.expiresAt": { $gt: new Date() }
     });
   }
 
   /**
-    * Hashes and saves the user password.
-    *
-    * @param {String} password The new password
-    *
-    * @returns {Promise<any>}
-    */
+   * Hashes and saves the user password.
+   *
+   * @param {String} password The new password
+   *
+   * @returns {Promise<any>}
+   */
   protected async savePassword(password: string) {
     const { salt, hash } = await genPassword(password);
     this.password.salt = salt;
@@ -98,16 +98,16 @@ export class UserModel extends BaseModel {
     if (!password || !this.password || !this.password.salt || !this.password.hash) {
       return false;
     }
-    return genHash(password, this.password.salt).then(newHash => (newHash === this.password.hash));
+    return genHash(password, this.password.salt).then(newHash => newHash === this.password.hash);
   }
 
   /**
    * Generate a new secret token for a password reset request.
    */
-  public async generateSecretToken(): Promise<{ secret: string, expiresAt: Date }> {
+  public async generateSecretToken(): Promise<{ secret: string; expiresAt: Date }> {
     const token = uuid.v4();
-    const expiresAt = moment().add('days', PASSWORD_SECRET_EXPIRES_IN_DAYS);
-    await this.update({ $set: { 'password.secret': { token, expiresAt } } });
+    const expiresAt = moment().add("days", PASSWORD_SECRET_EXPIRES_IN_DAYS);
+    await this.update({ $set: { "password.secret": { token, expiresAt } } });
     return { secret: token, expiresAt: expiresAt.toDate() };
   }
 
@@ -115,12 +115,12 @@ export class UserModel extends BaseModel {
    * Clears the user secret token.
    */
   public async clearSecretToken(): Promise<void> {
-    return this.update({ $set: { 'password.secret': {} } });
+    return this.update({ $set: { "password.secret": {} } });
   }
 
   /**
    * Converts the user instance to a plain object.
-   * 
+   *
    * @returns {Object}
    */
   public toJSON(): Object {

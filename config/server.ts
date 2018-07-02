@@ -1,3 +1,4 @@
+import SmsConfig from './sms';
 import SmtpConfig from './smtp';
 import OAuthConfig from './oauth';
 import { OAuthClientJob, OAuthRootUserJob } from '../api/jobs';
@@ -6,6 +7,7 @@ export default {
   cors: true,
   userAgent: true,
   smtp: SmtpConfig,
+  sms: SmsConfig,
   newrelic: process.env.NEW_RELIC_KEY,
   env: process.env.NODE_ENV || 'development',
   port: process.env.PORT as any || 3000,
