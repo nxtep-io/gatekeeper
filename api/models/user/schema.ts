@@ -37,13 +37,13 @@ export const UserSchema = new BaseSchema({
       validator: (email: string) => EMAIL_REGEX.test(email),
     },
   },
-  phone: [{
+  phones: [{
+    _id: false,
     number: {
       type: String,
-      unique: true,
       required: true,
     },
-    authorizationCode: {
+    authorization: {
       required: true,
       type: BaseSchema.Types.ObjectId,
       ref: 'phoneAuthorizationCode',

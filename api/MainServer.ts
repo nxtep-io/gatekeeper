@@ -92,8 +92,8 @@ export default class MainServer extends Server {
     } else {
       // TODO: Crash the API for safety or log email sendings in console
       this.logger.warn(
-        'MainServer: Error in startup, the email connection url is not available' +
-        '. Set it using the SMTP_URL env variable.',
+        'MainServer: The Email service connection url is not available' +
+        ', set it using the SMTP_URL env variable or in the "config/smtp.ts" file',
       );
       EmailService.getInstance({ from: 'example@company.com', ...this.config.smtp, });
     }
@@ -103,7 +103,7 @@ export default class MainServer extends Server {
       TextService.getInstance({ ...this.config.sms });
     } else {
       // TODO: Crash the API for safety or log email sendings in console
-      this.logger.warn('MainServer: Error in startup, the SMS gateway is not available');
+      this.logger.warn('MainServer: The SMS gateway is unavailable, configure it using the "config/sms.ts" file');
       TextService.getInstance({ from: '', gateway: TextGateway.DEBUG });
     }
 

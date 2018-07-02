@@ -41,11 +41,13 @@ export default class OAuthPhoneController {
    * @param req The express request
    * @param res The express response
    */
-  @Post('/verify', [Params.isValidPhoneNumber])
+  @Post('/verify', [
+    // TODO: Filter body to validate input
+  ])
   static async verify(req, res) {
     const authorizationCode = await PhoneAuthorizationCode.verifyCode(
       req.body.authorizationId,
-      req.body.code,
+      req.body.authorizationCode,
       req.user,
     );
 
@@ -53,7 +55,7 @@ export default class OAuthPhoneController {
       await User.update({ _id: req.user.id }, {
         $push: {
           phones: {
-            phone: authorizationCode.phone,
+            number: authorizationCode.phone,
             authorization: authorizationCode.id,
           }
         }
@@ -61,6 +63,6 @@ export default class OAuthPhoneController {
       return res.success({ verified: true });
     }
 
-    throw new HttpError('Invalid or expired authorization code', HttpCode.Client.NOT_FOUND);
+    throw new HttpError('Invalid or expired authorization code', HttpCode.Client.FORBIDDEN);
   }
 }
