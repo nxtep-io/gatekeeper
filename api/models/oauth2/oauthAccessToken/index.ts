@@ -1,5 +1,15 @@
 import * as moment from "moment";
-import { BaseEntity, Column, Entity, Index, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import {
+  BaseEntity,
+  Column,
+  DeepPartial,
+  Entity,
+  Index,
+  ManyToMany,
+  ManyToOne,
+  MoreThan,
+  PrimaryGeneratedColumn
+} from "typeorm";
 import User from "../../user";
 import OAuthClient from "../oauthClient";
 
@@ -24,12 +34,68 @@ export default class OAuthAccessToken extends BaseEntity {
   @ManyToOne(type => OAuthClient, client => client.accessTokens)
   client: OAuthClient;
 
+  @Column({ nullable: true })
+  ip: string;
+
+  @Column({ nullable: true })
+  browser: string;
+
+  @Column({ nullable: true })
+  version: string;
+
+  @Column({ nullable: true })
+  os: string;
+
+  @Column({ nullable: true })
+  platform: string;
+
+  @Column({ nullable: true })
+  source: string;
+
   constructor(data: Partial<OAuthAccessToken> = {}) {
     super();
     this.id = data.id;
     this.accessToken = data.accessToken;
     this.tokenType = data.tokenType;
     this.expires = data.expires;
+    this.id = data.ip;
+    this.browser = data.browser;
+    this.version = data.version;
+    this.os = data.os;
+    this.platform = data.platform;
+    this.source = data.source;
+  }
+
+  /**
+   * Updates an access token setting its user agent stuff.
+   *
+   * @param accessToken The acess token to be updated
+   * @param ip The client ip
+   * @param userAgent The user agent information
+   */
+  public static async updateUserAgent(accessToken: string, ip: string, userAgent: any) {
+    const ua = {
+      ip,
+      browser: userAgent.browser,
+      version: userAgent.version,
+      os: userAgent.os,
+      platform: userAgent.browser.platform,
+      source: userAgent.source
+    };
+
+    await this.update({ accessToken }, { ...ua });
+    return ua;
+  }
+
+  /**
+   * Revokes access tokens based on specified conditions.
+   *
+   * @param conditions
+   * @param options
+   */
+  public static async revoke(conditions: Partial<OAuthAccessToken>) {
+    const now = new Date();
+    return this.update({ ...conditions, expires: MoreThan(now) as DeepPartial<Date> }, { expires: now });
   }
 
   /**

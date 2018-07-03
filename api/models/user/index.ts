@@ -65,9 +65,7 @@ export default class User extends BaseEntity {
   /**
    * Validates if supplied password matches the currently saved one.
    *
-   * @param {String} password
-   *
-   * @returns {Promise<any>}
+   * @param password The password candidate that will be matched
    */
   public async validatePassword(password): Promise<boolean> {
     if (!password || !this.passwordHash || !this.passwordSalt || !this.passwordHash) {
@@ -80,11 +78,9 @@ export default class User extends BaseEntity {
   /**
    * Hashes and saves the user password.
    *
-   * @param {String} password The new password
-   *
-   * @returns {Promise<any>}
+   * @param password The new password
    */
-  protected async savePassword(password: string) {
+  public async savePassword(password: string) {
     const { salt, hash } = await genPassword(password);
     this.passwordSalt = salt;
     this.passwordHash = hash;

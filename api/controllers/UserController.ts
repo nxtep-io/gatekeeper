@@ -17,10 +17,12 @@ export default class UserController {
     }
 
     // Perform parallel queries
-    const [results, count] = await Promise.all([
-      User.find(q, null, { limit: DEFAULT_LIMIT, ...req.query.pagination }),
-      User.count(q)
-    ]);
+    // TODO: Pagination
+    const [results, count]: [User[], any] = await User.findAndCount({
+      where: q,
+      skip: req.query.skip,
+      take: req.query.limit
+    });
 
     // Set pagination headers and return results
     res.set("X-Data-Length", count);
@@ -38,7 +40,7 @@ export default class UserController {
 
   @Get("/:id", [OAuth.token, Permissions.isRoot, Params.isValidId])
   public static async findById(req: BaseRequest, res: BaseResponse) {
-    const found = await User.findOne({ _id: req.param("id") });
+    const found = await User.findOne(req.param("id"));
     if (found) {
       res.success(found);
     } else {
@@ -61,14 +63,13 @@ export default class UserController {
       // Basic user info
       name: req.body.name,
       email: req.body.email,
-      password: req.body.password,
-
       // The fields below should not be input by a simple user
       status: req.user && req.user.role === UserRole.ROOT ? req.body.status : UserStatus.ACTIVE,
       role: req.user && req.user.role === UserRole.ROOT ? req.body.role : UserRole.USER
     });
 
     if (user) {
+      await user.savePassword(req.body.password);
       res.success(user);
     } else {
       throw new HttpError("Could not create user, unknown error", HttpCode.Server.INTERNAL_SERVER_ERROR, { user });
@@ -78,7 +79,7 @@ export default class UserController {
   @Put("/:id", [OAuth.token])
   public static async updateUser(req: BaseRequest, res: BaseResponse) {
     const changes = {} as any;
-    const user = await User.findOne({ _id: req.param("id") });
+    const user = await User.findOne(req.param("id"));
 
     if (!user) {
       throw new HttpError("User not found", HttpCode.Client.NOT_FOUND);
@@ -106,7 +107,7 @@ export default class UserController {
       }
     }
 
-    res.success(await User.findOneAndUpdate({ _id: user._id }, { $set: changes }, { runValidators: true, new: true }));
+    res.success(await User.update({ id: user.id }, { ...changes }));
   }
 
   @Delete("/:id", [OAuth.token, Permissions.isRoot, Params.isValidId])
@@ -115,14 +116,10 @@ export default class UserController {
 
     if (req.param("force")) {
       // Hard removal of the user, may lead to database corruption
-      result = await User.remove({ _id: req.param("id") });
+      result = await User.remove(req.param("id"));
     } else {
       // Soft removal of the user, safer method for disabling it
-      result = await User.findOneAndUpdate(
-        { _id: req.param("id") },
-        { $set: { status: UserStatus.INACTIVE } },
-        { new: true }
-      );
+      result = await User.update({ id: req.param("id") }, { status: UserStatus.INACTIVE });
     }
 
     res.success(result);

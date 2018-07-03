@@ -1,5 +1,5 @@
 {
-  "name": "nxtep-io-gatekeeper",
+  "name": "ecv-gatekeeper",
   "version": "0.1.0",
   "main": "index.js",
   "license": "MIT",
@@ -25,6 +25,7 @@
     "bluebird": "^3.5.1",
     "chance": "^1.0.16",
     "moment": "^2.22.1",
+    "pg": "^7.4.3",
     "pjson": "^1.0.9",
     "ts-framework": "nxtep-io/ts-framework#v2",
     "ts-framework-notification": "devnup/ts-framework-notification#feat/sms",

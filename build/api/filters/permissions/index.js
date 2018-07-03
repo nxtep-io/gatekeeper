@@ -1,0 +1,8 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const isRoot_1 = require("./isRoot");
+exports.isRoot = isRoot_1.default;
+const isUser_1 = require("./isUser");
+exports.isUser = isUser_1.default;
+exports.default = { isRoot: isRoot_1.default, isUser: isUser_1.default };
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiaW5kZXguanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyIuLi8uLi8uLi8uLi9hcGkvZmlsdGVycy9wZXJtaXNzaW9ucy9pbmRleC50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUFBLHFDQUE4QjtBQUdiLGlCQUhWLGdCQUFNLENBR1U7QUFGdkIscUNBQThCO0FBRXJCLGlCQUZGLGdCQUFNLENBRUU7QUFDZixrQkFBZSxFQUFFLE1BQU0sRUFBTixnQkFBTSxFQUFFLE1BQU0sRUFBTixnQkFBTSxFQUFFLENBQUMiLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgaXNSb290IGZyb20gXCIuL2lzUm9vdFwiO1xuaW1wb3J0IGlzVXNlciBmcm9tIFwiLi9pc1VzZXJcIjtcblxuZXhwb3J0IHsgaXNVc2VyLCBpc1Jvb3QgfTtcbmV4cG9ydCBkZWZhdWx0IHsgaXNSb290LCBpc1VzZXIgfTtcbiJdfQ==

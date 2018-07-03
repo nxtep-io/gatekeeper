@@ -18,7 +18,7 @@ export default class MainDatabase extends EntityDatabase {
   protected static readonly instance: MainDatabase = new MainDatabase({
     connectionOpts: {
       ...Config.database,
-      entities: Object.values(Models)
+      entities: [Models.OAuthAccessToken, Models.OAuthClient, Models.User]
     }
   } as any);
 
