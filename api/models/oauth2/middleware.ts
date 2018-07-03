@@ -1,8 +1,9 @@
 import { ObjectId } from "bson";
 import * as mongoose from "mongoose";
+import { MoreThan } from "typeorm";
 import Config from "../../../config";
-import User, { UserModel, UserStatus } from "../user";
-import OAuthAccessToken, { OAuthAccessTokenModel } from "./oauthAccessToken";
+import User, { UserStatus } from "../user";
+import OAuthAccessToken from "./oauthAccessToken";
 import { default as OAuthClient } from "./oauthClient/index";
 
 export default class OAuth2Middleware {
@@ -43,7 +44,7 @@ export default class OAuth2Middleware {
     let client;
 
     try {
-      client = await OAuthClient.findOne({ _id: id });
+      client = await OAuthClient.findOne(id);
     } catch (exception) {
       console.error(exception);
     }
@@ -65,8 +66,8 @@ export default class OAuth2Middleware {
    * @param email The user username or email
    * @param password The user password
    */
-  static async getUser(email: string, password: string): Promise<UserModel> {
-    const user = (await User.findOne({ email, status: UserStatus.ACTIVE })) as UserModel;
+  static async getUser(email: string, password: string): Promise<User> {
+    const user = await User.findOne({ email, status: UserStatus.ACTIVE });
     if (user && (await user.validatePassword(password))) {
       return user;
     }
@@ -79,7 +80,7 @@ export default class OAuth2Middleware {
    * @param id The user id
    */
   static async getUserById({ id }) {
-    let user = await User.findOne({ _id: id });
+    let user: any = await User.findOne(id);
 
     if (user) {
       // Ensure is a plain object with the secret
@@ -121,17 +122,19 @@ export default class OAuth2Middleware {
    *
    * @param accessToken The access token
    */
-  static async getAccessToken(accessToken): Promise<OAuthAccessTokenModel> {
+  static async getAccessToken(accessToken): Promise<OAuthAccessToken> {
     const now = new Date();
 
     // Gets instance from database ensuring its expiration
-    let token = await OAuthAccessToken.findOne({ accessToken, expires: { $gt: now } });
+    const token: any = await OAuthAccessToken.findOne({
+      where: {
+        accessToken,
+        expires: MoreThan(now)
+      }
+    });
 
     if (token) {
       let clientId;
-
-      // Ensure is a plain object
-      token = token.toJSON ? token.toJSON() : token;
 
       // Handle client id types
       if (token.client instanceof ObjectId) {

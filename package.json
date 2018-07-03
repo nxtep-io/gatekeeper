@@ -27,8 +27,8 @@
     "moment": "^2.22.1",
     "pjson": "^1.0.9",
     "ts-framework": "nxtep-io/ts-framework#v2",
-    "ts-framework-mongo": "git+https://github.com/nxtep-io/ts-framework-mongo.git#master",
     "ts-framework-notification": "devnup/ts-framework-notification#feat/sms",
+    "ts-framework-sql": "git+ssh://git@github.com:estudarcomvoce/ts-framework-sql.git#master",
     "ts-framework-validation": "nxtep-io/ts-framework-validation#v2",
     "ts-node": "^3.3.0"
   },

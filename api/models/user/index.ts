@@ -1,76 +1,80 @@
-import * as crypto from "crypto";
-import * as moment from "moment";
-import { BaseModel, Model } from "ts-framework-mongo";
-import * as uuid from "uuid";
-import MainDatabase from "./../../MainDatabase";
-import { UserRole, UserSchema, UserStatus } from "./schema";
+import { BaseEntity, Column, Entity, Index, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { OAuthAccessToken } from "..";
+import { genHash, genPassword } from "./helpers";
 
-export { UserRole, UserStatus };
+/**
+ * TODO: Move to config
+ */
+export const EMAIL_REGEX = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
-// TODO: Move this to a config file
-const PASSWORD_SECRET_EXPIRES_IN_DAYS = 7;
-
-export function genHash(password, salt) {
-  return new Promise((resolve, reject) => {
-    crypto.pbkdf2(password, new Buffer(salt, "hex"), 100000, 512, "sha512", (err, key) => {
-      if (err) {
-        reject(err);
-        return;
-      }
-      resolve(key.toString("hex"));
-    });
-  });
+export enum UserStatus {
+  ACTIVE = "active",
+  INACTIVE = "inactive"
 }
 
-export function genPassword(password) {
-  const salt = crypto.randomBytes(128).toString("hex");
-  return genHash(password, salt).then(hash => ({ salt, hash }));
+export enum UserRole {
+  ROOT = "root",
+  USER = "user"
 }
 
-@Model("user")
-export class UserModel extends BaseModel {
-  /**
-   * The User schema definition.
-   */
-  static Schema = UserSchema;
+@Entity(User.tableName)
+export default class User extends BaseEntity {
+  private static readonly tableName = "user";
 
-  /**
-   * Create a new user instance.
-   *
-   * @param {Object} data The user information
-   * @param {String} data.name The user name
-   * @param {String} data.email The user email
-   * @param {String} data.role The user role
-   * @param {String} [data.password] The user password.
-   */
-  public static async create(data) {
-    const { name, email, password, role } = data;
+  @PrimaryGeneratedColumn("uuid") id: string;
 
-    // TODO: Ensure password or Social auth
-    // TODO: Encrypt password information and ensure password min length
-    const user = await super.create({ name, email, role });
+  @Column({ nullable: false })
+  name: string;
 
-    try {
-      // Try to save password safely
-      await user.savePassword(password);
-    } catch (error) {
-      // Remove user before continuing...
-      await user.delete();
-      throw error;
-    }
-    return user;
+  @Column({ nullable: false, unique: true })
+  email: string;
+
+  @Column({ nullable: false, unique: true })
+  facebookId: string;
+
+  @Column({ nullable: false })
+  status: UserStatus;
+
+  @Column({ nullable: false })
+  role: UserRole;
+
+  @Column({ nullable: false })
+  passwordSalt: string;
+
+  @Column({ nullable: false })
+  passwordHash: string;
+
+  @OneToMany(type => OAuthAccessToken, token => token.user)
+  accessTokens: OAuthAccessToken;
+
+  constructor(data: Partial<User> = {}) {
+    super();
+    this.id = data.id;
+    this.name = data.name;
+    this.email = data.email;
+    this.facebookId = data.facebookId;
+    this.role = data.role || UserRole.USER;
+    this.status = data.status || UserStatus.ACTIVE;
+
+    // Private properties
+    this.passwordHash = data.passwordHash;
+    this.passwordSalt = data.passwordSalt;
+    this.accessTokens = data.accessTokens;
   }
 
   /**
-   * Gets an User by a valid secret token.
+   * Validates if supplied password matches the currently saved one.
    *
-   * @param secretToken The password secret token
+   * @param {String} password
+   *
+   * @returns {Promise<any>}
    */
-  public static async getBySecretToken(secretToken: string) {
-    return await this.findOne({
-      "password.secret.token": secretToken,
-      "password.secret.expiresAt": { $gt: new Date() }
-    });
+  public async validatePassword(password): Promise<boolean> {
+    if (!password || !this.passwordHash || !this.passwordSalt || !this.passwordHash) {
+      return false;
+    }
+    const newHash = await genHash(password, this.passwordSalt);
+    return newHash === this.passwordHash;
   }
 
   /**
@@ -82,54 +86,22 @@ export class UserModel extends BaseModel {
    */
   protected async savePassword(password: string) {
     const { salt, hash } = await genPassword(password);
-    this.password.salt = salt;
-    this.password.hash = hash;
+    this.passwordSalt = salt;
+    this.passwordHash = hash;
     return this.save();
   }
 
   /**
-   * Validates if supplied password matches the currently saved one.
-   *
-   * @param {String} password
-   *
-   * @returns {Promise<any>}
+   * Converts the instance to a JSON to be returned from the public API.
    */
-  public async validatePassword(password): Promise<boolean> {
-    if (!password || !this.password || !this.password.salt || !this.password.hash) {
-      return false;
-    }
-    return genHash(password, this.password.salt).then(newHash => newHash === this.password.hash);
-  }
-
-  /**
-   * Generate a new secret token for a password reset request.
-   */
-  public async generateSecretToken(): Promise<{ secret: string; expiresAt: Date }> {
-    const token = uuid.v4();
-    const expiresAt = moment().add("days", PASSWORD_SECRET_EXPIRES_IN_DAYS);
-    await this.update({ $set: { "password.secret": { token, expiresAt } } });
-    return { secret: token, expiresAt: expiresAt.toDate() };
-  }
-
-  /**
-   * Clears the user secret token.
-   */
-  public async clearSecretToken(): Promise<void> {
-    return this.update({ $set: { "password.secret": {} } });
-  }
-
-  /**
-   * Converts the user instance to a plain object.
-   *
-   * @returns {Object}
-   */
-  public toJSON(): Object {
-    const obj = super.toJSON();
-    if (obj.password) {
-      delete obj.password;
-    }
-    return obj;
+  public toJSON(): Partial<User> {
+    return {
+      id: this.id,
+      name: this.name,
+      email: this.email,
+      facebookId: this.facebookId,
+      role: this.role,
+      status: this.status
+    };
   }
 }
-
-export default MainDatabase.model(UserModel);

@@ -1,3 +1,4 @@
+import database from "./database";
 import oauth from "./oauth";
 import server from "./server";
 import smtp from "./smtp";
@@ -7,5 +8,6 @@ export default {
   server,
   oauth,
   smtp,
-  user
+  user,
+  database
 };

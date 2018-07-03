@@ -9,7 +9,7 @@ import { EmailService } from "../services";
 export default class PasswordController {
   @Post("/reset", [Params.isValidEmail])
   public static async resetPassword(req: BaseRequest, res: BaseResponse) {
-    const user = await User.findOne({ email: req.body.email }).exec();
+    const user = await User.findOne({ where: { email: req.body.email } });
     if (!user) {
       throw new HttpError("User not found", HttpCode.Client.NOT_FOUND);
     }

@@ -1,60 +1,35 @@
 import * as moment from "moment";
-import { ModelUpdateOptions, Query } from "mongoose";
-import { BaseModel, BaseSchema, Model } from "ts-framework-mongo";
-import MainDatabase from "../../../MainDatabase";
-import { OAuthAccessTokenSchema } from "./schema";
+import { BaseEntity, Column, Entity, Index, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import User from "../../user";
+import OAuthClient from "../oauthClient";
 
-@Model("oauthAccessToken")
-export class OAuthAccessTokenModel extends BaseModel {
-  /**
-   * The OAuth Access Token schema definition.
-   */
-  static Schema: BaseSchema = OAuthAccessTokenSchema;
+@Entity(OAuthAccessToken.tableName)
+export default class OAuthAccessToken extends BaseEntity {
+  private static readonly tableName = "oauth_access_token";
 
-  /**
-   * Updates an access token setting its user agent stuff.
-   *
-   * @param accessToken The acess token to be updated
-   * @param ip The client ip
-   * @param userAgent The user agent information
-   */
-  public static async updateUserAgent(accessToken: string, ip: string, userAgent: any) {
-    const ua = {
-      ip,
-      browser: userAgent.browser,
-      version: userAgent.version,
-      os: userAgent.os,
-      platform: userAgent.browser.platform,
-      source: userAgent.source
-    };
+  @PrimaryGeneratedColumn("uuid") id: string;
 
-    await this.update(
-      { accessToken },
-      {
-        $set: {
-          userAgent: ua
-        }
-      }
-    );
+  @Column({ nullable: false, unique: true })
+  accessToken: string;
 
-    return ua;
-  }
+  @Column({ nullable: false })
+  tokenType: string;
 
-  /**
-   * Revokes access tokens based on specified conditions.
-   *
-   * @param conditions
-   * @param options
-   */
-  public static revoke(conditions: Object, options: ModelUpdateOptions): Query<any> {
-    const now = new Date();
-    return this.update(
-      { ...conditions, expires: { $gt: now } },
-      {
-        $set: { expires: now }
-      },
-      options
-    );
+  @Column({ nullable: false })
+  expires: Date;
+
+  @ManyToOne(type => User, user => user.accessTokens)
+  user: User;
+
+  @ManyToOne(type => OAuthClient, client => client.accessTokens)
+  client: OAuthClient;
+
+  constructor(data: Partial<OAuthAccessToken> = {}) {
+    super();
+    this.id = data.id;
+    this.accessToken = data.accessToken;
+    this.tokenType = data.tokenType;
+    this.expires = data.expires;
   }
 
   /**
@@ -92,22 +67,4 @@ export class OAuthAccessTokenModel extends BaseModel {
 
     return result;
   }
-
-  /**
-   * Converts the token instance to a plain object.
-   *
-   * @returns {Object}
-   */
-  public toJSON(): Object {
-    const obj = super.toJSON();
-    if (obj.user && obj.user.toJSON) {
-      obj.user = obj.user.toJSON();
-    }
-    if (obj.client && obj.client.toJSON) {
-      obj.client = obj.client.toJSON();
-    }
-    return obj;
-  }
 }
-
-export default MainDatabase.model(OAuthAccessTokenModel);

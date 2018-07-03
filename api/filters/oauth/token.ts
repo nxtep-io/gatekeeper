@@ -13,7 +13,7 @@ export default async function token(req, res, next) {
     if (res.locals.oauth && res.locals.oauth.token) {
       // Go on with the request as soon as the user is available
       const user = res.locals.oauth.token.user;
-      req.user = await User.findOne({ _id: user.id || user._id });
+      req.user = await User.findOne(user.id || user._id);
       next();
 
       // Asynchronously check for user agent information in token
