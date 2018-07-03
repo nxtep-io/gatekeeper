@@ -3,6 +3,7 @@ import * as InvalidArgumentError from "oauth2-server/lib/errors/invalid-argument
 import * as InvalidRequestError from "oauth2-server/lib/errors/invalid-request-error";
 import * as AbstractGrantType from "oauth2-server/lib/grant-types/abstract-grant-type";
 import { BaseRequest } from "ts-framework";
+import { MoreThan } from "typeorm";
 
 import { OAuthAccessToken, User, UserRole } from "../models";
 
@@ -34,22 +35,24 @@ export default class ImpersonateGrantType extends AbstractGrantType {
    */
   public async getUser(accessToken: string, userId: string) {
     // Tries to get the impersonator user from database
-    const oauth = await OAuthAccessToken.findOne({ accessToken, expires: { $gt: new Date() } });
+    const oauth = await OAuthAccessToken.findOne({
+      where: { accessToken, expires: MoreThan(new Date()) }
+    });
 
     if (!oauth) {
       throw new InvalidRequestError("Unauthorized access token");
     }
 
     let user;
-    const impersonator = await User.findOne({ _id: oauth.user });
+    const impersonator = await User.findOne(oauth.user);
 
     if (!impersonator) {
       throw new InvalidRequestError("Unauthorized access token: impersonator not found");
     }
 
-    if (impersonator.profile === UserRole.ROOT) {
+    if (impersonator.role === UserRole.ROOT) {
       // Impersonate any user using an Admin access token
-      user = await User.findOne({ _id: userId });
+      user = await User.findOne(userId);
     } else {
       throw new InvalidRequestError(
         `Unauthorized user role: cannot use this Grant Type with profile="${impersonator.role}"`

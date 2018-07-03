@@ -21,7 +21,7 @@ export default class OAuthClientJob extends BaseJob {
       const models = this.options.clients.map(model => new OAuthClient(model));
 
       // Insert all in a single operation
-      await OAuthClient.insertMany(models);
+      await OAuthClient.insert(models);
     }
   }
 }

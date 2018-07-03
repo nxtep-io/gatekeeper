@@ -1,28 +1,42 @@
-import { BaseModel, BaseSchema, Model } from "ts-framework-mongo";
-import MainDatabase from "../../../MainDatabase";
-import { OAuthClientSchema, OAuthClientStatus } from "./schema";
+import { BaseEntity, Column, Entity, Index, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import User from "../../user";
+import OAuthAccessToken from "../oauthAccessToken";
 
-export { OAuthClientStatus };
-
-@Model("oauthClient")
-export class OAuthClientModel extends BaseModel {
-  /**
-   * The OAuth Client schema definition.
-   */
-  static Schema: BaseSchema = OAuthClientSchema;
-
-  /**
-   * Converts the client instance to a plain object.
-   *
-   * @returns {Object}
-   */
-  public toJSON(): Object {
-    const obj = super.toJSON();
-    if (obj.clientSecret) {
-      delete obj.clientSecret;
-    }
-    return obj;
-  }
+export enum OAuthClientPlatform {
+  API = "api",
+  WEB = "web"
 }
 
-export default MainDatabase.model(OAuthClientModel) as any;
+export enum OAuthClientStatus {
+  ACTIVE = "active",
+  INACTIVE = "inactive"
+}
+
+@Entity(OAuthClient.tableName)
+export default class OAuthClient extends BaseEntity {
+  private static readonly tableName = "oauth_client";
+
+  @PrimaryGeneratedColumn("uuid") id: string;
+
+  @Column({ nullable: false, unique: true })
+  clientId: string;
+
+  @Column({ nullable: false })
+  clientSecret: string;
+
+  @Column({ nullable: false })
+  platform: OAuthClientPlatform;
+
+  @Column({ nullable: false })
+  status: OAuthClientStatus;
+
+  @OneToMany(type => OAuthAccessToken, token => token.client, { eager: false })
+  accessTokens: OAuthAccessToken;
+
+  constructor(data: Partial<OAuthClient> = {}) {
+    super();
+    this.id = data.id;
+    this.clientId = data.clientId;
+    this.clientSecret = data.clientSecret;
+  }
+}

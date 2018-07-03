@@ -13,7 +13,7 @@ export default class OAuthRootUserJob extends BaseJob {
    * @param server The main server instance.
    */
   public async run(server: MainServer): Promise<void> {
-    if ((await User.count({ role: "root" })) === 0) {
+    if ((await User.count({ where: { role: "root" } })) === 0) {
       Logger.debug(`OAuthRootUserJob: Database is empty, creating root user...`);
       await User.create({ role: "root", ...this.options.root });
 

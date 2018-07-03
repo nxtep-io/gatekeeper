@@ -1,32 +1,31 @@
-import * as Package from "pjson";
-import { BaseModel, MongoDatabase, MongoDatabaseOptions } from "ts-framework-mongo";
+import { Logger } from "ts-framework";
 
-export default class MainDatabase extends MongoDatabase {
-  static instance: MainDatabase;
+import {
+  Connection,
+  createConnection,
+  EntityManager,
+  EntitySchema,
+  getConnectionOptions,
+  ObjectType,
+  Repository
+} from "typeorm";
 
-  /**
-   * Gets singleton instance for the Main database.
-   *
-   * @param {DatabaseOptions} [options]
-   */
-  public static getInstance(options?: MongoDatabaseOptions) {
-    if (!MainDatabase.instance) {
-      MainDatabase.instance = new MainDatabase({
-        ...options,
-        url: process.env.MONGO_URL || process.env.MONGODB_URI || `mongodb://localhost:27017/${Package.name}`
-      });
+import { EntityDatabase } from "ts-framework-sql";
+import Config from "../config";
+import * as Models from "./models";
+
+export default class MainDatabase extends EntityDatabase {
+  protected static readonly instance: MainDatabase = new MainDatabase({
+    connectionOpts: {
+      ...Config.database,
+      entities: [Models.OAuthAccessToken, Models.OAuthClient, Models.User]
     }
-    return MainDatabase.instance;
-  }
+  } as any);
 
   /**
-   * Registers or gets a model in the singleton database instance.
-   *
-   * @param {String|BaseModel} name The name of the model to be fetch, or a class to be registered.
-   *
-   * @returns {BaseModel}
+   * Gets the singleton database instance.
    */
-  public static model(name: any): BaseModel {
-    return MainDatabase.getInstance().model(name);
+  static getInstance(): any {
+    return this.instance;
   }
 }

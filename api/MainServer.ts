@@ -1,8 +1,8 @@
 import * as express from "express";
 import * as path from "path";
 import Server, { BaseJob, ServerOptions } from "ts-framework";
-import { Logger } from "ts-framework-mongo";
 import { TextGateway } from "ts-framework-notification";
+import { Logger } from "ts-framework-sql";
 import { ImpersonateGrantType } from "./helpers";
 import MainDatabase from "./MainDatabase";
 import { EmailService, TextService } from "./services";
@@ -10,7 +10,7 @@ import { EmailService, TextService } from "./services";
 // Prepare the database instance as soon as possible to prevent clashes in
 // model registration. We can connect to the real database later.
 const logger = new Logger({ level: "silly" });
-const database = MainDatabase.getInstance({ logger });
+const database = MainDatabase.getInstance();
 
 export interface MainServerOptions extends ServerOptions {
   env?: string;
@@ -97,15 +97,6 @@ export default class MainServer extends Server {
           ', set it using the SMTP_URL env variable or in the "config/smtp.ts" file'
       );
       EmailService.getInstance({ from: "example@company.com", ...this.config.smtp });
-    }
-
-    // Initialize the sms service
-    if (this.config.sms) {
-      TextService.getInstance({ ...this.config.sms });
-    } else {
-      // TODO: Crash the API for safety or log email sendings in console
-      this.logger.warn('MainServer: The SMS gateway is unavailable, configure it using the "config/sms.ts" file');
-      TextService.getInstance({ from: "", gateway: TextGateway.DEBUG });
     }
 
     // Run startup jobs

@@ -18,9 +18,7 @@ export default class OAuthController {
     } else {
       // Revoke all user's tokens in a single operation
       // Always ensure the token being revoked belongs to current user
-      response = await OAuthAccessToken.revoke({ user: req.user._id }, { multi: true });
-
-      // TODO: Handle cache for this case
+      response = await OAuthAccessToken.revoke({ user: req.user._id });
     }
 
     // TODO: Remove all push notification tokens from user account

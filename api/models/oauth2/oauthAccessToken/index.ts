@@ -1,15 +1,70 @@
 import * as moment from "moment";
-import { ModelUpdateOptions, Query } from "mongoose";
-import { BaseModel, BaseSchema, Model } from "ts-framework-mongo";
-import MainDatabase from "../../../MainDatabase";
-import { OAuthAccessTokenSchema } from "./schema";
+import {
+  BaseEntity,
+  Column,
+  DeepPartial,
+  Entity,
+  Index,
+  ManyToMany,
+  ManyToOne,
+  MoreThan,
+  PrimaryGeneratedColumn
+} from "typeorm";
+import User from "../../user";
+import OAuthClient from "../oauthClient";
 
-@Model("oauthAccessToken")
-export class OAuthAccessTokenModel extends BaseModel {
-  /**
-   * The OAuth Access Token schema definition.
-   */
-  static Schema: BaseSchema = OAuthAccessTokenSchema;
+@Entity(OAuthAccessToken.tableName)
+export default class OAuthAccessToken extends BaseEntity {
+  private static readonly tableName = "oauth_access_token";
+
+  @PrimaryGeneratedColumn("uuid") id: string;
+
+  @Column({ nullable: false, unique: true })
+  accessToken: string;
+
+  @Column({ nullable: false })
+  tokenType: string;
+
+  @Column({ nullable: false })
+  expires: Date;
+
+  @ManyToOne(type => User, user => user.accessTokens)
+  user: User;
+
+  @ManyToOne(type => OAuthClient, client => client.accessTokens)
+  client: OAuthClient;
+
+  @Column({ nullable: true })
+  ip: string;
+
+  @Column({ nullable: true })
+  browser: string;
+
+  @Column({ nullable: true })
+  version: string;
+
+  @Column({ nullable: true })
+  os: string;
+
+  @Column({ nullable: true })
+  platform: string;
+
+  @Column({ nullable: true })
+  source: string;
+
+  constructor(data: Partial<OAuthAccessToken> = {}) {
+    super();
+    this.id = data.id;
+    this.accessToken = data.accessToken;
+    this.tokenType = data.tokenType;
+    this.expires = data.expires;
+    this.id = data.ip;
+    this.browser = data.browser;
+    this.version = data.version;
+    this.os = data.os;
+    this.platform = data.platform;
+    this.source = data.source;
+  }
 
   /**
    * Updates an access token setting its user agent stuff.
@@ -28,15 +83,7 @@ export class OAuthAccessTokenModel extends BaseModel {
       source: userAgent.source
     };
 
-    await this.update(
-      { accessToken },
-      {
-        $set: {
-          userAgent: ua
-        }
-      }
-    );
-
+    await this.update({ accessToken }, { ...ua });
     return ua;
   }
 
@@ -46,15 +93,9 @@ export class OAuthAccessTokenModel extends BaseModel {
    * @param conditions
    * @param options
    */
-  public static revoke(conditions: Object, options: ModelUpdateOptions): Query<any> {
+  public static async revoke(conditions: Partial<OAuthAccessToken>) {
     const now = new Date();
-    return this.update(
-      { ...conditions, expires: { $gt: now } },
-      {
-        $set: { expires: now }
-      },
-      options
-    );
+    return this.update({ ...conditions, expires: MoreThan(now) as DeepPartial<Date> }, { expires: now });
   }
 
   /**
@@ -92,22 +133,4 @@ export class OAuthAccessTokenModel extends BaseModel {
 
     return result;
   }
-
-  /**
-   * Converts the token instance to a plain object.
-   *
-   * @returns {Object}
-   */
-  public toJSON(): Object {
-    const obj = super.toJSON();
-    if (obj.user && obj.user.toJSON) {
-      obj.user = obj.user.toJSON();
-    }
-    if (obj.client && obj.client.toJSON) {
-      obj.client = obj.client.toJSON();
-    }
-    return obj;
-  }
 }
-
-export default MainDatabase.model(OAuthAccessTokenModel);
